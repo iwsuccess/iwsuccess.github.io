@@ -4,6 +4,19 @@
   
     
     <entry>
+      <title>C++面试准备</title>
+      <link href="/2022/03/27/%E9%9D%A2%E7%BB%8F/"/>
+      <url>/2022/03/27/%E9%9D%A2%E7%BB%8F/</url>
+      
+        <content type="html"><![CDATA[<h1 id="编译内存相关知识"><a href="#编译内存相关知识" class="headerlink" title="编译内存相关知识"></a>编译内存相关知识</h1><h2 id="C-的编译过程"><a href="#C-的编译过程" class="headerlink" title="C++的编译过程"></a>C++的编译过程</h2><h3 id="共分为四个步骤：编译预处理，编译，汇编，链接。"><a href="#共分为四个步骤：编译预处理，编译，汇编，链接。" class="headerlink" title="共分为四个步骤：编译预处理，编译，汇编，链接。"></a>共分为四个步骤：编译预处理，编译，汇编，链接。</h3><ul><li>编译预处理：处理#字符开头的指令。</li><li>编译：将源码.cpp文件编译成.s文件。</li><li>汇编：将.s文件汇编成.o文件。</li><li>链接：将一个或者多个.o文件链接形成.exe的可执行文件。<h3 id="静态链接和动态链接的区别"><a href="#静态链接和动态链接的区别" class="headerlink" title="静态链接和动态链接的区别"></a>静态链接和动态链接的区别</h3></li><li>静态链接：代码从其所在的静态链接库中的拷贝到可执行程序中，优点是执行速度快；缺点是浪费空间，因为可能会拷贝多份重复的代码，并且在目标文件更新后，需要重新编译链接生成新的exe文件。</li><li>动态链接：动态链接时并没有将真正的代码链接进去，而是保存了一个映射，在执行过程中，通过该映射再去寻找真正的代码。优点是节省内存，更新方便。缺点是相比静态链接速度较慢，性能有一定的损失。</li></ul><h2 id="C-的内存管理"><a href="#C-的内存管理" class="headerlink" title="C++的内存管理"></a>C++的内存管理</h2><h3 id="C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。"><a href="#C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。" class="headerlink" title="C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。"></a>C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。</h3><ul><li>栈：通常是局部变量，函数参数，返回值存放的地方，由编译器自动回收。</li><li>堆：程序员自己malloc申请的内存块，需要程序员自己申请和释放。</li><li>全局区&#x2F;静态区：静态变量和全局变量存储的地方，程序结束会自动释放。</li><li>常量区：存放常量，不允许修改，程序结束后会自动释放。</li><li>代码区：存放代码，不允许修改，可以执行。编译后的二进制文件存放的地方。</li><li>示例代码如下：</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int a = 0; // </span><br><span class="line">char *b;  // a,b均在全局区</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int v;//v在栈区</span><br><span class="line">   int *p=(int*)malloc(sizeof(int)*4)//申请16个字节内存在堆区</span><br><span class="line">   static int e;//e在静态区</span><br><span class="line">   string s=&quot;abvdefr&quot;;//s在栈区，&quot;abvdefr&quot;在常量区 </span><br><span class="line">   int d[]=&quot;qwe&quot;;//d在栈区，&quot;qwe&quot;在常量区</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h3 id="栈和堆的区别"><a href="#栈和堆的区别" class="headerlink" title="栈和堆的区别"></a>栈和堆的区别</h3><ol><li>申请和回收方式不同：栈由系统分配和回收，堆由程序员申请和回收。</li><li>存储方式不同：栈是一块连续的内存空间（向低地址扩展），堆的内存空间是不连续的（链表结构），(向高地址扩展)。</li><li>存放的内容不同：栈存放局部变量，函数参数，返回值等，堆存放的内容由程序员控制。</li><li>效率：栈的申请由系统自动分配，效率高。堆效率低，也容易产生内存碎片。</li><li>申请后的系统响应方式不同：栈空间申请后，如果当前剩余空间&gt;申请空间，则分配，否则，提示栈溢出；堆空间申请后，需要在链表上的寻找第一块大于等于申请空间的内存块，找到后将该块（首地址存放了本次分配的空间大小）从内存链表上删除，分配给堆空间，将剩余的空间链接在空闲链表上，用完回收后，再将其链接在空闲链表上。</li></ol>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>leetcode刷题</title>
       <link href="/2022/03/26/leetcode/"/>
       <url>/2022/03/26/leetcode/</url>
