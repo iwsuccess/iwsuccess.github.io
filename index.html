@@ -202,10 +202,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-27 11:28:07 / 修改时间：12:19:42" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
+              <time title="创建时间：2022-03-27 11:28:07" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-28 17:01:35" itemprop="dateModified" datetime="2022-03-28T17:01:35+08:00">2022-03-28</time>
+              </span>
 
           
 
@@ -243,7 +249,21 @@
 <li>效率：栈的申请由系统自动分配，效率高。堆效率低，也容易产生内存碎片。</li>
 <li>申请后的系统响应方式不同：栈空间申请后，如果当前剩余空间&gt;申请空间，则分配，否则，提示栈溢出；堆空间申请后，需要在链表上的寻找第一块大于等于申请空间的内存块，找到后将该块（首地址存放了本次分配的空间大小）从内存链表上删除，分配给堆空间，将剩余的空间链接在空闲链表上，用完回收后，再将其链接在空闲链表上。</li>
 </ol>
-
+<h2 id="全局变量，静态全局变量，局部变量，静态局部变量的区别"><a href="#全局变量，静态全局变量，局部变量，静态局部变量的区别" class="headerlink" title="全局变量，静态全局变量，局部变量，静态局部变量的区别"></a>全局变量，静态全局变量，局部变量，静态局部变量的区别</h2><ul>
+<li>全局变量：具有全局作用域，全局变量只要在一个源文件中定义，就可以在同一工程中的其他源文件中使用，只不过需要利用关键字extern声明这个全局变量。</li>
+<li>静态全局变量（static修饰的）：具有文件作用域，其他文件不能使用该全局变量，即使另一个文件中定义了与之同名的静态全局变量，也是不同的变量。</li>
+<li>局部变量：具有局部作用域，并不是一直存在，只是在其作用域内存在，出了其作用域就会被回收。</li>
+<li>局部静态变量：具有局部作用域，只初始化一次，到程序运行结束前一直存在，只对定义自己的函数体可见（自己作用域内），出了作用域就不可见。</li>
+</ul>
+<h2 id="pragma-once和-ifndef-define-endif解读"><a href="#pragma-once和-ifndef-define-endif解读" class="headerlink" title="#pragma once和#ifndef #define #endif解读"></a>#pragma once和#ifndef #define #endif解读</h2><h3 id="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。"><a href="#作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。" class="headerlink" title="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。"></a>作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。</h3><h3 id="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"><a href="#头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。" class="headerlink" title="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"></a>头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。</h3><h2 id="三种继承方式"><a href="#三种继承方式" class="headerlink" title="三种继承方式"></a>三种继承方式</h2><p>1.public 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：public, protected, private</p>
+<p>2.protected 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：protected, protected, private</p>
+<p>3.private 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：private, private, private</p>
+<h2 id="public-protected-private访问权限"><a href="#public-protected-private访问权限" class="headerlink" title="public,protected,private访问权限"></a>public,protected,private访问权限</h2><p><img src="/images/lei.png"></p>
+<h2 id="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"><a href="#如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建" class="headerlink" title="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"></a>如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建</h2><h3 id="创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。"><a href="#创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。" class="headerlink" title="创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。"></a>创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。</h3><ol>
+<li>限制对象只能创建在栈上：通过重载new和detele函数为类的私有函数，因为默认的new创建会将对象创建在堆上。</li>
+<li>限制对象只能创建在堆上：将构造和析构置为保护，在类外调用create构造对象（堆上创建），析构置为保护是为了在其派生类中也能访问析构函数。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">protected:</span><br><span class="line">    A() &#123;&#125;</span><br><span class="line">    ~A() &#123;&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    static A *create()</span><br><span class="line">    &#123;</span><br><span class="line">        return new A();</span><br><span class="line">    &#125;</span><br><span class="line">    void destory()</span><br><span class="line">    &#123;</span><br><span class="line">        delete this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -521,7 +541,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共942字</span>
+  <span class="post-count">博客全站共1.6k字</span>
 </div>
 
 

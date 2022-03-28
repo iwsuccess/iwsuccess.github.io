@@ -29,10 +29,12 @@
 <meta property="og:site_name" content="一懒众衫小">
 <meta property="og:description" content="编译内存相关知识C++的编译过程共分为四个步骤：编译预处理，编译，汇编，链接。 编译预处理：处理#字符开头的指令。 编译：将源码.cpp文件编译成.s文件。 汇编：将.s文件汇编成.o文件。 链接：将一个或者多个.o文件链接形成.exe的可执行文件。静态链接和动态链接的区别 静态链接：代码从其所在的静态链接库中的拷贝到可执行程序中，优点是执行速度快；缺点是浪费空间，因为可能会拷贝多份重复的代码，并">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/lei.png">
 <meta property="article:published_time" content="2022-03-27T03:28:07.830Z">
-<meta property="article:modified_time" content="2022-03-27T04:19:42.311Z">
+<meta property="article:modified_time" content="2022-03-28T09:01:35.428Z">
 <meta property="article:author" content="秦程程">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/lei.png">
 
 <link rel="canonical" href="http://example.com/2022/03/27/%E9%9D%A2%E7%BB%8F/">
 
@@ -204,10 +206,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-27 11:28:07 / 修改时间：12:19:42" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
+              <time title="创建时间：2022-03-27 11:28:07" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-28 17:01:35" itemprop="dateModified" datetime="2022-03-28T17:01:35+08:00">2022-03-28</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -252,7 +260,21 @@
 <li>效率：栈的申请由系统自动分配，效率高。堆效率低，也容易产生内存碎片。</li>
 <li>申请后的系统响应方式不同：栈空间申请后，如果当前剩余空间&gt;申请空间，则分配，否则，提示栈溢出；堆空间申请后，需要在链表上的寻找第一块大于等于申请空间的内存块，找到后将该块（首地址存放了本次分配的空间大小）从内存链表上删除，分配给堆空间，将剩余的空间链接在空闲链表上，用完回收后，再将其链接在空闲链表上。</li>
 </ol>
-
+<h2 id="全局变量，静态全局变量，局部变量，静态局部变量的区别"><a href="#全局变量，静态全局变量，局部变量，静态局部变量的区别" class="headerlink" title="全局变量，静态全局变量，局部变量，静态局部变量的区别"></a>全局变量，静态全局变量，局部变量，静态局部变量的区别</h2><ul>
+<li>全局变量：具有全局作用域，全局变量只要在一个源文件中定义，就可以在同一工程中的其他源文件中使用，只不过需要利用关键字extern声明这个全局变量。</li>
+<li>静态全局变量（static修饰的）：具有文件作用域，其他文件不能使用该全局变量，即使另一个文件中定义了与之同名的静态全局变量，也是不同的变量。</li>
+<li>局部变量：具有局部作用域，并不是一直存在，只是在其作用域内存在，出了其作用域就会被回收。</li>
+<li>局部静态变量：具有局部作用域，只初始化一次，到程序运行结束前一直存在，只对定义自己的函数体可见（自己作用域内），出了作用域就不可见。</li>
+</ul>
+<h2 id="pragma-once和-ifndef-define-endif解读"><a href="#pragma-once和-ifndef-define-endif解读" class="headerlink" title="#pragma once和#ifndef #define #endif解读"></a>#pragma once和#ifndef #define #endif解读</h2><h3 id="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。"><a href="#作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。" class="headerlink" title="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。"></a>作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。</h3><h3 id="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"><a href="#头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。" class="headerlink" title="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"></a>头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。</h3><h2 id="三种继承方式"><a href="#三种继承方式" class="headerlink" title="三种继承方式"></a>三种继承方式</h2><p>1.public 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：public, protected, private</p>
+<p>2.protected 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：protected, protected, private</p>
+<p>3.private 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：private, private, private</p>
+<h2 id="public-protected-private访问权限"><a href="#public-protected-private访问权限" class="headerlink" title="public,protected,private访问权限"></a>public,protected,private访问权限</h2><p><img src="/images/lei.png"></p>
+<h2 id="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"><a href="#如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建" class="headerlink" title="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"></a>如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建</h2><h3 id="创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。"><a href="#创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。" class="headerlink" title="创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。"></a>创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。</h3><ol>
+<li>限制对象只能创建在栈上：通过重载new和detele函数为类的私有函数，因为默认的new创建会将对象创建在堆上。</li>
+<li>限制对象只能创建在堆上：将构造和析构置为保护，在类外调用create构造对象（堆上创建），析构置为保护是为了在其派生类中也能访问析构函数。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">protected:</span><br><span class="line">    A() &#123;&#125;</span><br><span class="line">    ~A() &#123;&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    static A *create()</span><br><span class="line">    &#123;</span><br><span class="line">        return new A();</span><br><span class="line">    &#125;</span><br><span class="line">    void destory()</span><br><span class="line">    &#123;</span><br><span class="line">        delete this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -360,7 +382,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%86%85%E5%AD%98%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">编译内存相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">C++的编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E5%88%86%E4%B8%BA%E5%9B%9B%E4%B8%AA%E6%AD%A5%E9%AA%A4%EF%BC%9A%E7%BC%96%E8%AF%91%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E7%BC%96%E8%AF%91%EF%BC%8C%E6%B1%87%E7%BC%96%EF%BC%8C%E9%93%BE%E6%8E%A5%E3%80%82"><span class="nav-number">1.1.1.</span> <span class="nav-text">共分为四个步骤：编译预处理，编译，汇编，链接。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.2.</span> <span class="nav-text">静态链接和动态链接的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">C++的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E4%B8%BA%E6%A0%88%EF%BC%8C%E5%A0%86%EF%BC%8C%E5%85%A8%E5%B1%80%E5%8C%BA-x2F-%E9%9D%99%E6%80%81%E5%8C%BA%EF%BC%8C%E4%BB%A3%E7%A0%81%E5%8C%BA%EF%BC%8C%E5%B8%B8%E9%87%8F%E5%8C%BA%E3%80%82"><span class="nav-number">1.2.1.</span> <span class="nav-text">C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E5%92%8C%E5%A0%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.2.</span> <span class="nav-text">栈和堆的区别</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%86%85%E5%AD%98%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">编译内存相关知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%9A%84%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">C++的编译过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B1%E5%88%86%E4%B8%BA%E5%9B%9B%E4%B8%AA%E6%AD%A5%E9%AA%A4%EF%BC%9A%E7%BC%96%E8%AF%91%E9%A2%84%E5%A4%84%E7%90%86%EF%BC%8C%E7%BC%96%E8%AF%91%EF%BC%8C%E6%B1%87%E7%BC%96%EF%BC%8C%E9%93%BE%E6%8E%A5%E3%80%82"><span class="nav-number">1.1.1.</span> <span class="nav-text">共分为四个步骤：编译预处理，编译，汇编，链接。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E9%93%BE%E6%8E%A5%E5%92%8C%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.2.</span> <span class="nav-text">静态链接和动态链接的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">C++的内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#C-%E7%9A%84%E5%86%85%E5%AD%98%E5%88%86%E4%B8%BA%E6%A0%88%EF%BC%8C%E5%A0%86%EF%BC%8C%E5%85%A8%E5%B1%80%E5%8C%BA-x2F-%E9%9D%99%E6%80%81%E5%8C%BA%EF%BC%8C%E4%BB%A3%E7%A0%81%E5%8C%BA%EF%BC%8C%E5%B8%B8%E9%87%8F%E5%8C%BA%E3%80%82"><span class="nav-number">1.2.1.</span> <span class="nav-text">C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E5%92%8C%E5%A0%86%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.2.2.</span> <span class="nav-text">栈和堆的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%8C%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%8C%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%EF%BC%8C%E9%9D%99%E6%80%81%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.</span> <span class="nav-text">全局变量，静态全局变量，局部变量，静态局部变量的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pragma-once%E5%92%8C-ifndef-define-endif%E8%A7%A3%E8%AF%BB"><span class="nav-number">1.4.</span> <span class="nav-text">#pragma once和#ifndef #define #endif解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%EF%BC%9A%E9%83%BD%E6%98%AF%E4%B8%BA%E4%BA%86%E9%98%B2%E6%AD%A2%E5%90%8C%E4%B8%80%E4%B8%AA%E5%A4%B4%E6%96%87%E4%BB%B6%E8%A2%AB%E9%87%8D%E5%A4%8D%E7%BC%96%E8%AF%91%E3%80%82%E5%8D%B3%EF%BC%9A%E5%9C%A8%E5%90%8C%E4%B8%80%E4%B8%AAcpp%E6%96%87%E4%BB%B6%E4%B8%AD%E9%87%8D%E5%A4%8D%E5%8C%85%E5%90%AB%E4%BA%86%E6%9F%90%E4%B8%80%E4%B8%AA%E5%A4%B4%E6%96%87%E4%BB%B6%EF%BC%88%E5%B5%8C%E5%A5%97%E5%A4%B4%E6%96%87%E4%BB%B6%E6%97%B6%E5%AE%B9%E6%98%93%E5%87%BA%E7%8E%B0%EF%BC%8C%E4%BE%8B%E5%A6%82-a-h%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86b-h-%E4%BD%86%E6%98%AF%E5%9C%A8c-cpp%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86a-h%E5%92%8Cb-h%EF%BC%8C%E5%8D%B3%EF%BC%9Ab-h%E5%B0%B1%E8%A2%AB%E9%87%8D%E5%A4%8D%E5%8C%85%E5%90%AB%E4%BA%86%EF%BC%89%E3%80%82"><span class="nav-number">1.4.1.</span> <span class="nav-text">作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E4%B8%8D%E8%83%BD%E5%A3%B0%E6%98%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%8C%E5%9B%A0%E4%B8%BA%E5%BD%93%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%AD%E5%A3%B0%E6%98%8E%E4%BA%86%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%90%8E%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%A4%9A%E4%B8%AA-cpp%E6%96%87%E4%BB%B6%E4%B8%AD%E5%8C%85%E5%90%AB%E4%BA%86%E8%BF%99%E4%B8%AA%E5%A4%B4%E6%96%87%E4%BB%B6%EF%BC%8C%E8%BF%99%E4%B8%AA%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E5%B0%B1%E4%BC%9A%E8%A2%AB%E5%AE%9A%E4%B9%89%E5%A4%9A%E6%AC%A1%EF%BC%8C%E5%87%BA%E7%8E%B0%E9%87%8D%E5%A4%8D%E5%AE%9A%E4%B9%89%E9%94%99%E8%AF%AF%E3%80%82"><span class="nav-number">1.4.2.</span> <span class="nav-text">头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">三种继承方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#public-protected-private%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">1.6.</span> <span class="nav-text">public,protected,private访问权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E7%B1%BB%E7%9A%84%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E5%A0%86%E4%B8%8A%E5%88%9B%E5%BB%BA%EF%BC%8C%E5%A6%82%E4%BD%95%E9%99%90%E5%88%B6%E5%AF%B9%E8%B1%A1%E5%8F%AA%E8%83%BD%E5%9C%A8%E6%A0%88%E5%88%9B%E5%BB%BA"><span class="nav-number">1.7.</span> <span class="nav-text">如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E5%BC%8F%E6%9C%89%E4%B8%A4%E7%A7%8D%EF%BC%8C%E5%8D%B3%EF%BC%9A%E5%A0%86%E5%88%9B%E5%BB%BA%EF%BC%88new%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%89%E5%92%8C%E6%A0%88%E5%88%9B%E5%BB%BA-%E4%B8%80%E8%88%AC%E5%88%9B%E5%BB%BA%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9AA-a-%E3%80%82"><span class="nav-number">1.7.1.</span> <span class="nav-text">创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -433,7 +455,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共942字</span>
+  <span class="post-count">博客全站共1.6k字</span>
 </div>
 
 
