@@ -174,6 +174,261 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/06/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="秦程程">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/06/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">动态规划</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 15:56:05 / 修改时间：17:04:38" itemprop="dateCreated datePublished" datetime="2022-04-06T15:56:05+08:00">2022-04-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="动态规划的常见问题"><a href="#动态规划的常见问题" class="headerlink" title="动态规划的常见问题"></a>动态规划的常见问题</h2><ul>
+<li>动规基础（爬楼梯，斐波那契数）</li>
+<li>背包问题</li>
+<li>打家劫舍</li>
+<li>股票问题</li>
+<li>子序列问题</li>
+</ul>
+<h2 id="动态规划五部曲"><a href="#动态规划五部曲" class="headerlink" title="动态规划五部曲"></a>动态规划五部曲</h2><ul>
+<li>dp数组以及下标的含义（例如dp[i],dp[i][j]等等）</li>
+<li>递推公式</li>
+<li>dp数组如何初始化</li>
+<li>遍历顺序</li>
+<li>打印dp数组</li>
+</ul>
+<h3 id="动态规划基础题目一：斐波那契数列"><a href="#动态规划基础题目一：斐波那契数列" class="headerlink" title="动态规划基础题目一：斐波那契数列"></a>动态规划基础题目一：斐波那契数列</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">1. dp[i]：第i个斐波那契数的值是dp[i].</span><br><span class="line">2. 递推公式：dp[i]=dp[i-1]+dp[i-2];</span><br><span class="line">3. 初始化：dp[0]=1,dp[1]=1.</span><br><span class="line">4. 遍历顺序：从小到大遍历.</span><br><span class="line">5. 打印dp数组，主要用来debug.</span><br><span class="line"></span><br><span class="line">解法一：</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int fib(int n) &#123;</span><br><span class="line">        vector&lt;int&gt;dp(n+1,0);</span><br><span class="line">        if(n==0||n==1)</span><br><span class="line">            return n;</span><br><span class="line">        dp[0]=0;</span><br><span class="line">        dp[1]=1;</span><br><span class="line">            dp[i]=dp[i-1]+dp[i-2];</span><br><span class="line">        return dp[n];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">解法二（优化内存后，状态压缩后的解法）：</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int fib(int n) &#123;</span><br><span class="line">        if(n==0||n==1)</span><br><span class="line">            return n;</span><br><span class="line">    vector&lt;int&gt;dp(2,0);</span><br><span class="line">    dp[0]=0;</span><br><span class="line">    dp[1]=1;</span><br><span class="line">    int sum=0;</span><br><span class="line">        for(int i=2;i&lt;=n;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                sum=dp[0]+dp[1];</span><br><span class="line">                dp[0]=dp[1];</span><br><span class="line">                dp[1]=sum;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        return sum;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="动态规划基础题目二：使用最小的花费爬楼梯"><a href="#动态规划基础题目二：使用最小的花费爬楼梯" class="headerlink" title="动态规划基础题目二：使用最小的花费爬楼梯"></a>动态规划基础题目二：使用最小的花费爬楼梯</h3><p><img src="/images/leetcode746.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">五部曲</span><br><span class="line">1. dp[i]：代表爬到第i阶台阶所花费的最小代价cost。</span><br><span class="line">2. 递推公式：dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2])</span><br><span class="line">3. 初始化:dp[0]=0,dp[1]=0,因为可以直接从第0或者第1个台阶开始爬</span><br><span class="line">4. 遍历顺序：从小到大遍历</span><br><span class="line">5. 打印dp数组，debug手段。</span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;</span><br><span class="line">        if(cost.size()==1)</span><br><span class="line">            return 0;</span><br><span class="line">        if(cost.size()==2)</span><br><span class="line">            return min(cost[0],cost[1]);</span><br><span class="line">    </span><br><span class="line">        vector&lt;int&gt;dp(cost.size()+1,0);</span><br><span class="line">        dp[0]=0;</span><br><span class="line">        dp[1]=0;</span><br><span class="line"></span><br><span class="line">        for(int i=2;i&lt;=cost.size();i++) </span><br><span class="line">            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);</span><br><span class="line">        return dp[cost.size()];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="秦程程">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">多线程和线程同步</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-04 19:42:44" itemprop="dateCreated datePublished" datetime="2022-04-04T19:42:44+08:00">2022-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-05 13:10:19" itemprop="dateModified" datetime="2022-04-05T13:10:19+08:00">2022-04-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="线程加锁与解锁"><a href="#线程加锁与解锁" class="headerlink" title="线程加锁与解锁"></a>线程加锁与解锁</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 尝试加锁,与Lock的区别是，trylock当拿不到锁时，不会死等（不会阻塞），转而去干其他的事；而lock会一直阻塞，直至拿到锁。</span><br><span class="line">int pthread_mutex_trylock(pthread_mutex_t *mutex);</span><br><span class="line">// 修改互斥锁的状态, 将其设定为锁定状态, 这个状态被写入到参数 mutex 中</span><br><span class="line">int pthread_mutex_lock(pthread_mutex_t *mutex);</span><br><span class="line">// 对互斥锁解锁</span><br><span class="line">int pthread_mutex_unlock(pthread_mutex_t *mutex);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><ol>
+<li>加锁之后忘记解锁<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 场景1</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功, 当前循环完毕没有解锁, 在下一轮循环的时候自己被阻塞了</span><br><span class="line">        // 其余的线程也被阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        // 忘记解锁</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 场景2</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程被阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        if(xxx)</span><br><span class="line">        &#123;</span><br><span class="line">            // 函数退出, 没有解锁（解锁函数无法被执行了）</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>2.重复加锁，造成死锁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">        // 锁被锁住了, A线程阻塞</span><br><span class="line">        pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 隐藏的比较深的情况</span><br><span class="line">void funcA()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void funcB()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">        funcA();		// 重复加锁</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.当含有多个共享资源时，随意加锁，导致相互被阻塞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">thread A&#123;</span><br><span class="line">	lock(x);</span><br><span class="line">	lock(y);</span><br><span class="line">	unlock(y);</span><br><span class="line">	unlock(x);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">thread B&#123;</span><br><span class="line">	lock(y);</span><br><span class="line">	lock(x);</span><br><span class="line">	unlock(x);</span><br><span class="line">	unlock(y);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">A拿到x锁，B拿到y锁就会导致死锁。一般可以加锁顺序相同，避免死锁，但是有的特定场景不适用（对共享资源的访问顺序有要求的情况）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="如何避免死锁"><a href="#如何避免死锁" class="headerlink" title="如何避免死锁"></a>如何避免死锁</h2><ul>
+<li><p>避免多次锁定，多检查</p>
+</li>
+<li><p>对共享资源访问完毕之后，一定要解锁，或者在加锁的使用 trylock</p>
+</li>
+<li><p>如果程序中有多把锁，可以控制对锁的访问顺序 (顺序访问共享资源，但在有些情况下是做不到的)，另外也可以在对其他互斥锁做加锁操作之前，先释放当前线程拥有的互斥锁。</p>
+</li>
+<li><p>项目程序中可以引入一些专门用于死锁检测的模块</p>
+</li>
+</ul>
+<h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><ol>
+<li>是一个锁；</li>
+<li>读锁是共享的，写锁是互斥的；</li>
+<li>写锁的优先级大于读的优先级。</li>
+<li>如果说程序中所有的线程都对共享资源做写操作，使用读写锁没有优势，和互斥锁是一样的，如果说程序中所有的线程都对共享资源有写也有读操作，并且对共享资源读的操作越多，读写锁更有优势。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="秦程程">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
+<li>组合问题（无序的）</li>
+<li>切割问题（字符串的切割方式）</li>
+<li>子集问题</li>
+<li>排列问题（有序的）</li>
+<li>棋盘问题（N皇后，解数独）</li>
+</ul>
+<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
+<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
+</ul>
+<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E9%9D%A2%E7%BB%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -484,7 +739,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">6</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -541,7 +796,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共1.6k字</span>
+  <span class="post-count">博客全站共3.1k字</span>
 </div>
 
 
