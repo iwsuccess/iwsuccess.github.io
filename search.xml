@@ -4,6 +4,45 @@
   
     
     <entry>
+      <title>samba服务器</title>
+      <link href="/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+      <url>/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/</url>
+      
+        <content type="html"><![CDATA[<h2 id="samba服务器简介"><a href="#samba服务器简介" class="headerlink" title="samba服务器简介"></a>samba服务器简介</h2><ul><li><p>实现windows和unix系列系统之间能够相互沟通，就产生了samba服务。</p></li><li><p>samba是架构在NetBIOS（Network Basic Input&#x2F;Output System,网上基本输入输出系统）这个通信协议上面所开发出来的。NetBIOS是由IBM发展出来，目的是要让局域网络内少数计算机进行网络连接的一个通信协议，因此NetBIOS是无法跨越路由的，而现在Samba不仅能与局域网主机分享资源，还能与全世界的电脑分享资源，就是由NetBIOS over TCP&#x2F;IP技术解决。由于NetBIOS在局域网内实在是很好用，所以微软的网络架构就使用了这个协议。而samba最早发展的时候，其实是想要让linux系统可以加入windows的系统当中来共享使用彼此的文件数据，所以samba就架构在NetBIOS发展出来了</p></li></ul><h2 id="Ubuntu安装Samba服务器"><a href="#Ubuntu安装Samba服务器" class="headerlink" title="Ubuntu安装Samba服务器"></a>Ubuntu安装Samba服务器</h2><ol><li>确认安装：dpkg l | grep samba</li><li>安装：sudo apt-get install samba samba-common</li><li>卸载：sudo apt-get autoremove samba<h2 id="Samba服务器配置"><a href="#Samba服务器配置" class="headerlink" title="Samba服务器配置"></a>Samba服务器配置</h2></li></ol><ul><li>sudo vim &#x2F;etc&#x2F;samba&#x2F;smb.conf</li><li>在文件的最后添加</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[share]</span><br><span class="line">comment=This is samba dir</span><br><span class="line">path=/home/qcc/</span><br><span class="line">writable=yes</span><br><span class="line">browseable=yes</span><br></pre></td></tr></table></figure><ul><li>增加samba用户</li><li>sudo smbpasswd -a qcc (密码设置需要与linux的密码一致)<h2 id="启动和关闭"><a href="#启动和关闭" class="headerlink" title="启动和关闭"></a>启动和关闭</h2></li><li>注意添加新用户后，需要重启samba服务器</li><li>启动：sudo service smbd start</li><li>关闭 ：sudo service smbd stop<br>##直接在windows在编码</li><li>在windows色目录上方，写入：\局域网（linux的）ip地址,然后就能在windows下编辑linux下的文件了！</li></ul>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>linux命令</title>
+      <link href="/2022/04/13/linux%E5%91%BD%E4%BB%A4/"/>
+      <url>/2022/04/13/linux%E5%91%BD%E4%BB%A4/</url>
+      
+        <content type="html"><![CDATA[<h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><ul><li>硬链接：ln 源文件 目标文件</li><li>软链接：ln -s 源文件 目标文件  </li><li>区别：创建硬链接后，所有硬链接文件（包括源文件）都指向内存中的存放（源文件）数据的一块区域，此时会维护一个计数器，每创建一个硬链接，计数器++，删除源文件不会影响其他硬链接文件访问数据，只不过是计数器–，当计数器为0时，系统才会回收内存。而软链接则是相当于创建了一个文件别名，当删除源文件后，该软链接则会失效，访问不到数据。</li></ul><h2 id="改变文件所有权chown和chgrp"><a href="#改变文件所有权chown和chgrp" class="headerlink" title="改变文件所有权chown和chgrp"></a>改变文件所有权chown和chgrp</h2><ul><li><p>用法：chown [option] [用户]：[属组] 目标文件</p></li><li><p>-r表示递归的改变（一个目录以及其子目录的所有权设置）</p></li><li><p>例子:chown qcc:qcc test.c &#x2F;&#x2F;将test.c的用户和属组都该变为qcc</p></li><li><p>用法：chgrp 属组 目标文件</p></li><li><p>作用：改变目标文件的数组（change group）</p></li></ul><h2 id="chmod改变文件权限"><a href="#chmod改变文件权限" class="headerlink" title="chmod改变文件权限"></a>chmod改变文件权限</h2><ul><li><p>第一种方式：通过用户组+&#x2F;-权限完成，具体来说，用户组包括了文件属主(u),文件属组(g)，其他人(o)和所有人(a)，而权限包括(r,w,x)。</p></li><li><p>用法：chmod u+r,g+w,o+r 目标文件</p></li><li><p>第二种方式：分别利用三位的二进制完成，（—（用户）—（组）—（其他人））</p></li><li><p>用法：例如：101(r,w,x)–&gt;5代表赋予读和执行权限。chmod 555 目标文件,第一个5是改变用户的权限，第二个是组，第三个是其他人！</p></li><li><p>增加用户操作</p></li><li><p>useradd -g 属组 用户</p></li><li><p>注意：添加后的用户是不能切换到root权限下的，如果想切换，需要改变&#x2F;etc&#x2F;sudoers文件，将其进行提权。<br><img src="/images/linux.png"></p></li></ul>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>网络通信与socket编程</title>
+      <link href="/2022/04/11/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8Esocket%E7%BC%96%E7%A8%8B/"/>
+      <url>/2022/04/11/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8Esocket%E7%BC%96%E7%A8%8B/</url>
+      
+        <content type="html"><![CDATA[<h2 id="socket通信的3要素"><a href="#socket通信的3要素" class="headerlink" title="socket通信的3要素"></a>socket通信的3要素</h2><ol><li>通信的目的地址</li><li>使用的端口号（例如：http默认的是80端口，smtp(邮件传输端口):25）</li><li>使用的传输层协议（如：TCP&#x2F;UDP）</li></ol><h2 id="socket概念"><a href="#socket概念" class="headerlink" title="socket概念"></a>socket概念</h2><ul><li><p>（int类型） 在Linux环境下，用于表示进程间网络通信的特殊文件类型，本质为内核借助缓冲区形成的伪文件。</p></li><li><p>套接字的读写和文件操作一致，区别是文件主要应用于本地持久化数据的读写（磁盘），而套接字应用于网络进程间数据的传递。</p></li><li><p>在TCP&#x2F;IP协议中，IP地址+TCP或UDP端口号来唯一标识网络通信中的一个进程。IP地址+端口号就对应一个socket，欲建立连接的两个进程各有一个socket，那么这两个socket组成的socket pair就唯一的标识一个连接，因此，可以用socket来描述网络连接中的一对一关系。<br><img src="/images/c_s.png"></p></li><li><p>在网络通信中，套接字一定是成对出现的，一端的发送缓冲区对应另一端的接收缓冲区，使用同一个文件描述符发送缓冲区和接收缓冲区。</p></li></ul>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>面试题</title>
       <link href="/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/"/>
       <url>/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/</url>
