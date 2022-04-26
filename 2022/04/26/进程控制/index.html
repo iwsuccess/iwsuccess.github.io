@@ -22,19 +22,24 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="我的第一个测试日志时间: 2022-3-26 星期六">
+  <meta name="description" content="title:进程控制程序和进程的概念:程序: 是编译好的二进制文件, 存放在磁盘上, 占用的是磁盘空间, 是一个静态的概念.进程: 一个启动的程序, 需要占用系统资源: 如 内存, cpu 终端 等剧本—&gt;程序进程—&gt;唱戏(舞台, 灯光, 道具, 人等资源)同一个程序可以在多个终端执行, 类似与同一台戏可以在多个舞台演出.每启动一个程序都会有一个进程PID, 即使是相同的程序多次启动">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test日志">
-<meta property="og:url" content="http://example.com/2022/03/26/first-blog/index.html">
+<meta property="og:title" content="一懒众衫小">
+<meta property="og:url" content="http://example.com/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/index.html">
 <meta property="og:site_name" content="一懒众衫小">
-<meta property="og:description" content="我的第一个测试日志时间: 2022-3-26 星期六">
+<meta property="og:description" content="title:进程控制程序和进程的概念:程序: 是编译好的二进制文件, 存放在磁盘上, 占用的是磁盘空间, 是一个静态的概念.进程: 一个启动的程序, 需要占用系统资源: 如 内存, cpu 终端 等剧本—&gt;程序进程—&gt;唱戏(舞台, 灯光, 道具, 人等资源)同一个程序可以在多个终端执行, 类似与同一台戏可以在多个舞台演出.每启动一个程序都会有一个进程PID, 即使是相同的程序多次启动">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-03-26T05:34:52.079Z">
-<meta property="article:modified_time" content="2022-03-26T05:40:17.759Z">
+<meta property="og:image" content="http://example.com/images/fork.png">
+<meta property="og:image" content="http://example.com/images/fork_two.png">
+<meta property="og:image" content="http://example.com/images/child_fork.png">
+<meta property="og:image" content="http://example.com/images/global.png">
+<meta property="article:published_time" content="2022-04-26T12:01:28.003Z">
+<meta property="article:modified_time" content="2022-04-26T13:54:47.028Z">
 <meta property="article:author" content="秦程程">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/fork.png">
 
-<link rel="canonical" href="http://example.com/2022/03/26/first-blog/">
+<link rel="canonical" href="http://example.com/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">
 
 
 <script id="page-configurations">
@@ -47,7 +52,7 @@
   };
 </script>
 
-  <title>test日志 | 一懒众衫小</title>
+  <title> | 一懒众衫小</title>
   
 
 
@@ -177,7 +182,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/26/first-blog/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cat.png">
@@ -190,14 +195,10 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          test日志
+          
         </h1>
 
         <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
           
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -206,7 +207,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-03-26 13:34:52 / 修改时间：13:40:17" itemprop="dateCreated datePublished" datetime="2022-03-26T13:34:52+08:00">2022-03-26</time>
+              <time title="创建时间：2022-04-26 20:01:28 / 修改时间：21:54:47" itemprop="dateCreated datePublished" datetime="2022-04-26T20:01:28+08:00">2022-04-26</time>
             </span>
 
           
@@ -227,7 +228,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="我的第一个测试日志"><a href="#我的第一个测试日志" class="headerlink" title="我的第一个测试日志"></a>我的第一个测试日志</h2><h3 id="时间-2022-3-26-星期六"><a href="#时间-2022-3-26-星期六" class="headerlink" title="时间: 2022-3-26 星期六"></a>时间: 2022-3-26 星期六</h3>
+        <hr>
+<h2 id="title-进程控制"><a href="#title-进程控制" class="headerlink" title="title:进程控制"></a>title:进程控制</h2><h1 id="程序和进程的概念"><a href="#程序和进程的概念" class="headerlink" title="程序和进程的概念:"></a>程序和进程的概念:</h1><p>程序: 是编译好的二进制文件, 存放在磁盘上, 占用的是磁盘空间, 是一个静态的概念.<br>进程: 一个启动的程序, 需要占用系统资源: 如 内存, cpu 终端 等<br>剧本—&gt;程序<br>进程—&gt;唱戏(舞台, 灯光, 道具, 人等资源)<br>同一个程序可以在多个终端执行, 类似与同一台戏可以在多个舞台演出.<br>每启动一个程序都会有一个进程PID, 即使是相同的程序多次启动也会有个不同的PID。</p>
+<h1 id="并发和并行的概念"><a href="#并发和并行的概念" class="headerlink" title="并发和并行的概念"></a>并发和并行的概念</h1><p>并发: 在一个时间段内, 一个CPU上, 有多个程序在执行.<br>并行: 并行指两个或两个以上的程序在同一时刻发生(需要有多核)。<br>cpu会将一个大的时间段分成多个小的时间片, 让进程轮流使用CPU的时间片.<br>#进程的五态模型和七态模型</p>
+<p>#进程创建</p>
+<ul>
+<li>调用fork函数的内核实现原理:<br><img src="/images/fork.png"><br><img src="/images/fork_two.png"></li>
+</ul>
+<h2 id="循环创建子进程问题（子进程也会创建子进程）："><a href="#循环创建子进程问题（子进程也会创建子进程）：" class="headerlink" title="循环创建子进程问题（子进程也会创建子进程）："></a>循环创建子进程问题（子进程也会创建子进程）：</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> 1 //fork函数测试，循环创建子进程</span><br><span class="line"> 2 #include&lt;stdio.h&gt;</span><br><span class="line"> 3 #include&lt;stdlib.h&gt;</span><br><span class="line"> 4 #include&lt;string.h&gt;</span><br><span class="line"> 5 #include&lt;sys/types.h&gt;</span><br><span class="line"> 6 #include&lt;unistd.h&gt;</span><br><span class="line"> 7</span><br><span class="line"> 8 int main()&#123;</span><br><span class="line"> 9</span><br><span class="line">10     int i=0;</span><br><span class="line">11 for(;i&lt;3;i++)&#123;</span><br><span class="line">12     //创建子进程</span><br><span class="line">13     printf(&quot;before fork, pid=[%d]\n&quot;,getpid());</span><br><span class="line">14     pid_t pid=fork();</span><br><span class="line">15     if(pid&lt;0)&#123;</span><br><span class="line">16         perror(&quot;error&quot;);</span><br><span class="line">17         return -1;</span><br><span class="line">18     &#125;</span><br><span class="line">19     else if(pid&gt;0)&#123; //父进程</span><br><span class="line">20         printf(&quot;father: pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">21     //  sleep(1);</span><br><span class="line">22     &#125;</span><br><span class="line">23     else if(pid==0)&#123;  //子进程</span><br><span class="line">24         printf(&quot;child :pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">25</span><br><span class="line">26         &#125;</span><br><span class="line">27     printf(&quot;after fork, pid=[%d]\n&quot;,getpid());</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31     &#125;</span><br><span class="line">32 return 0;</span><br><span class="line">33 &#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>主进程总共创建了7个子进程，分析如下：<br><img src="/images/child_fork.png"></p>
+<h2 id="修该后的代码"><a href="#修该后的代码" class="headerlink" title="修该后的代码"></a>修该后的代码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"> 1 //fork函数测试，循环创建子进程</span><br><span class="line"> 2 #include&lt;stdio.h&gt;</span><br><span class="line"> 3 #include&lt;stdlib.h&gt;</span><br><span class="line"> 4 #include&lt;string.h&gt;</span><br><span class="line"> 5 #include&lt;sys/types.h&gt;</span><br><span class="line"> 6 #include&lt;unistd.h&gt;</span><br><span class="line"> 7</span><br><span class="line"> 8 int main()&#123;</span><br><span class="line"> 9</span><br><span class="line">10     int i=0;</span><br><span class="line">11 for(;i&lt;3;i++)&#123;</span><br><span class="line">12     //创建子进程</span><br><span class="line">13     printf(&quot;before fork, pid=[%d]\n&quot;,getpid());</span><br><span class="line">14     pid_t pid=fork();</span><br><span class="line">15     if(pid&lt;0)&#123;</span><br><span class="line">16         perror(&quot;error&quot;);</span><br><span class="line">17         return -1;</span><br><span class="line">18     &#125;</span><br><span class="line">19     else if(pid&gt;0)&#123; //父进程</span><br><span class="line">20         printf(&quot;father: pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">21     //  sleep(1);</span><br><span class="line">22     &#125;</span><br><span class="line">23     else if(pid==0)&#123;  //子进程</span><br><span class="line">24         printf(&quot;child :pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">25         break;//只要子进程在此处跳出循环即可！！！</span><br><span class="line">26         &#125;</span><br><span class="line">27     printf(&quot;after fork, pid=[%d]\n&quot;,getpid());</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31     &#125;</span><br><span class="line">32 return 0;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>只要在子进程代码块中，执行完逻辑后，break出循环就能保证子进程不在创建子进程！！！</p>
+<h1 id="父子进程不能共享全局变量（即不能够使用全局变量进行通信！！！）"><a href="#父子进程不能共享全局变量（即不能够使用全局变量进行通信！！！）" class="headerlink" title="父子进程不能共享全局变量（即不能够使用全局变量进行通信！！！）"></a>父子进程不能共享全局变量（即不能够使用全局变量进行通信！！！）</h1><p><img src="/images/global.png"><br>父子进程不能共享全局变量；但是如果父子进程只是对全局变量做读操作，则父子进程在真正的物理内存空间中只有一份，属于共享！但是如果父子进程中的任何一个进程对该变量进行修改操作，会在内存中拷贝一个副本，然后在这个副本上进行修改，修改完成后在映射回虚拟内存空间上去！！！</p>
+<ul>
+<li>总结：写时复制，读时共享！！！</li>
+</ul>
+
     </div>
 
     
@@ -251,7 +267,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/03/26/first-blog/" title="test日志">http://example.com/2022/03/26/first-blog/</a>
+    <a href="http://example.com/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" title="">http://example.com/2022/04/26/进程控制/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -267,11 +283,11 @@
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2022/03/26/leetcode/" rel="next" title="leetcode刷题">
-      leetcode刷题 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/04/19/%E9%BB%91%E9%A9%AC_linux%E5%9F%BA%E7%A1%80/" rel="prev" title="Linux基础">
+      <i class="fa fa-chevron-left"></i> Linux基础
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -335,7 +351,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95%E6%97%A5%E5%BF%97"><span class="nav-number">1.</span> <span class="nav-text">我的第一个测试日志</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%97%B4-2022-3-26-%E6%98%9F%E6%9C%9F%E5%85%AD"><span class="nav-number">1.1.</span> <span class="nav-text">时间: 2022-3-26 星期六</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#title-%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">title:进程控制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A8%8B%E5%BA%8F%E5%92%8C%E8%BF%9B%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number"></span> <span class="nav-text">程序和进程的概念:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E5%92%8C%E5%B9%B6%E8%A1%8C%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number"></span> <span class="nav-text">并发和并行的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%88%9B%E5%BB%BA%E5%AD%90%E8%BF%9B%E7%A8%8B%E9%97%AE%E9%A2%98%EF%BC%88%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%B9%9F%E4%BC%9A%E5%88%9B%E5%BB%BA%E5%AD%90%E8%BF%9B%E7%A8%8B%EF%BC%89%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">循环创建子进程问题（子进程也会创建子进程）：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E8%AF%A5%E5%90%8E%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">修该后的代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E4%B8%8D%E8%83%BD%E5%85%B1%E4%BA%AB%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%88%E5%8D%B3%E4%B8%8D%E8%83%BD%E5%A4%9F%E4%BD%BF%E7%94%A8%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E8%BF%9B%E8%A1%8C%E9%80%9A%E4%BF%A1%EF%BC%81%EF%BC%81%EF%BC%81%EF%BC%89"><span class="nav-number"></span> <span class="nav-text">父子进程不能共享全局变量（即不能够使用全局变量进行通信！！！）</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -408,7 +424,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共8.7k字</span>
+  <span class="post-count">博客全站共9.6k字</span>
 </div>
 
 
