@@ -22,22 +22,26 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="字节跳动 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778#include&lt;iostream&gt;#include&lt;vector&gt;us">
+  <meta name="description" content="C库IO函数的工作流程：   使用fopen函数打开一个文件, 返回一个FILE* fp, 这个指针指向的结构体有三个重要的成员.（1）文件描述符: 通过文件描述可以找到文件的inode, 通过inode可以找到对应的数据块（2）文件指针: 读和写共享一个文件指针, 读或者写都会引起文件指针的变化（3）文件缓冲区: 读或者写会先通过文件缓冲区, 主要目的是为了减少对磁盘的读写次数, 提高读写磁盘的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="面试题">
-<meta property="og:url" content="http://example.com/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/index.html">
+<meta property="og:title" content="文件IO">
+<meta property="og:url" content="http://example.com/2022/04/24/%E6%96%87%E4%BB%B6IO/index.html">
 <meta property="og:site_name" content="一懒众衫小">
-<meta property="og:description" content="字节跳动 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778#include&lt;iostream&gt;#include&lt;vector&gt;us">
+<meta property="og:description" content="C库IO函数的工作流程：   使用fopen函数打开一个文件, 返回一个FILE* fp, 这个指针指向的结构体有三个重要的成员.（1）文件描述符: 通过文件描述可以找到文件的inode, 通过inode可以找到对应的数据块（2）文件指针: 读和写共享一个文件指针, 读或者写都会引起文件指针的变化（3）文件缓冲区: 读或者写会先通过文件缓冲区, 主要目的是为了减少对磁盘的读写次数, 提高读写磁盘的">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/zijie1.jpg">
-<meta property="og:image" content="http://example.com/images/zijie2.jpg">
-<meta property="article:published_time" content="2022-04-10T03:10:17.984Z">
-<meta property="article:modified_time" content="2022-04-10T03:12:52.877Z">
+<meta property="og:image" content="http://example.com/images/file.png">
+<meta property="og:image" content="http://example.com/images/file1.png">
+<meta property="og:image" content="http://example.com/images/printf.png">
+<meta property="og:image" content="http://example.com/images/virtual.png">
+<meta property="og:image" content="http://example.com/images/pcb.png">
+<meta property="og:image" content="http://example.com/images/dup.png">
+<meta property="article:published_time" content="2022-04-24T02:57:59.247Z">
+<meta property="article:modified_time" content="2022-04-29T13:38:36.917Z">
 <meta property="article:author" content="秦程程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/zijie1.jpg">
+<meta name="twitter:image" content="http://example.com/images/file.png">
 
-<link rel="canonical" href="http://example.com/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+<link rel="canonical" href="http://example.com/2022/04/24/%E6%96%87%E4%BB%B6IO/">
 
 
 <script id="page-configurations">
@@ -50,7 +54,7 @@
   };
 </script>
 
-  <title>面试题 | 一懒众衫小</title>
+  <title>文件IO | 一懒众衫小</title>
   
 
 
@@ -180,7 +184,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/24/%E6%96%87%E4%BB%B6IO/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/cat.png">
@@ -193,7 +197,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          面试题
+          文件IO
         </h1>
 
         <div class="post-meta">
@@ -207,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-10 11:10:17 / 修改时间：11:12:52" itemprop="dateCreated datePublished" datetime="2022-04-10T11:10:17+08:00">2022-04-10</time>
+              <time title="创建时间：2022-04-24 10:57:59" itemprop="dateCreated datePublished" datetime="2022-04-24T10:57:59+08:00">2022-04-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-29 21:38:36" itemprop="dateModified" datetime="2022-04-29T21:38:36+08:00">2022-04-29</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -230,9 +240,52 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="字节跳动"><a href="#字节跳动" class="headerlink" title="字节跳动"></a>字节跳动</h2><p><img src="/images/zijie1.jpg"><br><img src="/images/zijie2.jpg"></p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"> int main() &#123;</span><br><span class="line">	 int dx[4] = &#123; 0,0,1,-1 &#125;;</span><br><span class="line">	 int dy[4] = &#123; 1,-1,0,0 &#125;;</span><br><span class="line">	 int num;</span><br><span class="line">	 cin &gt;&gt; num;</span><br><span class="line">	 int w, h;</span><br><span class="line">	 vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt;res;</span><br><span class="line">	 while (num&gt;0) &#123;</span><br><span class="line">		</span><br><span class="line">		cin&gt;&gt;w;</span><br><span class="line">		cin&gt;&gt; h;</span><br><span class="line">		vector&lt;vector&lt;int&gt;&gt;matrix(w,vector&lt;int&gt;(h));</span><br><span class="line">		for (int i = 0; i &lt; w; i++)</span><br><span class="line">			for (int j = 0; j &lt; h; j++)</span><br><span class="line">				cin &gt;&gt; matrix[i][j];</span><br><span class="line"></span><br><span class="line">		for (int i = 0; i &lt; w; i++) &#123;</span><br><span class="line">			for (int j = 0; j &lt; h; j++) &#123;</span><br><span class="line">				if (matrix[i][j] == 1) &#123;</span><br><span class="line">					int water = 0;</span><br><span class="line">					int new_x;</span><br><span class="line">					int new_y;</span><br><span class="line">					for (int k = 0; k &lt; 4; k++) &#123;</span><br><span class="line">						new_x = i + dx[k];</span><br><span class="line">						new_y = j + dy[k];</span><br><span class="line">						if (new_x &gt;= 0 &amp;&amp; new_x &lt; w &amp;&amp; new_y &gt;= 0 &amp;&amp; new_y &lt; h) &#123;</span><br><span class="line">							if (matrix[new_x][new_y] == 0)</span><br><span class="line">								water++;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					if (water &gt;= 2)</span><br><span class="line">						matrix[i][j] = -1;</span><br><span class="line">						</span><br><span class="line"></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (int i = 0; i &lt; w; i++)</span><br><span class="line">			for (int j = 0; j &lt; h; j++)</span><br><span class="line">				if (matrix[i][j] == -1)</span><br><span class="line">					matrix[i][j] = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		res.push_back(matrix);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		num--;</span><br><span class="line">			</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line">	 //这样输出会越界，因为3维数组中的每一个二维数组可能不相同！！！  （2，3，4）</span><br><span class="line">	/* for (int i = 0; i &lt; res.size(); i++) &#123;</span><br><span class="line">		 for (int j = 0; j &lt; res[0].size(); j++) &#123;</span><br><span class="line">			 for (int k = 0; k &lt; res[0][0].size(); k++) &#123;</span><br><span class="line">				 cout &lt;&lt; res[i][j][k] &lt;&lt; &quot; &quot;;</span><br><span class="line">			 &#125;</span><br><span class="line">			 cout &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		 &#125;*/</span><br><span class="line">	 //二维数组作为缓冲，进行输出！</span><br><span class="line">		  for (int i = 0; i &lt; res.size(); i++) &#123;</span><br><span class="line">			  vector&lt;vector&lt;int&gt;&gt;temp=res[i];</span><br><span class="line">			 for (int j = 0; j &lt; temp.size(); j++) &#123;</span><br><span class="line">				 for (int k = 0; k &lt; temp[0].size(); k++) &#123;</span><br><span class="line">					 cout &lt;&lt; temp[j][k] &lt;&lt; &quot; &quot;;</span><br><span class="line">				 &#125;</span><br><span class="line">				 cout &lt;&lt; endl;</span><br><span class="line">			&#125;</span><br><span class="line">			 &#125;</span><br><span class="line">	</span><br><span class="line">	 return 0;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="C库IO函数的工作流程："><a href="#C库IO函数的工作流程：" class="headerlink" title="C库IO函数的工作流程："></a>C库IO函数的工作流程：</h1><p><img src="/images/file.png"></p>
+<p><img src="/images/file1.png"></p>
+<ul>
+<li>使用fopen函数打开一个文件, 返回一个FILE* fp, 这个指针指向的结构体有三个重要的成员.<br>（1）文件描述符: 通过文件描述可以找到文件的inode, 通过inode可以找到对应的数据块<br>（2）文件指针: 读和写共享一个文件指针, 读或者写都会引起文件指针的变化<br>（3）文件缓冲区: 读或者写会先通过文件缓冲区, 主要目的是为了减少对磁盘的读写次数, 提高读写磁盘的效率.</li>
+</ul>
+<h1 id="C库函数和系统函数的关系（printf举例）"><a href="#C库函数和系统函数的关系（printf举例）" class="headerlink" title="C库函数和系统函数的关系（printf举例）"></a>C库函数和系统函数的关系（printf举例）</h1><p><img src="/images/printf.png"></p>
+<p>库函数和系统函数的关系是: 调用和被调用的关系;库函数是对系统函数的进一步封装.</p>
+<p>系统调用: 由操作系统实现并提供给外部应用程序的编程接口(Application Programming Interface, API), 是应用程序同系统之间数据交互的桥梁.</p>
+<h1 id="虚拟地址空间"><a href="#虚拟地址空间" class="headerlink" title="虚拟地址空间"></a>虚拟地址空间</h1><p><img src="/images/virtual.png"></p>
+<p>以32位系统为例，系统会为每一个进程分配0~4G的空间（虚拟地址空间）。<br>（1）进程的虚拟地址空间分为用户区和内核区, 其中内核区是受保护的, 用户是不能够对其进行读写操作的;<br>（2）内核区中很重要的一个就是进程管理, 进程管理中有一个区域就是PCB(本质是一个结构体);<br>（3）PCB中有文件描述符表, 文件描述符表中存放着打开的文件描述符, 涉及到文件的IO操作都会用到这个文件描述符.</p>
+<h1 id="PCB和文件描述符"><a href="#PCB和文件描述符" class="headerlink" title="PCB和文件描述符"></a>PCB和文件描述符</h1><p><img src="/images/pcb.png"></p>
+<p>备注:<br>pcb：结构体:task_stuct, 该结构体在:<br>&#x2F;usr&#x2F;src&#x2F;linux-headers-4.4.0-97&#x2F;include&#x2F;linux&#x2F;sched.h:1390<br>一个进程有一个文件描述符表：1024<br>前三个被占用, 分别是STDIN_FILENO, STDOUT_FILENO, STDERR_FILENO<br>文件描述符作用：通过文件描述符找到inode, 通过inode找到磁盘数据块.</p>
+<p>虚拟地址空间–&gt;内核区–&gt;进程管理–&gt;pcb–&gt;文件描述表–&gt;文件描述符–&gt;使用IO操作使用文件描述符</p>
+<ul>
+<li><p>lseek函数常用操作<br>文件指针移动到头部<br>lseek(fd, 0, SEEK_SET);<br>获取文件指针当前位置<br>int len &#x3D; lseek(fd, 0, SEEK_CUR);<br>获取文件长度<br>int len &#x3D; lseek(fd, 0, SEEK_END);<br>lseek实现文件拓展<br>off_t currpos;<br>&#x2F;&#x2F; 从文件尾部开始向后拓展1000个字节<br>currpos &#x3D; lseek(fd, 1000, SEEK_END);<br>&#x2F;&#x2F; 额外执行一次写操作，否则文件无法完成拓展<br>write(fd, “a”, 1);    &#x2F;&#x2F; 数据随便写</p>
+</li>
+<li><p>文件权限计算方法:<br>mode &amp; ~umask</p>
+</li>
+<li><p>思考: 阻塞和非阻塞是文件的属性还是read函数的属性?<br>（1）通过读普通文件测试得知: read函数在读完文件内容之后, 若再次read,则read函数会立刻返回, 表明read函数读普通文件是非阻塞的.<br>（2）设备文件:&#x2F;dev&#x2F;tty 和 标准输入STDIN_FILENO，通过读&#x2F;dev&#x2F;tty终端设备文件和标准输入, 表明read函数读设备文件是阻塞的.<br>（3）结论: 阻塞和非阻塞不是read函数的属性, 而是文件本身的属性.<br>socket pipe这两种文件都是阻塞的.</p>
+</li>
+</ul>
+<h1 id="文件和目录"><a href="#文件和目录" class="headerlink" title="文件和目录"></a>文件和目录</h1><ul>
+<li>使用st_mode成员判断文件类型:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//方法一</span><br><span class="line">   if((sb.st_mode &amp; S_IFMT) ==S_IFLNK)</span><br><span class="line">   &#123;   </span><br><span class="line">       printf(&quot;连接文件\n&quot;);</span><br><span class="line">   &#125;   </span><br><span class="line">   </span><br><span class="line">//方法二</span><br><span class="line">   if (S_ISREG(sb.st_mode)) </span><br><span class="line">   &#123;   </span><br><span class="line">       printf(&quot;普通文件\n&quot;);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
+
+<ul>
+<li>判断文件权限:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> if(sb.st_mode &amp; S_IROTH)</span><br><span class="line">&#123;</span><br><span class="line">    printf(&quot;---R----&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li><p>lstat和stat函数:<br>（1）对于普通文件来说, lstat函数和stat函数一样<br>（2）对于软连接文件来说, lstat函数获取的是连接文件本身的属性,<br>（3）stat函数获取的是连接文件指向的文件的属性.</p>
+</li>
+<li><p>目录操作:<br>（1）打开目录 opendir<br>（2）循环读目录: readdir<br>（3）关闭目录: closedir</p>
+</li>
+<li><p>dup和dup2函数:复制文件描述符—-详情看图</p>
+</li>
+</ul>
+<p><img src="/images/dup.png"></p>
+<ul>
+<li>fcntl函数:<br>(1)复制文件描述符: int fd &#x3D; fcntl(oldfd, F_DUPFD, 0);<br>(2)获得和设置文件的flag属性:<br>int flag &#x3D; fcntl(fd, F_GETFL, 0);<br>flag &#x3D;flag|O_APPEND;<br>fcntl(fd, F_SETFL, flag);</li>
+</ul>
 
     </div>
 
@@ -257,7 +310,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://example.com/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/" title="面试题">http://example.com/2022/04/10/面试题/</a>
+    <a href="http://example.com/2022/04/24/%E6%96%87%E4%BB%B6IO/" title="文件IO">http://example.com/2022/04/24/文件IO/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
@@ -274,12 +327,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/06/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" rel="prev" title="动态规划">
-      <i class="fa fa-chevron-left"></i> 动态规划
+    <a href="/2022/04/23/makefill-gdb/" rel="prev" title="makefill gdb">
+      <i class="fa fa-chevron-left"></i> makefill gdb
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/04/11/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8Esocket%E7%BC%96%E7%A8%8B/" rel="next" title="网络通信与socket编程">
-      网络通信与socket编程 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="next" title="进程控制">
+      进程控制 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -344,7 +397,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E8%B7%B3%E5%8A%A8"><span class="nav-number">1.</span> <span class="nav-text">字节跳动</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E5%BA%93IO%E5%87%BD%E6%95%B0%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">C库IO函数的工作流程：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#C%E5%BA%93%E5%87%BD%E6%95%B0%E5%92%8C%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%88printf%E4%B8%BE%E4%BE%8B%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">C库函数和系统函数的关系（printf举例）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">3.</span> <span class="nav-text">虚拟地址空间</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PCB%E5%92%8C%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6"><span class="nav-number">4.</span> <span class="nav-text">PCB和文件描述符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%92%8C%E7%9B%AE%E5%BD%95"><span class="nav-number">5.</span> <span class="nav-text">文件和目录</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
