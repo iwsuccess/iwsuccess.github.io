@@ -174,233 +174,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/23/makefill-gdb/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/23/makefill-gdb/" class="post-title-link" itemprop="url">makefill gdb</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-23 18:09:16" itemprop="dateCreated datePublished" datetime="2022-04-23T18:09:16+08:00">2022-04-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-07-31 18:54:08" itemprop="dateModified" datetime="2022-07-31T18:54:08+08:00">2022-07-31</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ul>
-<li><p>makefile:<br>makefile文件是用来管理项目工程文件, 通过执行make命令, make就会解析并执行makefile文件.<br>makefile命名: makefile或者Makefile</p>
-</li>
-<li><p>makefile的编写:<br>规则如下:<br>目标: 依赖<br>(tab)命令</p>
-</li>
-<li><p>第一个版本:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main: main.c fun1.c fun2.c sum.c</span><br><span class="line">	gcc -o main main.c fun1.c fun2.c sum.c</span><br></pre></td></tr></table></figure>
-<p>缺点: 效率低, 修改一个文件, 所有的文件会全部重新编译.</p>
-</li>
-<li><p>第二个版本：</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 main:main.o fun1.o fun2.o</span><br><span class="line">2     gcc -o main main.o fun1.o fun2.o</span><br><span class="line">3 main.o:main.c</span><br><span class="line">4     gcc -c main.c -I ./</span><br><span class="line">5 fun1.o:fun1.c</span><br><span class="line">6     gcc -c fun1.c</span><br><span class="line">7 fun2.o:fun2.c</span><br><span class="line">8     gcc -c fun2.c</span><br></pre></td></tr></table></figure>
-
-<p>检查规则:<br>要想生成目标文件, 先要检查依赖条件是否都存在.<br>若都存在, 则比较目标时间和依赖的时间, 如果依赖的时候比目标的时间新,则重新生成目标; 否则不重新生成.<br>若不存在, 则往下找有没有生成依赖的规则, 有则生成, 如果没有则报错.<br>第二版本的缺点: 冗余, 若.c文件数量很多, 编写起来比较麻烦.</p>
-<ul>
-<li>第三个版本：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 objects=main.o fun1.o fun2.o</span><br><span class="line"> 3 CC=gcc</span><br><span class="line"> 4 CPPFLAGS=-I./</span><br><span class="line"> 5</span><br><span class="line"> 6 $(target):$(objects)</span><br><span class="line"> 7     $(CC) -o $@ $^</span><br><span class="line"> 8 %.o:%.c</span><br><span class="line"> 9     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line">10</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>变量:<br>自定义变量: var &#x3D; hello, $(var)<br>自带变量: CC CPPFLAGS CFLAGS LDFLAGS<br>自动变量: $@ $&lt; $^<br>模式规则: %.o:%.c——&gt; 前后的%必须是相同 </p>
-<ul>
-<li>第四个版本：</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 src=$(wildcard *.c)</span><br><span class="line"> 3 objects=$(patsubst %.c,%.o,$(src))</span><br><span class="line"> 4 CC=gcc</span><br><span class="line"> 5 CPPFLAGS=-I./</span><br><span class="line"> 6</span><br><span class="line"> 7 $(target):$(objects)</span><br><span class="line"> 8     $(CC) -o $@ $^</span><br><span class="line"> 9 %.o:%.c</span><br><span class="line">10     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>makefile函数：<br>1.wildcard – 查找指定目录下的指定类型的文件<br>src&#x3D;$(wildcard *.c)  &#x2F;&#x2F;找到当前目录下所有后缀为.c的文件,赋值给src<br>2.patsubst – 匹配替换<br>obj&#x3D;$(patsubst %.c,%.o, $(src)) &#x2F;&#x2F;把src变量里所有后缀为.c的文件替换成.o<br>如: 当前目录下有a.c b.c c.c<br>src&#x3D;$(wildcard *.c) —–&gt; src&#x3D;a.c b.c c.c<br>obj&#x3D;$(patsubst %.c,%.o, $(src)) —–&gt; obj&#x3D;a.o b.o c.o</p>
-<ul>
-<li>第五个版本</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 src=$(wildcard *.c)</span><br><span class="line"> 3 objects=$(patsubst %.c,%.o,$(src))</span><br><span class="line"> 4 CC=gcc</span><br><span class="line"> 5 CPPFLAGS=-I./</span><br><span class="line"> 6</span><br><span class="line"> 7 $(target):$(objects)  #第一个目标即为终极目标，直接make就会运行！！！</span><br><span class="line"> 8     $(CC) -o $@ $^</span><br><span class="line"> 9 %.o:%.c</span><br><span class="line">10     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line">11</span><br><span class="line">12 .PHONY:clean  #声明为伪目标。   非第一个目标，make clean才会运行嗷</span><br><span class="line">13 clean:</span><br><span class="line">14     -rm -f $(objects) $(target)   #rm前加-,可以保证clean下的前一个命令如果无法执行，不会影响在其后面加-的命令的执行！   rm -f: 强制执行, 比如若要删除的文件不存在使用-f不会报错。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>增加清理功能.<br>终极目标: makefile文件中第一次出现的目标叫做终极目标。<br>伪目标：声明目标为伪目标之后, makefile将不会检查该目标是否存在或者该目标是否需要更新。<br>.PHONY:clean<br>clean:<br>rm -f ….        </p>
-<ul>
-<li><p>使用-f可以指定makefile文件（因为执行make默认找的是makefile文件，通过-f参数可以指定其他名称的makefile文件）, 如: make -f new_makefile</p>
-</li>
-<li><p>gdb调试 :</p>
-</li>
-</ul>
-<p>gdb是在程序运行的结果与预期不符合的时候, 可以使用gdb进行调试,<br>特别注意的是: 使用gdb调试需要在编译的时候加-g参数!!!!!!!</p>
-<p>启动gdb:<br>gdb program<br>set args hello world<br>show args<br>执行程序:<br>run  #执行到断点位置，无断点，则执行完<br>start #第一条语句停下来</p>
-<p>list操作:<br>list<br>list -<br>list func<br>list linenum<br>list file:func<br>list file:linenum<br>set listsize n<br>show listsize</p>
-<p>断点操作:<br>b linenum<br>b func<br>b file:linenum<br>b file:func</p>
-<p>info break</p>
-<p>disable m n | m-n<br>enable  m n | m-n<br>delete m n | m-n </p>
-<p>条件断点<br>一般来说, 为断点设置一个条件, 我们使用if关键词, 后面跟其断点条件。设置一个条件断点：<br>b test.c:8 if intValue &#x3D;&#x3D; 5</p>
-<p>调试命令:<br>run （全部执行，直至第一个断点处）<br>start （执行至第一条语句）<br>next  （单步执行，不进入函数体）<br>step  （单步执行，进入函数体）<br>finish  （跳出函数体）<br>until  （执行完循环体）<br>continue  （执行至下一个断点处）</p>
-<p>print var  （打印变量值）</p>
-<p>自动显示:<br>display var  （显示变量）</p>
-<p>info display  （列出所有需要显示的变量信息）</p>
-<p>disable display m n | m-n   （使变量显示失效）<br>enable display m n | m-n     （使变量显示生效）</p>
-<p>delete display m n | m-n   （删除需要显示的变量）<br>undisplay m n | m-n    （删除需要显示的变量）</p>
-<p>多进程调试？？？？</p>
-
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/vim_gcc%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8C%E4%BD%BF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/20/vim_gcc%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">vim gcc库制作和使用</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-20 17:05:29" itemprop="dateCreated datePublished" datetime="2022-04-20T17:05:29+08:00">2022-04-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-29 21:35:08" itemprop="dateModified" datetime="2022-04-29T21:35:08+08:00">2022-04-29</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>#gcc的工作流程<br><img src="/images/gcc.png"><br><img src="/images/gcc2.png"><br>1.预处理：cpp预处理器，去掉注释，展开头文件，宏替换<br>gcc -E test.c -o test.i<br>2.编译：gcc,将源代码文件编译成汇编代码<br>gcc -S test.i -o test.s<br>3.汇编：as，将汇编语言代码编译成二进制文件（目标代码）<br>gcc -c test.s -o test.o<br>4.链接：ld，链接test.c代码中调用的库函数<br>gcc test.o -o test.exe<br>#gcc的常用参数<br>-c  只编译, 生成.o文件, 通常称为目标文件<br>-I   指定头文件所在的路径<br>-L   指定库文件所在的路径<br>-l    指定库的名字<br>-o   指定生成的目标文件的名字<br>-g   包含调试信息, 使用gdb调试需要添加-g参数<br>#库</p>
-<ul>
-<li>库是二进制文件, 是源代码文件的另一种表现形式, 是加了密的源代码;<br>是一些功能相近或者是相似的函数的集合体</li>
-</ul>
-<h2 id="库可分静态库-static-library-和共享库-shared-library"><a href="#库可分静态库-static-library-和共享库-shared-library" class="headerlink" title="库可分静态库(static library)和共享库(shared library)"></a>库可分静态库(static library)和共享库(shared library)</h2><h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><ul>
-<li>静态库的制作：</li>
-</ul>
-<p>1.将.c文件编译成.o文件<br>gcc -c func1.c func2.c<br>2.使用ar命令将.o文件打包成.a文件<br>ar rcs libtest1.a func1.o func2.o</p>
-<ul>
-<li>静态库的使用（注意库名字是test1,去掉lib和.a）<br>gcc mian.c -I .&#x2F; -L .&#x2F; -l test1 -o main1<br>运行：.&#x2F;main1</li>
-</ul>
-<h2 id="静态库的优缺点"><a href="#静态库的优缺点" class="headerlink" title="静态库的优缺点"></a>静态库的优缺点</h2><ul>
-<li>优点：</li>
-</ul>
-<p>函数库最终被打包到应用程序中，实现是函数本地化，寻址方便、速度快。<br>（库函数调用效率&#x3D;&#x3D;自定义函数使用效率）<br>程序在运行时与函数库再无瓜葛，移植方便。</p>
-<ul>
-<li>缺点：</li>
-</ul>
-<p>消耗系统资源较大, 每个进程使用静态库都要复制一份, 无端浪费内存。</p>
-<p>静态库会给程序的更新、部署和发布带来麻烦。如果静态库libxxx.a更新了，所有使用它的应用程序都需要重新编译、发布给用户（对于玩家来说，可能是一个很小的改动，却导致整个程序重新下载）。</p>
-<h2 id="动态库"><a href="#动态库" class="headerlink" title="动态库"></a>动态库</h2><ul>
-<li>动态库的制作</li>
-</ul>
-<p>1.生成目标文件.o, 此时要加编译选项：-fPIC（fpic）<br>gcc -fpic -c fun1.c fun2.c<br>参数：-fpic创建与地址无关的编译程序(pic, position independent code), 目的就是为了能够在多个应用程序间共享.<br>2.生成共享库, 此时要加链接器选项: -shared（指定生成动态链接库）<br>gcc -shared fun1.o fun2.o -o libtest2.so</p>
-<ul>
-<li>动态库的使用</li>
-</ul>
-<p>gcc main.c -I.&#x2F; -L.&#x2F; -ltest2 -o main2<br>运行：.&#x2F;main2报错了！<br>动态库文件在编译的时候, 连接器需要使用参数-L找到库文件所在的路径;<br>在执行的时候, 是加载器ldd根据动态库的路径进行加载的, 与编译的时候用的-L<br>指定的路径无关.<br>最常用的解决办法:将LD_LIBRARY_PATH环境变量加到用户级别的配置文件<del>&#x2F;.bashrc中,<br>然后生效(. ~&#x2F;.bashrc    source ~&#x2F;.bashrc   退出终端然后再登录)<br>（1）dll放在用户家目录的新建的lib文件夹中，&#x2F;home&#x2F;qcc&#x2F;lib&#x2F;,配置如下<br>export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:</del>&#x2F;lib<br>（2）dll放在当前目录下或者当前目录的lib子目录下均可以的配置如下：<br>export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:.&#x2F;lib</p>
-<ul>
-<li><p>共享库的特点<br>动态库把对一些库函数的链接载入推迟到程序运行的时期。<br>可以实现进程之间的资源共享。（因此动态库也称为共享库）<br>将一些程序升级变得简单。<br>甚至可以真正做到链接载入完全由程序员在程序代码中控制（显示调用）</p>
-</li>
-<li><p>比较静态库和动态库的优缺点<br> 静态库的优点:<br>   1 执行速度快, 是因为静态库已经编译到可执行文件内部了<br>   2 移植方便, 不依赖域其他的库文件<br> 缺点:<br>   1 耗费内存, 是由于每一个静态库的可执行程序都会加载一次<br>   2 部署更新麻烦, 因为静态库修改以后所有的调用到这个静态库的可执行文<br>件都需要重新编译</p>
-</li>
-</ul>
-<p> 动态库的优点:<br>     1 节省内存<br>     2 部署升级更新方便, 只需替换动态库即可, 然后再重启服务.<br> 缺点:<br>     1 加载速度比静态库慢<br>     2 移植性差, 需要把所有用到的动态库都移植.</p>
-<p>由于由静态库生成的可执行文件是把静态库加载到了其内部, 所以静态库生成的可执行文件一般会比动态库大.</p>
-
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/%E9%BB%91%E9%A9%AC_linux%E5%9F%BA%E7%A1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1207,6 +980,191 @@
 <li>如果说程序中所有的线程都对共享资源做写操作，使用读写锁没有优势，和互斥锁是一样的，如果说程序中所有的线程都对共享资源有写也有读操作，并且对共享资源读的操作越多，读写锁更有优势。</li>
 </ol>
 
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
+<li>组合问题（无序的）</li>
+<li>切割问题（字符串的切割方式）</li>
+<li>子集问题</li>
+<li>排列问题（有序的）</li>
+<li>棋盘问题（N皇后，解数独）</li>
+</ul>
+<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
+<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
+</ul>
+<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/27/%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">C++面试准备</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-27 11:28:07" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-28 17:01:35" itemprop="dateModified" datetime="2022-03-28T17:01:35+08:00">2022-03-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="编译内存相关知识"><a href="#编译内存相关知识" class="headerlink" title="编译内存相关知识"></a>编译内存相关知识</h1><h2 id="C-的编译过程"><a href="#C-的编译过程" class="headerlink" title="C++的编译过程"></a>C++的编译过程</h2><h3 id="共分为四个步骤：编译预处理，编译，汇编，链接。"><a href="#共分为四个步骤：编译预处理，编译，汇编，链接。" class="headerlink" title="共分为四个步骤：编译预处理，编译，汇编，链接。"></a>共分为四个步骤：编译预处理，编译，汇编，链接。</h3><ul>
+<li>编译预处理：处理#字符开头的指令。</li>
+<li>编译：将源码.cpp文件编译成.s文件。</li>
+<li>汇编：将.s文件汇编成.o文件。</li>
+<li>链接：将一个或者多个.o文件链接形成.exe的可执行文件。<h3 id="静态链接和动态链接的区别"><a href="#静态链接和动态链接的区别" class="headerlink" title="静态链接和动态链接的区别"></a>静态链接和动态链接的区别</h3></li>
+<li>静态链接：代码从其所在的静态链接库中的拷贝到可执行程序中，优点是执行速度快；缺点是浪费空间，因为可能会拷贝多份重复的代码，并且在目标文件更新后，需要重新编译链接生成新的exe文件。</li>
+<li>动态链接：动态链接时并没有将真正的代码链接进去，而是保存了一个映射，在执行过程中，通过该映射再去寻找真正的代码。优点是节省内存，更新方便。缺点是相比静态链接速度较慢，性能有一定的损失。</li>
+</ul>
+<h2 id="C-的内存管理"><a href="#C-的内存管理" class="headerlink" title="C++的内存管理"></a>C++的内存管理</h2><h3 id="C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。"><a href="#C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。" class="headerlink" title="C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。"></a>C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。</h3><ul>
+<li>栈：通常是局部变量，函数参数，返回值存放的地方，由编译器自动回收。</li>
+<li>堆：程序员自己malloc申请的内存块，需要程序员自己申请和释放。</li>
+<li>全局区&#x2F;静态区：静态变量和全局变量存储的地方，程序结束会自动释放。</li>
+<li>常量区：存放常量，不允许修改，程序结束后会自动释放。</li>
+<li>代码区：存放代码，不允许修改，可以执行。编译后的二进制文件存放的地方。</li>
+<li>示例代码如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int a = 0; // </span><br><span class="line">char *b;  // a,b均在全局区</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int v;//v在栈区</span><br><span class="line">   int *p=(int*)malloc(sizeof(int)*4)//申请16个字节内存在堆区</span><br><span class="line">   static int e;//e在静态区</span><br><span class="line">   string s=&quot;abvdefr&quot;;//s在栈区，&quot;abvdefr&quot;在常量区 </span><br><span class="line">   int d[]=&quot;qwe&quot;;//d在栈区，&quot;qwe&quot;在常量区</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="栈和堆的区别"><a href="#栈和堆的区别" class="headerlink" title="栈和堆的区别"></a>栈和堆的区别</h3><ol>
+<li>申请和回收方式不同：栈由系统分配和回收，堆由程序员申请和回收。</li>
+<li>存储方式不同：栈是一块连续的内存空间（向低地址扩展），堆的内存空间是不连续的（链表结构），(向高地址扩展)。</li>
+<li>存放的内容不同：栈存放局部变量，函数参数，返回值等，堆存放的内容由程序员控制。</li>
+<li>效率：栈的申请由系统自动分配，效率高。堆效率低，也容易产生内存碎片。</li>
+<li>申请后的系统响应方式不同：栈空间申请后，如果当前剩余空间&gt;申请空间，则分配，否则，提示栈溢出；堆空间申请后，需要在链表上的寻找第一块大于等于申请空间的内存块，找到后将该块（首地址存放了本次分配的空间大小）从内存链表上删除，分配给堆空间，将剩余的空间链接在空闲链表上，用完回收后，再将其链接在空闲链表上。</li>
+</ol>
+<h2 id="全局变量，静态全局变量，局部变量，静态局部变量的区别"><a href="#全局变量，静态全局变量，局部变量，静态局部变量的区别" class="headerlink" title="全局变量，静态全局变量，局部变量，静态局部变量的区别"></a>全局变量，静态全局变量，局部变量，静态局部变量的区别</h2><ul>
+<li>全局变量：具有全局作用域，全局变量只要在一个源文件中定义，就可以在同一工程中的其他源文件中使用，只不过需要利用关键字extern声明这个全局变量。</li>
+<li>静态全局变量（static修饰的）：具有文件作用域，其他文件不能使用该全局变量，即使另一个文件中定义了与之同名的静态全局变量，也是不同的变量。</li>
+<li>局部变量：具有局部作用域，并不是一直存在，只是在其作用域内存在，出了其作用域就会被回收。</li>
+<li>局部静态变量：具有局部作用域，只初始化一次，到程序运行结束前一直存在，只对定义自己的函数体可见（自己作用域内），出了作用域就不可见。</li>
+</ul>
+<h2 id="pragma-once和-ifndef-define-endif解读"><a href="#pragma-once和-ifndef-define-endif解读" class="headerlink" title="#pragma once和#ifndef #define #endif解读"></a>#pragma once和#ifndef #define #endif解读</h2><h3 id="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。"><a href="#作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。" class="headerlink" title="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。"></a>作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。</h3><h3 id="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"><a href="#头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。" class="headerlink" title="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"></a>头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。</h3><h2 id="三种继承方式"><a href="#三种继承方式" class="headerlink" title="三种继承方式"></a>三种继承方式</h2><p>1.public 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：public, protected, private</p>
+<p>2.protected 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：protected, protected, private</p>
+<p>3.private 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：private, private, private</p>
+<h2 id="public-protected-private访问权限"><a href="#public-protected-private访问权限" class="headerlink" title="public,protected,private访问权限"></a>public,protected,private访问权限</h2><p><img src="/images/lei.png"></p>
+<h2 id="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"><a href="#如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建" class="headerlink" title="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"></a>如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建</h2><h3 id="创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。"><a href="#创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。" class="headerlink" title="创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。"></a>创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。</h3><ol>
+<li>限制对象只能创建在栈上：通过重载new和detele函数为类的私有函数，因为默认的new创建会将对象创建在堆上。</li>
+<li>限制对象只能创建在堆上：将构造和析构置为保护，在类外调用create构造对象（堆上创建），析构置为保护是为了在其派生类中也能访问析构函数。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">protected:</span><br><span class="line">    A() &#123;&#125;</span><br><span class="line">    ~A() &#123;&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    static A *create()</span><br><span class="line">    &#123;</span><br><span class="line">        return new A();</span><br><span class="line">    &#125;</span><br><span class="line">    void destory()</span><br><span class="line">    &#123;</span><br><span class="line">        delete this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
 
