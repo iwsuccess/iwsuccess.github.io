@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="pool函数int poll(struct pollfd *fds, nfds_t nfds, int timeout);  函数说明: 跟select类似, 委托内核监控可读, 可写, 异常事件  函数参数:fds: 一个struct pollfd结构体数组的首地址struct pollfd {  int   fd;    &#x2F;&#x2F;要监控的文件描述符,如果fd为-1, 表示内核不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程3">
+<meta property="og:url" content="http://example.com/2022/05/23/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B3/index.html">
+<meta property="og:site_name" content="一懒众衫小">
+<meta property="og:description" content="pool函数int poll(struct pollfd *fds, nfds_t nfds, int timeout);  函数说明: 跟select类似, 委托内核监控可读, 可写, 异常事件  函数参数:fds: 一个struct pollfd结构体数组的首地址struct pollfd {  int   fd;    &#x2F;&#x2F;要监控的文件描述符,如果fd为-1, 表示内核不">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/epoll.png">
+<meta property="og:image" content="http://example.com/images/epoll_2.png">
+<meta property="og:image" content="http://example.com/images/epoll_3.png">
+<meta property="article:published_time" content="2022-05-23T11:18:38.546Z">
+<meta property="article:modified_time" content="2022-05-26T08:45:30.367Z">
+<meta property="article:author" content="qcc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/epoll.png">
+
+<link rel="canonical" href="http://example.com/2022/05/23/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络编程3 | 一懒众衫小</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+     <a target="_blank" rel="noopener" href="https://iwsuccess.github.io" class="github-corner" aria-label="View source on GitHub">
+	<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+		<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+		<path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+		<path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+	</svg>
+     </a>
+	<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+	</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一懒众衫小</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Freedom On High</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/23/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络编程3
+        </h1>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-23 19:18:38" itemprop="dateCreated datePublished" datetime="2022-05-23T19:18:38+08:00">2022-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-26 16:45:30" itemprop="dateModified" datetime="2022-05-26T16:45:30+08:00">2022-05-26</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="pool函数"><a href="#pool函数" class="headerlink" title="pool函数"></a>pool函数</h2><p>int poll(struct pollfd *fds, nfds_t nfds, int timeout);</p>
+<ul>
+<li><p>函数说明: 跟select类似, 委托内核监控可读, 可写, 异常事件</p>
+</li>
+<li><p>函数参数:<br>fds: 一个struct pollfd结构体数组的首地址<br>struct pollfd {<br>  int   fd;    &#x2F;&#x2F;要监控的文件描述符,如果fd为-1, 表示内核不再监控<br>  short events; &#x2F;&#x2F;输入参数, 表示告诉内核要监控的事件, 读事件, 写事件, 异常事件<br>  short revents;&#x2F;&#x2F;输出参数, 表示内核告诉应用程序有哪些文件描述符有事件发生<br>  };</p>
+</li>
+</ul>
+<p>events&#x2F;revents:<br>POLLIN:可读事件<br>POLLOUT: 可写事件<br>POLLERR: 异常事件</p>
+<p>nfds: 告诉内核监控的范围, 具体是: 数组下标的最大值+1 </p>
+<p>timeout:<br>&#x3D;0: 不阻塞, 立刻返回<br>-1: 表示一直阻塞, 直到有事件发生</p>
+<blockquote>
+<p>0: 表示阻塞时长, 在时长范围内若有事件发生会立刻返回;如果超过了时长也会立刻返回。</p>
+</blockquote>
+<ul>
+<li>函数返回值:<blockquote>
+<p>0: 发生变化的文件描述符的个数<br>&#x3D;0: 没有文件描述符发生变化</p>
+</blockquote>
+</li>
+</ul>
+<p>-1: 表示异常</p>
+<h2 id="poll模型并发服务器"><a href="#poll模型并发服务器" class="headerlink" title="poll模型并发服务器"></a>poll模型并发服务器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br></pre></td><td class="code"><pre><span class="line">//服务器端程序</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;netinet/ip.h&gt; /* superset of previous */</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;	</span><br><span class="line">#include&lt;ctype.h&gt;</span><br><span class="line">#include&quot;wrap.h&quot; //自己实现的已经封装好的函数，含有错误处理</span><br><span class="line">#include &lt;poll.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	//创建socket</span><br><span class="line">	int lfd=Socket(AF_INET,SOCK_STREAM,0);</span><br><span class="line">	</span><br><span class="line">	//设置端口复用，记得在bind之前就设置好端口复用</span><br><span class="line">	int opt = 1;</span><br><span class="line">	setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &amp;opt, sizeof(int));</span><br><span class="line">	</span><br><span class="line">	//绑定</span><br><span class="line">	struct sockaddr_in addr;</span><br><span class="line">	bzero(&amp;addr,sizeof(addr));</span><br><span class="line">	addr.sin_family=AF_INET;</span><br><span class="line">	addr.sin_port=htons(1026);</span><br><span class="line">	addr.sin_addr.s_addr=htonl(INADDR_ANY);</span><br><span class="line">	</span><br><span class="line">	Bind(lfd,(struct sockaddr*)&amp;addr,sizeof(addr));</span><br><span class="line">	</span><br><span class="line">	//监听</span><br><span class="line">	Listen(lfd,128);</span><br><span class="line">	int i;</span><br><span class="line">	</span><br><span class="line">	//定义pollfd的结构体数组</span><br><span class="line">	struct pollfd client[1024];</span><br><span class="line">	for(i=0;i&lt;1024;i++)</span><br><span class="line">		client[i].fd=-1;//-1代表内核不监控</span><br><span class="line">	</span><br><span class="line">	//将监听文件描述符委托内核监控------监控读事件</span><br><span class="line">	client[0].fd=lfd;</span><br><span class="line">	client[0].events=POLLIN;</span><br><span class="line">	</span><br><span class="line">	int maxi=0;//maxi表示内核监控的范围</span><br><span class="line">	int nready;</span><br><span class="line">	char buf[1024];</span><br><span class="line">	int sockfd;</span><br><span class="line">	int n;</span><br><span class="line">	int cfd;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		nready=poll(client,maxi+1,-1);</span><br><span class="line">		if(nready&lt;0)&#123;</span><br><span class="line">			if(errno==EINTR)&#123;</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			perror(&quot;poll error&quot;);</span><br><span class="line">			exit(1);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		//有客户端连接请求到来</span><br><span class="line">		// short events; 输入参数, 表示告诉内核要监控的事件, 读事件, 写事件, 异常事件  </span><br><span class="line">		if(client[0].revents==POLLIN)&#123;</span><br><span class="line">	</span><br><span class="line">			cfd=Accept(lfd,NULL,NULL);</span><br><span class="line">			</span><br><span class="line">			//寻找client数组中的可用位置，找到后加入client数组中，委托内核监控</span><br><span class="line">			for(i=1;i&lt;1024;i++)&#123;</span><br><span class="line">				if(client[i].fd==-1)&#123;</span><br><span class="line">					client[i].fd=cfd;</span><br><span class="line">					client[i].events=POLLIN;</span><br><span class="line">					break;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			if(i==1024)&#123;</span><br><span class="line">				close(cfd);</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			//修改监控范围</span><br><span class="line">			if(maxi&lt;i)</span><br><span class="line">				maxi=i;</span><br><span class="line">			</span><br><span class="line">			if(--nready==0)</span><br><span class="line">				continue;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		//有数据到来,注意0位置是监听文件描述符，通信从1开始</span><br><span class="line">		//遍历文件描述符，找到不为-1的，说明该客户端有数据发来</span><br><span class="line">		for(i=1;i&lt;=maxi;i++)&#123;</span><br><span class="line">			</span><br><span class="line">			if(client[i].fd==-1)</span><br><span class="line">				continue;</span><br><span class="line">			</span><br><span class="line">			//  short revents;输出参数, 表示内核告诉应用程序有哪些文件描述符有事件发生 </span><br><span class="line">			if(client[i].revents==POLLIN)&#123;   </span><br><span class="line">			</span><br><span class="line">				sockfd=client[i].fd;</span><br><span class="line">				memset(buf,0x00,sizeof(buf));</span><br><span class="line">				n=Read(sockfd,buf,sizeof(buf));</span><br><span class="line">				if(n&lt;=0)&#123;</span><br><span class="line">					printf(&quot;read error or client closed,n==[%d]\n&quot;,n);</span><br><span class="line">					close(sockfd);</span><br><span class="line">					client[i].fd=-1;//该位置文件描述符置为-1，表示不在让内核监控，并且下次可再次被分配</span><br><span class="line">				&#125;</span><br><span class="line">				else&#123;</span><br><span class="line">					printf(&quot;read over,n==[%d],buf==[%s]\n&quot;,n,buf);</span><br><span class="line">					write(sockfd,buf,n);</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				if(--nready==0)</span><br><span class="line">					break;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">			</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	close(lfd);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<ul>
+<li><p>当poll函数返回的时候, 结构体当中的fd和events没有发生变化, 究竟有没有事件发生由revents来判断, 所以poll是请求和返回分离.</p>
+</li>
+<li><p>struct pollfd结构体中的fd成员若赋值为-1, 则poll不会监控.</p>
+</li>
+<li><p>相对于select, poll没有本质上的改变; 但是poll可以突破1024的限制.<br>在&#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max查看一个进程可以打开的socket描述符上限.<br>如果需要可以修改配置文件: &#x2F;etc&#x2F;security&#x2F;limits.conf<br>加入如下配置信息, 然后重启终端即可生效.</p>
+</li>
+</ul>
+<ul>
+<li>soft nofile 1024</li>
+<li>hard nofile 100000<br>soft和hard分别表示ulimit命令可以修改的最小限制和最大限制</li>
+</ul>
+<h2 id="epoll模型"><a href="#epoll模型" class="headerlink" title="epoll模型"></a>epoll模型</h2><p>将检测文件描述符的变化委托给内核去处理, 然后内核将发生变化的文件描述符对应的事件返回给应用程序.</p>
+<ul>
+<li>epoll函数<br><img src="/images/epoll.png"></li>
+<li>epoll服务器开发</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line">//服务器端程序</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;netinet/ip.h&gt; /* superset of previous */</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;	</span><br><span class="line">#include&lt;ctype.h&gt;</span><br><span class="line">#include&quot;wrap.h&quot; //自己实现的已经封装好的函数，含有错误处理</span><br><span class="line">#include &lt;sys/epoll.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	//创建socket</span><br><span class="line">	int lfd=Socket(AF_INET,SOCK_STREAM,0);</span><br><span class="line">	</span><br><span class="line">	//设置端口复用，记得在bind之前就设置好端口复用</span><br><span class="line">	int opt = 1;</span><br><span class="line">	setsockopt(lfd, SOL_SOCKET, SO_REUSEADDR, &amp;opt, sizeof(int));</span><br><span class="line">	</span><br><span class="line">	//绑定</span><br><span class="line">	struct sockaddr_in addr;</span><br><span class="line">	bzero(&amp;addr,sizeof(addr));</span><br><span class="line">	addr.sin_family=AF_INET;</span><br><span class="line">	addr.sin_port=htons(1026);</span><br><span class="line">	addr.sin_addr.s_addr=htonl(INADDR_ANY);</span><br><span class="line">	</span><br><span class="line">	Bind(lfd,(struct sockaddr*)&amp;addr,sizeof(addr));</span><br><span class="line">	</span><br><span class="line">	//监听</span><br><span class="line">	Listen(lfd,128);</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	//创建一颗epoll树,传入一个非零数即可</span><br><span class="line">	int epfd=epoll_create(1);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	struct epoll_event ev;</span><br><span class="line">	ev.events=EPOLLIN;//可读事件</span><br><span class="line">	ev.data.fd=lfd;</span><br><span class="line">	//将监听文件描述符上树</span><br><span class="line">	epoll_ctl(epfd,EPOLL_CTL_ADD,lfd,&amp;ev);</span><br><span class="line">	int nready;</span><br><span class="line">	int i;</span><br><span class="line">	struct epoll_event rev[1024];</span><br><span class="line">	int sockfd;</span><br><span class="line">	int cfd;</span><br><span class="line">	char buf[1024];</span><br><span class="line">	int n;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		</span><br><span class="line">		//阻塞等待事件发生</span><br><span class="line">		nready=epoll_wait(epfd,rev,1024,-1);</span><br><span class="line">		if(nready&lt;0)&#123;</span><br><span class="line">			if(errno==EINTR)&#123;//被信号中断</span><br><span class="line">				continue;</span><br><span class="line">			&#125;</span><br><span class="line">			 break;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		for(i=0;i&lt;nready;i++)&#123;</span><br><span class="line">			</span><br><span class="line">			sockfd=rev[i].data.fd;</span><br><span class="line">			</span><br><span class="line">			//客户端连接到来</span><br><span class="line">			if(sockfd==lfd)&#123;</span><br><span class="line">				cfd=Accept(lfd,NULL,NULL);</span><br><span class="line">				</span><br><span class="line">				//上树，委托内核监控</span><br><span class="line">				ev.events=EPOLLIN;</span><br><span class="line">				ev.data.fd=cfd;</span><br><span class="line">				epoll_ctl(epfd,EPOLL_CTL_ADD,cfd,&amp;ev);</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">			else&#123;//客户端发送数据到来</span><br><span class="line">				memset(buf,0x00,sizeof(buf));</span><br><span class="line">				n=Read(sockfd,buf,sizeof(buf));</span><br><span class="line">				</span><br><span class="line">				if(n&lt;=0)&#123;</span><br><span class="line">					close(sockfd);</span><br><span class="line">					epoll_ctl(epfd,EPOLL_CTL_DEL,sockfd,NULL);</span><br><span class="line">					perror(&quot;read over or client closed\n&quot;);</span><br><span class="line">					continue;</span><br><span class="line">				&#125;</span><br><span class="line">				else&#123;</span><br><span class="line">					printf(&quot;client: n==[%d],buf=[%s]\n&quot;,n,buf);</span><br><span class="line">					Write(sockfd,buf,n);</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	close(epfd);</span><br><span class="line">	close(lfd);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>epoll的LT和ET模式:</li>
+</ul>
+<p>1.epoll默认情况下是LT模式, 在这种模式下, 若读数据一次性没有读完,缓冲区中还有可读数据, 则epoll_wait还会再次通知。<br>2.若将epoll设置为ET模式, 若读数据的时候一次性没有读完, 则epoll_wait不再通知,直到下次有新的数据发来。</p>
+<ul>
+<li>思考:</li>
+</ul>
+<p>1.在ET模式下, 如何在epoll_wait返回一次的情况下读完数据?<br>    循环读数据, 直到读完数据, 但是读完数据之后会阻塞.<br>2.紧接问题一，若能够一次性读完还需要设置什么?<br>    将通信文件描述符设置为非阻塞模式。否则，会循环读，最后进程会阻塞在read函数上，使得epoll_wait得不到执行，读不到另一个客户端的数据。</p>
+<h2 id="epoll反应堆"><a href="#epoll反应堆" class="headerlink" title="epoll反应堆"></a>epoll反应堆</h2><ul>
+<li>epoll反应堆的思想: c++的封装思想(把数据和操作封装到一起)<br>  –将描述符,事件,对应的处理方法封装在一起<br>  –当描述符对应的事件发生了, 自动调用处理方法(其实原理就是回调函数)</li>
+</ul>
+<h3 id="epoll反应堆思想，与上面的epoll模型不同之处是，epoll反应堆上树的不仅仅是文件描述符，而是一个结构体，该结构体至少包含：文件描述符，事件，回调函数。"><a href="#epoll反应堆思想，与上面的epoll模型不同之处是，epoll反应堆上树的不仅仅是文件描述符，而是一个结构体，该结构体至少包含：文件描述符，事件，回调函数。" class="headerlink" title="epoll反应堆思想，与上面的epoll模型不同之处是，epoll反应堆上树的不仅仅是文件描述符，而是一个结构体，该结构体至少包含：文件描述符，事件，回调函数。"></a>epoll反应堆思想，与上面的epoll模型不同之处是，epoll反应堆上树的不仅仅是文件描述符，而是一个结构体，该结构体至少包含：文件描述符，事件，回调函数。</h3><p><img src="/images/epoll_2.png"></p>
+<h3 id="epoll反应堆代码分析"><a href="#epoll反应堆代码分析" class="headerlink" title="epoll反应堆代码分析"></a>epoll反应堆代码分析</h3><p><img src="/images/epoll_3.png"></p>
+<h3 id="epoll反应堆代码"><a href="#epoll反应堆代码" class="headerlink" title="epoll反应堆代码"></a>epoll反应堆代码</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br></pre></td><td class="code"><pre><span class="line">// epoll基于非阻塞I/O事件驱动</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;sys/epoll.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;time.h&gt;</span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &quot;wrap.h&quot;</span><br><span class="line"></span><br><span class="line">#define MAX_EVENTS  1024                                    //监听上限数</span><br><span class="line">#define BUFLEN      4096</span><br><span class="line"></span><br><span class="line">void recvdata(int fd, int events, void *arg);</span><br><span class="line">void senddata(int fd, int events, void *arg);</span><br><span class="line"></span><br><span class="line">/* 描述就绪文件描述符相关信息 */</span><br><span class="line">struct myevent_s &#123;</span><br><span class="line">    int fd;                                                 //要监听的文件描述符</span><br><span class="line">    int events;                                             //对应的监听事件</span><br><span class="line">    void *arg;                                              //泛型参数</span><br><span class="line">    void (*call_back)(int fd, int events, void *arg);       //回调函数</span><br><span class="line">    int status;                                             //是否在监听:1-&gt;在红黑树上(监听), 0-&gt;不在(不监听)</span><br><span class="line">    char buf[BUFLEN];</span><br><span class="line">    int len;</span><br><span class="line">    long last_active;                                       //记录每次加入红黑树 g_efd 的时间值</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int g_efd;                                                  //全局变量, 保存epoll_create返回的文件描述符</span><br><span class="line">int g_lfd;													//全局变量, 保存监听的文件描述符</span><br><span class="line">struct myevent_s g_events[MAX_EVENTS+1];                    //自定义结构体类型数组. +1--&gt;listen fd</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*将结构体 myevent_s 成员变量 初始化*/</span><br><span class="line">void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *), void *arg)</span><br><span class="line">&#123;</span><br><span class="line">    ev-&gt;fd = fd;</span><br><span class="line">    ev-&gt;call_back = call_back;</span><br><span class="line">    ev-&gt;events = 0;</span><br><span class="line">    ev-&gt;arg = arg;</span><br><span class="line">    ev-&gt;status = 0;</span><br><span class="line">    //memset(ev-&gt;buf, 0, sizeof(ev-&gt;buf));</span><br><span class="line">    //ev-&gt;len = 0;</span><br><span class="line">    ev-&gt;last_active = time(NULL);    //调用eventset函数的时间 unix时间戳</span><br><span class="line"></span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 向 epoll监听的红黑树 添加一个 文件描述符 */</span><br><span class="line">void eventadd(int efd, int events, struct myevent_s *ev)</span><br><span class="line">&#123;</span><br><span class="line">    struct epoll_event epv = &#123;0, &#123;0&#125;&#125;;</span><br><span class="line">    int op;</span><br><span class="line">    epv.data.ptr = ev;</span><br><span class="line">    epv.events = ev-&gt;events = events;       //EPOLLIN 或 EPOLLOUT</span><br><span class="line"></span><br><span class="line">    if(ev-&gt;status == 1) </span><br><span class="line">	&#123;                                          //已经在红黑树 g_efd 里</span><br><span class="line">        op = EPOLL_CTL_MOD;                    //修改其属性</span><br><span class="line">    &#125; </span><br><span class="line">	else </span><br><span class="line">	&#123;                                //不在红黑树里</span><br><span class="line">        op = EPOLL_CTL_ADD;          //将其加入红黑树 g_efd, 并将status置1</span><br><span class="line">        ev-&gt;status = 1;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (epoll_ctl(efd, op, ev-&gt;fd, &amp;epv) &lt; 0)                       //实际添加/修改</span><br><span class="line">	&#123;</span><br><span class="line">        printf(&quot;event add failed [fd=%d], events[%d]\n&quot;, ev-&gt;fd, events);</span><br><span class="line">	&#125;</span><br><span class="line">    else</span><br><span class="line">	&#123;</span><br><span class="line">        printf(&quot;event add OK [fd=%d], op=%d, events[%0X]\n&quot;, ev-&gt;fd, op, events);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/* 从epoll 监听的 红黑树中删除一个 文件描述符*/</span><br><span class="line"></span><br><span class="line">void eventdel(int efd, struct myevent_s *ev)</span><br><span class="line">&#123;</span><br><span class="line">    struct epoll_event epv = &#123;0, &#123;0&#125;&#125;;</span><br><span class="line"></span><br><span class="line">    if (ev-&gt;status != 1)                                        //不在红黑树上</span><br><span class="line">        return ;</span><br><span class="line"></span><br><span class="line">    epv.data.ptr = ev;</span><br><span class="line">    ev-&gt;status = 0;                                             //修改状态</span><br><span class="line">    epoll_ctl(efd, EPOLL_CTL_DEL, ev-&gt;fd, &amp;epv);                //从红黑树 efd 上将 ev-&gt;fd 摘除</span><br><span class="line"></span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*  当有文件描述符就绪, epoll返回, 调用该函数 与客户端建立链接 */</span><br><span class="line">// 回调函数 - 监听的文件描述符发送读事件时被调用</span><br><span class="line">void acceptconn(int lfd, int events, void *arg)</span><br><span class="line">&#123;</span><br><span class="line">    struct sockaddr_in cin;</span><br><span class="line">    socklen_t len = sizeof(cin);</span><br><span class="line">    int cfd, i;</span><br><span class="line"></span><br><span class="line">    cfd = Accept(lfd, (struct sockaddr *)&amp;cin, &amp;len);</span><br><span class="line"></span><br><span class="line">	//使用do while(0)的目的是为了避免使用goto语句</span><br><span class="line">    do </span><br><span class="line">	&#123;</span><br><span class="line">        for (i = 0; i &lt; MAX_EVENTS; i++)                                //从全局数组g_events中找一个空闲元素</span><br><span class="line">		&#123;</span><br><span class="line">            if (g_events[i].status == 0)                                //类似于select中找值为-1的元素</span><br><span class="line">			&#123;</span><br><span class="line">                break;  //找到第一个能用的                                                //跳出 for</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">        if (i == MAX_EVENTS) </span><br><span class="line">		&#123;</span><br><span class="line">            printf(&quot;%s: max connect limit[%d]\n&quot;, __func__, MAX_EVENTS);</span><br><span class="line">            break;   //避免goto, 跳出do while(0) 不执行后续代码</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">		//将cfd设置为非阻塞</span><br><span class="line">        int flags = 0;</span><br><span class="line">		flags = fcntl(cfd, F_GETFL, 0);</span><br><span class="line">		flags |= O_NONBLOCK;</span><br><span class="line">        if ((flags = fcntl(cfd, F_SETFL, flags)) &lt; 0) </span><br><span class="line">		&#123;</span><br><span class="line">            printf(&quot;%s: fcntl nonblocking failed, %s\n&quot;, __func__, strerror(errno));</span><br><span class="line">            break;//避免goto</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /* 给cfd设置一个 myevent_s 结构体, 回调函数 设置为 recvdata */</span><br><span class="line">        eventset(&amp;g_events[i], cfd, recvdata, &amp;g_events[i]);   </span><br><span class="line"></span><br><span class="line">		//将cfd添加到红黑树g_efd中,监听读事件</span><br><span class="line">        eventadd(g_efd, EPOLLIN, &amp;g_events[i]); </span><br><span class="line"></span><br><span class="line">    &#125;while(0);</span><br><span class="line"></span><br><span class="line">    printf(&quot;new connect [%s:%d][time:%ld], pos[%d]\n&quot;, </span><br><span class="line">            inet_ntoa(cin.sin_addr), ntohs(cin.sin_port), g_events[i].last_active, i);</span><br><span class="line">    return ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 回调函数 - 通信的文件描述符发生读事件时候被调用</span><br><span class="line">void recvdata(int fd, int events, void *arg)</span><br><span class="line">&#123;</span><br><span class="line">    int len;</span><br><span class="line">    struct myevent_s *ev = (struct myevent_s *)arg;</span><br><span class="line"></span><br><span class="line">	//读取客户端发来的数据</span><br><span class="line">	memset(ev-&gt;buf, 0x00, sizeof(ev-&gt;buf));</span><br><span class="line">    len = Read(fd, ev-&gt;buf, sizeof(ev-&gt;buf));//读文件描述符, 数据存入myevent_s成员buf中</span><br><span class="line"></span><br><span class="line">    eventdel(g_efd, ev); //将该节点从红黑树上摘除</span><br><span class="line"></span><br><span class="line">    if (len &gt; 0) 	</span><br><span class="line">	&#123;</span><br><span class="line">        ev-&gt;len = len;</span><br><span class="line">        ev-&gt;buf[len] = &#x27;\0&#x27;;                                //手动添加字符串结束标记</span><br><span class="line">        printf(&quot;C[%d]:%s\n&quot;, fd, ev-&gt;buf);</span><br><span class="line"></span><br><span class="line">        eventset(ev, fd, senddata, ev);                     //设置该 fd 对应的回调函数为 senddata</span><br><span class="line">        eventadd(g_efd, EPOLLOUT, ev);                      //将fd加入红黑树g_efd中,监听其写事件</span><br><span class="line">    &#125; </span><br><span class="line">	else if (len == 0) </span><br><span class="line">	&#123;</span><br><span class="line">        Close(ev-&gt;fd);</span><br><span class="line">        /* ev-g_events 地址相减得到偏移元素位置 */</span><br><span class="line">        printf(&quot;[fd=%d] pos[%ld], closed\n&quot;, fd, ev-g_events);</span><br><span class="line">    &#125; </span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">        Close(ev-&gt;fd);</span><br><span class="line">        printf(&quot;read [fd=%d] error[%d]:%s\n&quot;, fd, errno, strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 回调函数 - 通信的文件描述符发生写事件时候被调用</span><br><span class="line">void senddata(int fd, int events, void *arg)</span><br><span class="line">&#123;</span><br><span class="line">    int len;</span><br><span class="line">    struct myevent_s *ev = (struct myevent_s *)arg;</span><br><span class="line"></span><br><span class="line">	//将小写转换为大写发送给客户端</span><br><span class="line">	int i=0;</span><br><span class="line">	for(i=0; i&lt;ev-&gt;len; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		ev-&gt;buf[i] = toupper(ev-&gt;buf[i]);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//发送数据给客户端</span><br><span class="line">    len = Write(fd, ev-&gt;buf, ev-&gt;len);</span><br><span class="line">    if (len &gt; 0) </span><br><span class="line">	&#123;</span><br><span class="line">        printf(&quot;send[fd=%d]--&gt;[%d]:[%s]\n&quot;, fd, len, ev-&gt;buf);</span><br><span class="line">        eventdel(g_efd, ev);                                //从红黑树g_efd中移除</span><br><span class="line">        eventset(ev, fd, recvdata, ev);                     //将该fd的 回调函数改为 recvdata</span><br><span class="line">        eventadd(g_efd, EPOLLIN, ev);                       //从新添加到红黑树上， 设为监听读事件</span><br><span class="line">    &#125; </span><br><span class="line">	else </span><br><span class="line">	&#123;</span><br><span class="line">        Close(ev-&gt;fd);                                      //关闭链接</span><br><span class="line">        eventdel(g_efd, ev);                                //从红黑树g_efd中移除</span><br><span class="line">        printf(&quot;send[fd=%d] error %s\n&quot;, fd, strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*创建 socket, 初始化lfd */</span><br><span class="line"></span><br><span class="line">void initlistensocket()</span><br><span class="line">&#123;</span><br><span class="line">	//创建socket</span><br><span class="line">    g_lfd = Socket(AF_INET, SOCK_STREAM, 0);</span><br><span class="line"></span><br><span class="line">	//对事件结构体赋值</span><br><span class="line">    /* void eventset(struct myevent_s *ev, int fd, void (*call_back)(int, int, void *), void *arg);  */</span><br><span class="line">    eventset(&amp;g_events[MAX_EVENTS], g_lfd, acceptconn, &amp;g_events[MAX_EVENTS]);//仅仅是对g_events[MAX_EVENTS]进行设置</span><br><span class="line"></span><br><span class="line">	//将监听文件描述符（此时是结构体！）上树</span><br><span class="line">    eventadd(g_efd, EPOLLIN, &amp;g_events[MAX_EVENTS]);</span><br><span class="line"></span><br><span class="line">	//绑定</span><br><span class="line">    struct sockaddr_in servaddr;</span><br><span class="line">	memset(&amp;servaddr, 0, sizeof(servaddr));</span><br><span class="line">	servaddr.sin_family = AF_INET;</span><br><span class="line">	servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">	servaddr.sin_port = htons(8888);</span><br><span class="line">	Bind(g_lfd, (struct sockaddr *)&amp;servaddr, sizeof(servaddr));</span><br><span class="line"></span><br><span class="line">	Listen(g_lfd, 20);</span><br><span class="line"></span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    g_efd = epoll_create(MAX_EVENTS+1);                 //创建红黑树,返回给全局 g_efd </span><br><span class="line">	if(g_efd&lt;0)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;create epoll error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//socket-bind-listen-将监听文件描述符上树</span><br><span class="line">    initlistensocket();</span><br><span class="line"></span><br><span class="line">    struct epoll_event events[MAX_EVENTS+1];            //保存已经满足就绪事件的文件描述符数组 </span><br><span class="line"></span><br><span class="line">    int checkpos = 0, i;</span><br><span class="line">    while (1) </span><br><span class="line">	&#123;</span><br><span class="line">        /* 超时验证，每次测试100个链接，不测试listenfd 当客户端60秒内没有和服务器通信，则关闭此客户端链接 */</span><br><span class="line">        long now = time(NULL);                          //当前时间</span><br><span class="line">		//一次循环检测100个。 使用checkpos控制检测对象</span><br><span class="line">        for (i = 0; i &lt; 100; i++, checkpos++) </span><br><span class="line">		&#123;</span><br><span class="line">            if (checkpos == MAX_EVENTS)</span><br><span class="line">			&#123;</span><br><span class="line">                checkpos = 0;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">            if (g_events[checkpos].status != 1)         //不在红黑树 g_efd 上</span><br><span class="line">			&#123;</span><br><span class="line">                continue;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">            long duration = now - g_events[checkpos].last_active;       //客户端不活跃的世间</span><br><span class="line"></span><br><span class="line">            if (duration &gt;= 60) </span><br><span class="line">			&#123;</span><br><span class="line">                Close(g_events[checkpos].fd);                           //关闭与该客户端链接</span><br><span class="line">                printf(&quot;[fd=%d] timeout\n&quot;, g_events[checkpos].fd);</span><br><span class="line">                eventdel(g_efd, &amp;g_events[checkpos]);                   //将该客户端 从红黑树 g_efd移除</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /*监听红黑树g_efd, 将满足的事件的文件描述符加至events数组中, 1秒没有事件满足, 返回 0*/</span><br><span class="line">        int nfd = epoll_wait(g_efd, events, MAX_EVENTS+1, 1000);</span><br><span class="line">        if (nfd &lt; 0) </span><br><span class="line">		&#123;</span><br><span class="line">            printf(&quot;epoll_wait error, exit\n&quot;);</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        for (i = 0; i &lt; nfd; i++) </span><br><span class="line">		&#123;</span><br><span class="line">            /*使用自定义结构体myevent_s类型指针,接收联合体data的void *ptr成员*/</span><br><span class="line">            struct myevent_s *ev = (struct myevent_s *)events[i].data.ptr;  </span><br><span class="line"></span><br><span class="line">			//读就绪事件</span><br><span class="line">            if ((events[i].events &amp; EPOLLIN) &amp;&amp; (ev-&gt;events &amp; EPOLLIN)) </span><br><span class="line">			&#123;</span><br><span class="line">                //ev-&gt;call_back(ev-&gt;fd, events[i].events, ev-&gt;arg);</span><br><span class="line">                ev-&gt;call_back(ev-&gt;fd, events[i].events, ev);</span><br><span class="line">            &#125;</span><br><span class="line">			//写就绪事件</span><br><span class="line">            if ((events[i].events &amp; EPOLLOUT) &amp;&amp; (ev-&gt;events &amp; EPOLLOUT))</span><br><span class="line">			&#123;</span><br><span class="line">                //ev-&gt;call_back(ev-&gt;fd, events[i].events, ev-&gt;arg);</span><br><span class="line">                ev-&gt;call_back(ev-&gt;fd, events[i].events, ev);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /*关闭文件描述符 */</span><br><span class="line">	Close(g_efd);</span><br><span class="line">	Close(g_lfd);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="LT-EL-阻塞IO-非阻塞IO"><a href="#LT-EL-阻塞IO-非阻塞IO" class="headerlink" title="LT,EL,阻塞IO,非阻塞IO"></a>LT,EL,阻塞IO,非阻塞IO</h2><ul>
+<li><p>LT（水平触发）：在epoll模型中，当一次行没有把数据读完（读写缓冲区小），那么下次调用epoll_wait，就还会通知你继续在该cfd上继续读。，如果一直不去读写，那么它会一直通知。主要问题在：如果系统中存在大量目前不需要读写的文件描述符时，而他们每次都被内核通知，会大大降低检索自己关注的文件描述符的效率，会导致整体效率下降。</p>
+</li>
+<li><p>ET（边缘触发）：在epoll模型中，当一次行没有把数据读完（读写缓冲区小），那么下次调用epoll_wait，就不会通知你，直到该cfd上再次出现读写事件时，才会通知。这种模式比水平触发效率高，系统不会充斥大量你不关心的就绪文件描述符！！</p>
+</li>
+<li><p>阻塞IO：当你去读一个阻塞的文件描述符时，如果在该文件描述符上没有数据可读，那么它会一直阻塞(通俗一点就是一直卡在调用函数那里)，直到有数据可读。当你去写一个阻塞的文件描述符时，如果在该文件描述符上没有空间(通常是缓冲区)可写，那么它会一直阻塞，直到有空间可写。以上的读和写我们统一指在某个文件描述符进行的操作，不单单指真正的读数据，写数据，还包括接收连接accept()，发起连接connect()等操作…</p>
+</li>
+<li><p>非阻塞IO：当你去读写一个非阻塞的文件描述符时，不管可不可以读写，它都会立即返回，返回成功说明读写操作完成了，返回失败会设置相应errno状态码，根据这个errno可以进一步执行其他处理。它不会像阻塞IO那样，卡在那里不动！！！</p>
+</li>
+<li><p>总结：<br>（1）边缘触发+非阻塞IO，使用边缘触发必须配合非阻塞IO，<br>因为当使用边缘触发时，需要循环读（不循环读的话，如果本次数据没读完，epoll也不会通知，会导致本次数据和下次数据混合在一起，形成粘包），当循环读时，若时阻塞IO方式，如果数据量大，一次没有读完，当最后一次读完数据后，程序就会阻塞在Read函数上，无法回到epoll_wait，会对其他客户端的连接和收发数据造成影响，降低并发性。<br>如果是非阻塞IO+while循环，当读取完数据后，recv会立即返回-1，并将errno设置为EAGAIN或EWOULDBLOCK,这就表示数据已经读取完成，已经没有数据了，可以退出循环了。这样就不会像阻塞IO一样卡在那里，这就减少了不必要的等待时间，性能自然更高.</p>
+</li>
+</ul>
+<p>（2）水平触发+非阻塞IO&#x2F;阻塞IO<br>因为epoll只要缓冲区有数据，水平触发下的epoll每次都会通知读写，如果本次没有读完，下次通知继续读，直到没数据时，就不会通知，所以不会阻塞。（主要和边缘触发+非阻塞IO区别在于循环读上，因为设置循环读后，就需要考虑读完阻塞的情况！）</p>
+<h3 id="一般epoll模型使用边缘触发-非阻塞IO"><a href="#一般epoll模型使用边缘触发-非阻塞IO" class="headerlink" title="一般epoll模型使用边缘触发+非阻塞IO"></a>一般epoll模型使用边缘触发+非阻塞IO</h3>
+    </div>
+
+    
+    
+    
+    
+   <div>
+     <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+   </div>
+   
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>qcc
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/05/23/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B3/" title="网络编程3">http://example.com/2022/05/23/网络编程3/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/19/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B2/" rel="prev" title="网络编程2">
+      <i class="fa fa-chevron-left"></i> 网络编程2
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/26/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B4/" rel="next" title="网络编程4">
+      网络编程4 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81NTg1MC8zMjMxNA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#pool%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">pool函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#poll%E6%A8%A1%E5%9E%8B%E5%B9%B6%E5%8F%91%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">poll模型并发服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">epoll模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#epoll%E5%8F%8D%E5%BA%94%E5%A0%86"><span class="nav-number">4.</span> <span class="nav-text">epoll反应堆</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E5%8F%8D%E5%BA%94%E5%A0%86%E6%80%9D%E6%83%B3%EF%BC%8C%E4%B8%8E%E4%B8%8A%E9%9D%A2%E7%9A%84epoll%E6%A8%A1%E5%9E%8B%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84%E6%98%AF%EF%BC%8Cepoll%E5%8F%8D%E5%BA%94%E5%A0%86%E4%B8%8A%E6%A0%91%E7%9A%84%E4%B8%8D%E4%BB%85%E4%BB%85%E6%98%AF%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%8C%E8%80%8C%E6%98%AF%E4%B8%80%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8C%E8%AF%A5%E7%BB%93%E6%9E%84%E4%BD%93%E8%87%B3%E5%B0%91%E5%8C%85%E5%90%AB%EF%BC%9A%E6%96%87%E4%BB%B6%E6%8F%8F%E8%BF%B0%E7%AC%A6%EF%BC%8C%E4%BA%8B%E4%BB%B6%EF%BC%8C%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E3%80%82"><span class="nav-number">4.1.</span> <span class="nav-text">epoll反应堆思想，与上面的epoll模型不同之处是，epoll反应堆上树的不仅仅是文件描述符，而是一个结构体，该结构体至少包含：文件描述符，事件，回调函数。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E5%8F%8D%E5%BA%94%E5%A0%86%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">4.2.</span> <span class="nav-text">epoll反应堆代码分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll%E5%8F%8D%E5%BA%94%E5%A0%86%E4%BB%A3%E7%A0%81"><span class="nav-number">4.3.</span> <span class="nav-text">epoll反应堆代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LT-EL-%E9%98%BB%E5%A1%9EIO-%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="nav-number">5.</span> <span class="nav-text">LT,EL,阻塞IO,非阻塞IO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%88%ACepoll%E6%A8%A1%E5%9E%8B%E4%BD%BF%E7%94%A8%E8%BE%B9%E7%BC%98%E8%A7%A6%E5%8F%91-%E9%9D%9E%E9%98%BB%E5%A1%9EIO"><span class="nav-number">5.1.</span> <span class="nav-text">一般epoll模型使用边缘触发+非阻塞IO</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="qcc"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">qcc</p>
+  <div class="site-description" itemprop="description">努力变强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iwsuccess" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iwsuccess" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2274259107@qq.com" title="E-Mail → mailto:2274259107@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      链接网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/u/mou-gai/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;u&#x2F;mou-gai&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2022-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qcc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共39.7k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

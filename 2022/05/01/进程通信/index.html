@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="#进程间通信（IPC：interprocess communication）的概念进程都有自己独立的地址空间，不能通过全局变量进行通信，要想进行通信，必须通过内核！一个进行将数据写到内核缓冲区，另一个进程将数据读走。  现在常用的进程间的通信方式有：（1）管道（使用最简单）（2）信号（开销最小）（3）共享映射区（无血缘关系）（4）本地套接字（最稳定）  管道–pipe管道是一种最基本的IPC机制，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程通信">
+<meta property="og:url" content="http://example.com/2022/05/01/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/index.html">
+<meta property="og:site_name" content="一懒众衫小">
+<meta property="og:description" content="#进程间通信（IPC：interprocess communication）的概念进程都有自己独立的地址空间，不能通过全局变量进行通信，要想进行通信，必须通过内核！一个进行将数据写到内核缓冲区，另一个进程将数据读走。  现在常用的进程间的通信方式有：（1）管道（使用最简单）（2）信号（开销最小）（3）共享映射区（无血缘关系）（4）本地套接字（最稳定）  管道–pipe管道是一种最基本的IPC机制，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/ps_aux.png">
+<meta property="og:image" content="http://example.com/images/fifo.png">
+<meta property="og:image" content="http://example.com/images/mmap.png">
+<meta property="og:image" content="http://example.com/images/mmap.png">
+<meta property="og:image" content="http://example.com/images/sigset.png">
+<meta property="og:image" content="http://example.com/images/signal_process.png">
+<meta property="article:published_time" content="2022-05-01T10:09:32.553Z">
+<meta property="article:modified_time" content="2022-05-03T11:21:09.869Z">
+<meta property="article:author" content="qcc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/ps_aux.png">
+
+<link rel="canonical" href="http://example.com/2022/05/01/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>进程通信 | 一懒众衫小</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+     <a target="_blank" rel="noopener" href="https://iwsuccess.github.io" class="github-corner" aria-label="View source on GitHub">
+	<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+		<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+		<path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+		<path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+	</svg>
+     </a>
+	<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+	</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一懒众衫小</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Freedom On High</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/01/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          进程通信
+        </h1>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-01 18:09:32" itemprop="dateCreated datePublished" datetime="2022-05-01T18:09:32+08:00">2022-05-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-03 19:21:09" itemprop="dateModified" datetime="2022-05-03T19:21:09+08:00">2022-05-03</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>#进程间通信（IPC：interprocess communication）的概念<br>进程都有自己独立的地址空间，不能通过全局变量进行通信，要想进行通信，必须通过内核！<br>一个进行将数据写到内核缓冲区，另一个进程将数据读走。</p>
+<ul>
+<li>现在常用的进程间的通信方式有：<br>（1）管道（使用最简单）<br>（2）信号（开销最小）<br>（3）共享映射区（无血缘关系）<br>（4）本地套接字（最稳定）</li>
+</ul>
+<h2 id="管道–pipe"><a href="#管道–pipe" class="headerlink" title="管道–pipe"></a>管道–pipe</h2><p>管道是一种最基本的IPC机制，应用于有血缘关系的进程之间，完成数据传递。<br>（1）管道的本质是一块内核缓冲区<br>（2）由两个文件描述符引用，一个表示读端，一个表示写端。<br>（3）规定数据从管道的写端流入管道，从读端流出。<br>（4）当两个进程都终结的时候，管道也自动消失。<br>（5）管道的读端和写端默认都是阻塞的.</p>
+<ul>
+<li>管道的原理<br>（1）实质是内核缓冲区，内部实现是循环队列<br>（2）默认缓冲区大小为4k，使用ulimit -a查看<br>（3）实际操作过程中的缓冲区会根据数据压力做适当调整</li>
+<li>管道的局限性<br>（1）数据一旦被读走，便不在管道中存在，不可反复读取。<br>（2）数据只能在一个方向上流动，若要实现双向流动，必须使用两个管道<br>（3）只能在有血缘关系的进程间使用管道。</li>
+</ul>
+<h2 id="补充知识：指针类型的变量，是来存放地址的，那么它当然等于计算机内部地址总线的宽度。所以在32位计算机中，一个指针变量的返回值必定是4（注意结果是以字节为单位，在64位系统中指针变量的sizeof结果为8。"><a href="#补充知识：指针类型的变量，是来存放地址的，那么它当然等于计算机内部地址总线的宽度。所以在32位计算机中，一个指针变量的返回值必定是4（注意结果是以字节为单位，在64位系统中指针变量的sizeof结果为8。" class="headerlink" title="补充知识：指针类型的变量，是来存放地址的，那么它当然等于计算机内部地址总线的宽度。所以在32位计算机中，一个指针变量的返回值必定是4（注意结果是以字节为单位，在64位系统中指针变量的sizeof结果为8。"></a>补充知识：指针类型的变量，是来存放地址的，那么它当然等于计算机内部地址总线的宽度。所以在32位计算机中，一个指针变量的返回值必定是4（注意结果是以字节为单位，在64位系统中指针变量的sizeof结果为8。</h2><h2 id="pipe用于父子进程间的通信过程"><a href="#pipe用于父子进程间的通信过程" class="headerlink" title="pipe用于父子进程间的通信过程"></a>pipe用于父子进程间的通信过程</h2><p>(1)父进程创建pipe<br>(2)父进程调用fork函数创建子进程<br>(3)父进程关闭一端（读&#x2F;写），子进程关闭另一端（写&#x2F;读）。<br>(4)父子进程分别执行read和write函数<br>注意：如果都要读&#x2F;写，则需要创建两个pipe!!!</p>
+<h2 id="ps-aux-grep-bash的实现原理-pipe的应用"><a href="#ps-aux-grep-bash的实现原理-pipe的应用" class="headerlink" title="ps aux|grep bash的实现原理(pipe的应用)"></a>ps aux|grep bash的实现原理(pipe的应用)</h2><p><img src="/images/ps_aux.png"></p>
+<ul>
+<li>父子通信</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	int fd[2];</span><br><span class="line">	int ret=pipe(fd);</span><br><span class="line">	if(ret==-1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;pipe error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	pid_t pid=fork();</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	if(pid&gt;0)&#123;</span><br><span class="line">		close(fd[0]);//关闭读</span><br><span class="line">		int res=dup2(fd[1],STDOUT_FILENO);//标准输出重定向</span><br><span class="line">		if(res==-1)&#123;</span><br><span class="line">			perror(&quot;dup2 error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		execlp(&quot;ps&quot;,&quot;ps&quot;,&quot;aux&quot;,NULL);//拉起一个应用程序，直接替换代码段，成功执行后，该语句后面的不会执行。</span><br><span class="line">		perror(&quot;execlp error&quot;);</span><br><span class="line">		wait(NULL);//阻塞回收子进程，当execlp执行失败，则会执行</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	else if(pid==0)&#123;</span><br><span class="line">		close(fd[1]);//关闭写</span><br><span class="line">		int re=dup2(fd[0],STDIN_FILENO);</span><br><span class="line">		if(re==-1)&#123;</span><br><span class="line">			perror(&quot;dup2 error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		execlp(&quot;grep&quot;,&quot;grep&quot;,&quot;--color=auto&quot;,&quot;bash&quot;,NULL);</span><br><span class="line">		perror(&quot;execlp error&quot;);</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>兄弟通信</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	int fd[2];</span><br><span class="line">	int ret=pipe(fd);</span><br><span class="line">	if(ret==-1)</span><br><span class="line">	&#123;</span><br><span class="line">		perror(&quot;pipe error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	int i;</span><br><span class="line">	for(i=0;i&lt;2;i++)&#123;</span><br><span class="line">		pid_t pid=fork();	</span><br><span class="line">		if(pid&lt;0)&#123;</span><br><span class="line">			perror(&quot;fork error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		else if(pid&gt;0)&#123;</span><br><span class="line">			continue;</span><br><span class="line">		&#125;</span><br><span class="line">		else if(pid==0)&#123;</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	if(i==2)&#123;</span><br><span class="line">		close(fd[0]);//父进程关闭读写，只用于回收子进程</span><br><span class="line">		close(fd[1]);</span><br><span class="line">		while(1)&#123;</span><br><span class="line">			pid_t wpid=waitpid(-1,NULL,WNOHANG);</span><br><span class="line">			if(wpid==0)</span><br><span class="line">				continue;</span><br><span class="line">			else if(wpid==-1)//无子进程了，退出</span><br><span class="line">				exit(0);</span><br><span class="line">			else if(wpid&gt;0)&#123;</span><br><span class="line">				printf(&quot;recover child pid=[%d]\n&quot;,wpid);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	if(i==0)&#123;</span><br><span class="line">		printf(&quot;child 1,pid=[%d],ppid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">		close(fd[0]);</span><br><span class="line">		int ret=dup2(fd[1],STDOUT_FILENO);</span><br><span class="line">		if(ret==-1)&#123;</span><br><span class="line">			perror(&quot;dup2 error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		execlp(&quot;ps&quot;,&quot;ps&quot;,&quot;aux&quot;,NULL);</span><br><span class="line">		perror(&quot;execlp error&quot;);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	if(i==1)&#123;</span><br><span class="line">		printf(&quot;child 2,pid=[%d],ppid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">		close(fd[1]);</span><br><span class="line">		int res=dup2(fd[0],STDIN_FILENO);</span><br><span class="line">		if(res==-1)&#123;</span><br><span class="line">			perror(&quot;dup2 error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		execlp(&quot;grep&quot;,&quot;grep&quot;,&quot;bash&quot;,NULL);</span><br><span class="line">		perror(&quot;execlp error&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>#FIFO</p>
+<ul>
+<li><p>FIFO常被称为命名管道，以区分管道(pipe)。管道(pipe)只能用于“有血缘关系”的进程间通信。但通过FIFO，不相关的进程也能交换数据.</p>
+</li>
+<li><p>fifo进程通信原理<br><img src="/images/fifo.png"></p>
+</li>
+<li><p>fifo完成两个进程间的通信思路<br>进程A：<br>（1）创建一个fifo文件：mkfifo命令或者使用mkfifo函数。<br>（2）open fifo文件，获得一个文件描述符。<br>（3）写fifo文件<br>（4）关闭fifo文件<br>进程B：<br>（1）打开fifo文件，获得文件描述符。<br>（2）读fifo文件<br>（3）关闭fifo文件</p>
+</li>
+<li><p>注意：使用open打开FIFO文件</p>
+</li>
+</ul>
+<p>1.FIFO命名管道不能以O_RDWR的模式打开，会产生二义性。（通常使用FIFO只是为了单向传递数据）</p>
+<p>2.如果确定需要程序之间双向传递数据。<br>①最好使用一对FIFO或者管道，一个方向使用一个！！！<br>②采用先关闭再重新打开FIFO的方法来明确地改变数据流的去向（不常用）。</p>
+<h3 id="只写阻塞方式打开fifo文件，在写入数据时，若没有进程在另一端读，则阻塞，直至有进程读。"><a href="#只写阻塞方式打开fifo文件，在写入数据时，若没有进程在另一端读，则阻塞，直至有进程读。" class="headerlink" title="只写阻塞方式打开fifo文件，在写入数据时，若没有进程在另一端读，则阻塞，直至有进程读。"></a>只写阻塞方式打开fifo文件，在写入数据时，若没有进程在另一端读，则阻塞，直至有进程读。</h3><p>通过两个fifo文件，实现两个进程之间的相互读写（阻塞方式）。</p>
+<ul>
+<li>进程A：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">//fifo完成进程间通信的测试</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;sys/stat.h&gt;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">		//创建fifo文件</span><br><span class="line">	int res=access(&quot;./myfifo_2&quot;,F_OK);//测试文件是否存在,返回0存在</span><br><span class="line">	if(res!=0)&#123;</span><br><span class="line">		int ret=mkfifo(&quot;./myfifo_2&quot;,0777);</span><br><span class="line">		if(ret==-1)&#123;</span><br><span class="line">			perror(&quot;mkfifo error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int fd1=open(&quot;./myfifo&quot;,O_RDONLY);</span><br><span class="line">	int fd2=open(&quot;./myfifo_2&quot;,O_WRONLY);</span><br><span class="line">	if(fd1&lt;0||fd2&lt;0)&#123;</span><br><span class="line">		perror(&quot;open error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//读myfifo文件</span><br><span class="line">	char buf[256];</span><br><span class="line">	memset(buf,0x00,sizeof(buf));</span><br><span class="line">	int len=read(fd1,buf,sizeof(buf));</span><br><span class="line">	printf(&quot;len=[%d],buf=[%s]\n&quot;,len,buf);</span><br><span class="line">	close(fd1);</span><br><span class="line">	//写myfifo_2文件</span><br><span class="line">	write(fd2,&quot;ni hao&quot;,sizeof(&quot;ni hao&quot;));</span><br><span class="line">	close(fd2);</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>进程B</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">//fifo完成进程间通信的测试</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;sys/stat.h&gt;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//创建fifo文件</span><br><span class="line">	int res=access(&quot;./myfifo&quot;,F_OK);//测试文件是否存在,返回0存在</span><br><span class="line">	if(res!=0)&#123;</span><br><span class="line">		int ret=mkfifo(&quot;./myfifo&quot;,0777);</span><br><span class="line">		if(ret==-1)&#123;</span><br><span class="line">			perror(&quot;mkfifo error&quot;);</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	int fd1=open(&quot;./myfifo&quot;,O_WRONLY);</span><br><span class="line">	int fd2=open(&quot;./myfifo_2&quot;,O_RDONLY);</span><br><span class="line">	if(fd1&lt;0||fd2&lt;0)&#123;</span><br><span class="line">		perror(&quot;open error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//写myfifo文件</span><br><span class="line">	write(fd1,&quot;hello world&quot;,strlen(&quot;hello world&quot;));</span><br><span class="line">	close(fd1);</span><br><span class="line">	</span><br><span class="line">	//读myfifo_2文件</span><br><span class="line">	char buf[256];</span><br><span class="line">	memset(buf,0x00,sizeof(buf));</span><br><span class="line">	int len=read(fd2,buf,sizeof(buf));</span><br><span class="line">	printf(&quot;len=[%d],buf=[%s]\n&quot;,len,buf);</span><br><span class="line">	close(fd2);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="共享映射区"><a href="#共享映射区" class="headerlink" title="共享映射区"></a>共享映射区</h1><ul>
+<li><p>存储映射I&#x2F;O (Memory-mapped I&#x2F;O) 使一个磁盘文件与存储空间中的一个缓冲区相映射。从缓冲区中取数据，就相当于读文件中的相应字节；将数据写入缓冲区，则会将数据写入文件。这样，就可在不使用read和write函数的情况下，使用地址（指针）完成I&#x2F;O操作<br><img src="/images/mmap.png"></p>
+</li>
+<li><p>函数原型：<br>void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);<br>参数：<br>addr:一般传NULL,表示让内核去指定一个内存的起始地址<br>length:文件大小（lseek或者stat函数获取）<br>prot:PROT_READ;PROT_WRITE;PROT_READ|PROT_WRITE<br>flags:<br>MAP_SHARED:对映射区的修改会反映到文件中（可以对文件进行修改).<br>MAP_PRIVATE:可以读文件中的数据，但是写不进去数据，即使向内存中也写不进去数据。<br>fd:打开的文件描述符<br>offset:从文件的哪个位置开始映射，一般为0.<br>返回值：映射区的首地址。</p>
+</li>
+<li><p>实现父子进程之间的通信</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">//利用mmap函数完成父子进程间通信</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;errno.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;sys/mman.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//使用mmap函数建立共享映射区</span><br><span class="line">	//void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);</span><br><span class="line">	int fd=open(&quot;./test.log&quot;,O_RDWR);</span><br><span class="line">	if(fd&lt;0)&#123;</span><br><span class="line">		perror(&quot;open error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	int len=lseek(fd,0,SEEK_END);//获取文件大小</span><br><span class="line"></span><br><span class="line">	//void *addr=mmap(NULL,len,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);</span><br><span class="line">	void *addr=mmap(NULL,len,PROT_READ|PROT_WRITE,MAP_PRIVATE,fd,0);</span><br><span class="line">	if(addr==MAP_FAILED)&#123;</span><br><span class="line">		perror(&quot;mmap error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	pid_t pid=fork();</span><br><span class="line">	if(pid&lt;0)&#123;</span><br><span class="line">		perror(&quot;fork error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	else if(pid&gt;0)&#123;</span><br><span class="line">		memcpy(addr,&quot;hello world&quot;,strlen(&quot;hello world&quot;));//设置为MAP_PRIVATE,向内存中写不进去数据</span><br><span class="line">		wait(NULL);</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	else if(pid==0)&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">		char *p=(char *)addr;//可以读文件中的数据</span><br><span class="line">		printf(&quot;[%s]\n&quot;,p);</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现无血缘关系的进程之间的通信</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">//利用mmap函数完成进程间通信(write)</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;errno.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;sys/mman.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//使用mmap函数建立共享映射区</span><br><span class="line">	//void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);</span><br><span class="line">	int fd=open(&quot;./test.log&quot;,O_RDWR);</span><br><span class="line">	if(fd&lt;0)&#123;</span><br><span class="line">		perror(&quot;open error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	int len=lseek(fd,0,SEEK_END);//获取文件大小</span><br><span class="line"></span><br><span class="line">	void *addr=mmap(NULL,len,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);</span><br><span class="line">	</span><br><span class="line">	if(addr==MAP_FAILED)&#123;</span><br><span class="line">		perror(&quot;mmap error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	memcpy(addr,&quot;0123456789&quot;,10);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">//利用mmap函数完成进程间通信(read)</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;errno.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;sys/mman.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;fcntl.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//使用mmap函数建立共享映射区</span><br><span class="line">	//void *mmap(void *addr, size_t length, int prot, int flags,int fd, off_t offset);</span><br><span class="line">	int fd=open(&quot;./test.log&quot;,O_RDWR);</span><br><span class="line">	if(fd&lt;0)&#123;</span><br><span class="line">		perror(&quot;open error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	int len=lseek(fd,0,SEEK_END);//获取文件大小</span><br><span class="line"></span><br><span class="line">	void *addr=mmap(NULL,len,PROT_READ|PROT_WRITE,MAP_SHARED,fd,0);</span><br><span class="line">	</span><br><span class="line">	if(addr==MAP_FAILED)&#123;</span><br><span class="line">		perror(&quot;mmap error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	char buf[64];</span><br><span class="line">	memset(buf,0x00,sizeof(buf));</span><br><span class="line">	memcpy(buf,addr,10);</span><br><span class="line">	printf(&quot;buf=[%s]\n&quot;,buf);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li>使用mmap函数建立匿名映射(只能用与有血缘关系的进程)：<br>mmap(NULL, 4096, PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);</li>
+</ul>
+<h1 id="信号"><a href="#信号" class="headerlink" title="信号"></a>信号</h1><ul>
+<li><p>每个进程收到的所有信号，都是由内核负责发送的。<br>进程A给进程B发送信号原理示意图：<br><img src="/images/mmap.png"></p>
+</li>
+<li><p>signal函数使用</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">void sighandler(int signo)&#123;</span><br><span class="line">	</span><br><span class="line">	printf(&quot;signo=[%d]\n&quot;,signo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	int fd[2];</span><br><span class="line">	int ret=pipe(fd);</span><br><span class="line">	if(ret&lt;0)&#123;</span><br><span class="line">		perror(&quot;pipe error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//注册信号处理函数，当触发SIGPIPE信号时，内核就会回调用户定义好的回调函数，执行回调函数的内容</span><br><span class="line">	signal(SIGPIPE,sighandler);</span><br><span class="line">	</span><br><span class="line">	close(fd[0]);//关闭读端</span><br><span class="line">	write(fd[1],&quot;1213&quot;,strlen(&quot;1213&quot;));//往管道里写数据，因为没有读端，系统会发送一个SIGPIPE信号</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>信号的特点：简单，不挟带大量信息，满足某个特定条件产生</p>
+</li>
+<li><p>信号的产生: 按键（Ctrl+c、Ctrl+z、Ctrl+\）；系统调用。。。</p>
+</li>
+<li><p>信号的状态: 产生，未决，递达</p>
+</li>
+<li><p>信号的四要素：<br>信号的编号<br>信号的名字<br>信号的默认处理动作<br>信号是如何产生的（产生原因）</p>
+</li>
+<li><p>signal函数: 给内核注册信号处理函数</p>
+</li>
+<li><p>kill: 发送指定信号给指定进程<br>kill函数原型：int kill(pid_t pid, int sig);<br>函数返回值：<br>成功：0；<br>失败：-1，设置errno</p>
+</li>
+</ul>
+<h3 id="特别需要注意的是：The-signals-SIGKILL-and-SIGSTOP-cannot-be-caught-blocked-or-ignored"><a href="#特别需要注意的是：The-signals-SIGKILL-and-SIGSTOP-cannot-be-caught-blocked-or-ignored" class="headerlink" title="特别需要注意的是：The signals SIGKILL and SIGSTOP cannot be caught, blocked, or ignored."></a>特别需要注意的是：The signals SIGKILL and SIGSTOP cannot be caught, blocked, or ignored.</h3><h3 id="几个常用到的信号"><a href="#几个常用到的信号" class="headerlink" title="几个常用到的信号"></a>几个常用到的信号</h3><p>SIGINT、SIGQUIT、SIGKILL、SIGSEGV、SIGUSR1、SIGUSR2、SIGPIPE、SIGALRM、SIGTERM、SIGCHLD、SIGSTOP、SIGCONT</p>
+<ul>
+<li><p>alarm:<br>  1 每一个进程都只有一个时钟，后一个的时钟设置会覆盖上一个时钟！！！<br>  2 alarm函数的返回值: 0 或者是上一个alarm剩余的秒数<br>  3 alarm(0): 取消定时器<br>  4 alarm函数发送的是SIGALRM信号，作用是term，终止进程.</p>
+</li>
+<li><p>使用time命令查看程序执行的时间。程序运行的瓶颈在于IO，优化程序，首选优化IO。</p>
+</li>
+<li><p>实际执行时间 &#x3D; 系统时间 + 用户时间 + 损耗时间<br>损耗的时间主要来来自文件IO操作，IO操作会有用户区到内核区的切换，切换的次数越多越耗时。</p>
+</li>
+</ul>
+<h2 id="闹钟"><a href="#闹钟" class="headerlink" title="闹钟"></a>闹钟</h2><ul>
+<li><p>实际执行时间 &#x3D; 系统时间 + 用户时间 + 损耗时间</p>
+</li>
+<li><p>损耗时间&#x3D; 实际执行时间-(系统时间 + 用户时间 )</p>
+</li>
+<li><p>每一个数字都直接打印:printf(“[%d]\n”, i++);<br>real    0m1.217s<br>user    0m0.120s<br>sys     0m0.252s<br>15734次<br>损耗时间&#x3D; 1.217-(0.120+0.252)&#x3D;0.845</p>
+</li>
+<li><p>文件重定向之后:<br>time .&#x2F;alarm_uncle  &gt; test.log<br>real    0m1.003s<br>user    0m0.520s<br>sys     0m0.428s<br>2191879次<br>损耗时间&#x3D;1.003-(0.520+0.428)&#x3D;0.055</p>
+</li>
+<li><p>原因是: 调用printf函数打印数字遇到\n才会打印, 打印过程涉及到从用户区到内核区的切换, 切换次数越多消耗的时间越长, 效率越低;而使用文件重定向, 由于文件操作是带缓冲的, 所以涉及到用户区到内核区的<br>切换次数大大减少,从而使损耗降低.</p>
+</li>
+<li><p>setitimer函数的功能: 设置时钟, 能够周期性的触发时钟<br>int setitimer(int which, const struct itimerval *new_value,struct itimerval *old_value);</p>
+</li>
+<li><p>使用setitimer实现从第三秒开始，每隔一秒打印一次signo。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">//setitimer函数测试</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/time.h&gt;</span><br><span class="line"></span><br><span class="line">void sighander(int signo)&#123;</span><br><span class="line">	printf(&quot;signo=[%d]\n&quot;,signo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	 //int setitimer(int which, const struct itimerval *new_value,</span><br><span class="line">       //              struct itimerval *old_value);</span><br><span class="line">	</span><br><span class="line">	//注册信号处理函数</span><br><span class="line">	signal(SIGALRM,sighander);</span><br><span class="line">	</span><br><span class="line">	struct itimerval tm;</span><br><span class="line">	//周期性时间赋值</span><br><span class="line">	tm.it_interval.tv_sec=1;//秒</span><br><span class="line">	tm.it_interval.tv_usec=0;//微秒</span><br><span class="line">	//第一次触发的时间</span><br><span class="line">	tm.it_value.tv_sec=3;</span><br><span class="line">	tm.it_value.tv_usec=0;</span><br><span class="line">	</span><br><span class="line">	setitimer(ITIMER_REAL,&amp;tm,NULL);</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="信号集"><a href="#信号集" class="headerlink" title="信号集"></a>信号集</h2><ul>
+<li>未决信号集和阻塞信号集<br><img src="/images/sigset.png"></li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line">//每隔十次解除对SIGINT和SIGQUIT的阻塞，就能捕获到这两个信号，执行回调函数</span><br><span class="line">//信号集</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void sighander(int signo)&#123;</span><br><span class="line">	printf(&quot;signo=[%d]\n&quot;,signo);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	signal(SIGINT,sighander);</span><br><span class="line">	signal(SIGQUIT,sighander);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//定义信号集变量</span><br><span class="line">	sigset_t set;</span><br><span class="line">	sigset_t oldset;</span><br><span class="line">	</span><br><span class="line">	//初始化信号集</span><br><span class="line">	sigemptyset(&amp;set);</span><br><span class="line">	sigemptyset(&amp;oldset);</span><br><span class="line">	</span><br><span class="line">	//将SIGINT(ctrl+c)和SIGQUIT(ctrl+\)加入到集合中</span><br><span class="line">	sigaddset(&amp;set,SIGINT);</span><br><span class="line">	sigaddset(&amp;set,SIGQUIT);</span><br><span class="line">	</span><br><span class="line">	//将SIGINT和SIGQUIT加入到阻塞集中</span><br><span class="line">	//int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);</span><br><span class="line">	sigprocmask(SIG_BLOCK,&amp;set,&amp;oldset);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	sigset_t pending;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	int j=0;</span><br><span class="line">	</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		</span><br><span class="line">		sigemptyset(&amp;pending);//初始化</span><br><span class="line">		</span><br><span class="line">		//获取未决信号集</span><br><span class="line">		sigpending(&amp;pending);</span><br><span class="line">		int i;</span><br><span class="line">		for(i=1;i&lt;32;i++)</span><br><span class="line">		&#123;</span><br><span class="line">			if(sigismember(&amp;pending,i)==1)</span><br><span class="line">				printf(&quot;1&quot;);</span><br><span class="line">			else</span><br><span class="line">				printf(&quot;0&quot;);</span><br><span class="line">				</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">		printf(&quot;\n&quot;);</span><br><span class="line">		sleep(1);</span><br><span class="line">		j++;</span><br><span class="line">		//每循环10次，就解除一次对SIGINT和SIGQUIT的阻塞</span><br><span class="line">		if(j%10==0)&#123;</span><br><span class="line">			//sigprocmask(SIG_UNBLOCK,&amp;set,NULL);</span><br><span class="line">			sigprocmask(SIG_SETMASK,&amp;oldset,NULL);</span><br><span class="line">		&#125;</span><br><span class="line">		else&#123;</span><br><span class="line">			sigprocmask(SIG_BLOCK,&amp;set,NULL);</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="信号捕捉函数"><a href="#信号捕捉函数" class="headerlink" title="信号捕捉函数"></a>信号捕捉函数</h2><ul>
+<li><p>在xxx信号处理函数执行期间, 若xxx信号再次产生多次, 则信号处理函数不会被打断,当信号处理函数执行完以后, 后来产生的信号只会被处理一次.<br>信号不支持排队.  </p>
+</li>
+<li><p>在xxx信号处理函数执行期间(前提是sa_mask中阻塞了yyy信号), 若收到了yyy信号, 则yyy信号会被阻塞(暂时被阻塞（和阻塞集无关）！！！), 当xxx信号处理函数执行完毕后, 则yyy信号只会被处理一次.</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void sighandler(int signo)&#123;</span><br><span class="line">	printf(&quot;signo=-[%d]\n&quot;,signo);</span><br><span class="line">	sleep(3);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	//注册信号处理函数</span><br><span class="line">	struct sigaction act;</span><br><span class="line">	act.sa_handler=sighandler;//信号处理函数</span><br><span class="line">	sigemptyset(&amp;act.sa_mask);//阻塞的信号</span><br><span class="line">	//sigaddset(&amp;act.sa_mask,SIGQUIT);//在信号处理函数执行期间阻塞SIGQUIT信号</span><br><span class="line">	act.sa_flags=0;</span><br><span class="line">	sigaction(SIGINT,&amp;act,NULL);</span><br><span class="line">	</span><br><span class="line">	signal(SIGQUIT,sighandler);</span><br><span class="line">	</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="SIGCHLD信号（重点！！！注意理解）"><a href="#SIGCHLD信号（重点！！！注意理解）" class="headerlink" title="SIGCHLD信号（重点！！！注意理解）"></a>SIGCHLD信号（重点！！！注意理解）</h2><ul>
+<li>SIGCHLD信号:</li>
+</ul>
+<p>1 SIGCHLD信号产生的条件:<br>（1）子进程收到SIGSTOP；<br>（2）子进程收到SIGCONT；<br>（3）子进程退出   </p>
+<p>2 SIGCHLD信号的作用:子进程退出之后, 内核会给其父进程发送SIGCHLD信号, 父进程收到这个信号之后, 调用waitpid或者wait完成对子进程的回收.</p>
+<ul>
+<li>核心代码（父进程回收子进程）</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">//父进程使用SIGCHLD信号完成对子进程的回收</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;signal.h&gt;</span><br><span class="line">#include&lt;sys/wait.h&gt;</span><br><span class="line"></span><br><span class="line">void waitchild(int signo)&#123;</span><br><span class="line">	</span><br><span class="line">	pid_t wpid;</span><br><span class="line">	//当有子进程死掉之后，就会执行该回调函数，循环回收子进程，直至无子进程或者只剩下正在执行的子进程时，跳出循环，结束该函数。</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		wpid=waitpid(-1,NULL,WNOHANG);//一次只能回收一个子进程，-1代表可以回收任意子进程</span><br><span class="line">		if(wpid&gt;0)&#123;//回收到子进程</span><br><span class="line">			printf(&quot;child is quit,wpid=[%d]\n&quot;,wpid);</span><br><span class="line">		&#125;</span><br><span class="line">		else if(wpid==0)&#123;//当前有正在运行的子进程，退出回收</span><br><span class="line">			printf(&quot;child is living,wpid=[%d]\n&quot;,wpid);</span><br><span class="line">			break;</span><br><span class="line">		&#125;</span><br><span class="line">		else if(wpid==-1)&#123;//无子进程了，退出回收</span><br><span class="line">				printf(&quot;no child,wpid=[%d]\n&quot;,wpid);</span><br><span class="line">				break;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line">	int i=0;</span><br><span class="line">	//将SIGCHLD信号阻塞</span><br><span class="line">	sigset_t mask;</span><br><span class="line">	sigaddset(&amp;mask,SIGCHLD);</span><br><span class="line">	sigprocmask(SIG_BLOCK,&amp;mask,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">for(;i&lt;3;i++)&#123;</span><br><span class="line">	//创建子进程</span><br><span class="line">//	printf(&quot;before fork, pid=[%d]\n&quot;,getpid());</span><br><span class="line">	pid_t pid=fork();</span><br><span class="line">	if(pid&lt;0)&#123;</span><br><span class="line">		perror(&quot;error&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	else if(pid&gt;0)&#123; //父进程</span><br><span class="line">		printf(&quot;father: pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	else if(pid==0)&#123;  //子进程</span><br><span class="line">		printf(&quot;child :pid=[%d],fpid=[%d]\n&quot;,getpid(),getppid());</span><br><span class="line">		break;		</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">if(i==0)&#123;</span><br><span class="line">	printf(&quot;[%d]--[%d]:child\n&quot;,i,getpid());</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">else if(i==1)&#123;</span><br><span class="line">	printf(&quot;[%d]--[%d]:child\n&quot;,i,getpid());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">else if(i==2)&#123;</span><br><span class="line"> printf(&quot;[%d]--[%d]:child\n&quot;,i,getpid());</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line">else if(i==3)</span><br><span class="line">&#123;</span><br><span class="line">	//注册信号处理函数</span><br><span class="line">	struct sigaction act;</span><br><span class="line">	act.sa_handler=waitchild;</span><br><span class="line">	sigemptyset(&amp;act.sa_mask);</span><br><span class="line">	act.sa_flags=0;</span><br><span class="line">	</span><br><span class="line">	sleep(5);</span><br><span class="line">	sigaction(SIGCHLD,&amp;act,NULL);</span><br><span class="line">	</span><br><span class="line">	//解除对SIGCHLD阻塞</span><br><span class="line">	sigprocmask(SIG_UNBLOCK,&amp;mask,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//父进程执行其他操作</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">return 0;	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>代码解释：</p>
+<ul>
+<li><p>问题一：有可能还没有完成对SIGCHLD信号的注册, 三个子进程就全部退出了.<br>解决方法: 在fork之前先将SIGCHLD信号阻塞,阻塞之后不管来多少个SIGCHLD信号，最终在未决集中只存在的是SIGCHLD为1，表示未处理的信号，然后在完成对SIGCHLD信号的注册之后再解除对SIGCHLD信号的阻塞;</p>
+</li>
+<li><p>问题二：有可能在SIGCHLD信号处理函数执行期间, 另外的2个子进程同时全部退出, 由于信号是不支持排队的，此时来的信号会被阻塞，在信号处理函数结束之后，只会保留一个信号，所以，还会处理回收一个子进程，此时另一个会成为僵尸进程.<br>解决办法: 在信号处理函数中应该循环回收, 当waitpid返回-1的时候就表示已经回收完所有子进程了, 此时可以break;    </p>
+</li>
+<li><p>内核实现信号捕捉的过程</p>
+</li>
+</ul>
+<p><img src="/images/signal_process.png"></p>
+<ul>
+<li>正常情况下，不用信号完成进程间的通信！！！</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+    
+   <div>
+     <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+   </div>
+   
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>qcc
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/05/01/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" title="进程通信">http://example.com/2022/05/01/进程通信/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/26/%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6/" rel="prev" title="进程控制">
+      <i class="fa fa-chevron-left"></i> 进程控制
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/03/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/" rel="next" title="守护进程和线程">
+      守护进程和线程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81NTg1MC8zMjMxNA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E9%81%93%E2%80%93pipe"><span class="nav-number">1.</span> <span class="nav-text">管道–pipe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%E7%9F%A5%E8%AF%86%EF%BC%9A%E6%8C%87%E9%92%88%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8F%98%E9%87%8F%EF%BC%8C%E6%98%AF%E6%9D%A5%E5%AD%98%E6%94%BE%E5%9C%B0%E5%9D%80%E7%9A%84%EF%BC%8C%E9%82%A3%E4%B9%88%E5%AE%83%E5%BD%93%E7%84%B6%E7%AD%89%E4%BA%8E%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%86%85%E9%83%A8%E5%9C%B0%E5%9D%80%E6%80%BB%E7%BA%BF%E7%9A%84%E5%AE%BD%E5%BA%A6%E3%80%82%E6%89%80%E4%BB%A5%E5%9C%A832%E4%BD%8D%E8%AE%A1%E7%AE%97%E6%9C%BA%E4%B8%AD%EF%BC%8C%E4%B8%80%E4%B8%AA%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F%E7%9A%84%E8%BF%94%E5%9B%9E%E5%80%BC%E5%BF%85%E5%AE%9A%E6%98%AF4%EF%BC%88%E6%B3%A8%E6%84%8F%E7%BB%93%E6%9E%9C%E6%98%AF%E4%BB%A5%E5%AD%97%E8%8A%82%E4%B8%BA%E5%8D%95%E4%BD%8D%EF%BC%8C%E5%9C%A864%E4%BD%8D%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%8C%87%E9%92%88%E5%8F%98%E9%87%8F%E7%9A%84sizeof%E7%BB%93%E6%9E%9C%E4%B8%BA8%E3%80%82"><span class="nav-number">2.</span> <span class="nav-text">补充知识：指针类型的变量，是来存放地址的，那么它当然等于计算机内部地址总线的宽度。所以在32位计算机中，一个指针变量的返回值必定是4（注意结果是以字节为单位，在64位系统中指针变量的sizeof结果为8。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pipe%E7%94%A8%E4%BA%8E%E7%88%B6%E5%AD%90%E8%BF%9B%E7%A8%8B%E9%97%B4%E7%9A%84%E9%80%9A%E4%BF%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">pipe用于父子进程间的通信过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps-aux-grep-bash%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86-pipe%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">ps aux|grep bash的实现原理(pipe的应用)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AA%E5%86%99%E9%98%BB%E5%A1%9E%E6%96%B9%E5%BC%8F%E6%89%93%E5%BC%80fifo%E6%96%87%E4%BB%B6%EF%BC%8C%E5%9C%A8%E5%86%99%E5%85%A5%E6%95%B0%E6%8D%AE%E6%97%B6%EF%BC%8C%E8%8B%A5%E6%B2%A1%E6%9C%89%E8%BF%9B%E7%A8%8B%E5%9C%A8%E5%8F%A6%E4%B8%80%E7%AB%AF%E8%AF%BB%EF%BC%8C%E5%88%99%E9%98%BB%E5%A1%9E%EF%BC%8C%E7%9B%B4%E8%87%B3%E6%9C%89%E8%BF%9B%E7%A8%8B%E8%AF%BB%E3%80%82"><span class="nav-number">4.1.</span> <span class="nav-text">只写阻塞方式打开fifo文件，在写入数据时，若没有进程在另一端读，则阻塞，直至有进程读。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E6%98%A0%E5%B0%84%E5%8C%BA"><span class="nav-number"></span> <span class="nav-text">共享映射区</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7"><span class="nav-number"></span> <span class="nav-text">信号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E5%88%AB%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E6%98%AF%EF%BC%9AThe-signals-SIGKILL-and-SIGSTOP-cannot-be-caught-blocked-or-ignored"><span class="nav-number">0.1.</span> <span class="nav-text">特别需要注意的是：The signals SIGKILL and SIGSTOP cannot be caught, blocked, or ignored.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E5%88%B0%E7%9A%84%E4%BF%A1%E5%8F%B7"><span class="nav-number">0.2.</span> <span class="nav-text">几个常用到的信号</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%B9%E9%92%9F"><span class="nav-number">1.</span> <span class="nav-text">闹钟</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%9B%86"><span class="nav-number">2.</span> <span class="nav-text">信号集</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E6%8D%95%E6%8D%89%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">信号捕捉函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SIGCHLD%E4%BF%A1%E5%8F%B7%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%81%EF%BC%81%EF%BC%81%E6%B3%A8%E6%84%8F%E7%90%86%E8%A7%A3%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">SIGCHLD信号（重点！！！注意理解）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="qcc"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">qcc</p>
+  <div class="site-description" itemprop="description">努力变强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iwsuccess" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iwsuccess" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2274259107@qq.com" title="E-Mail → mailto:2274259107@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      链接网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/u/mou-gai/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;u&#x2F;mou-gai&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2022-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qcc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共39.7k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

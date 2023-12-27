@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="守护进程的特点:1 一个linux后台服务进程 2 不依赖于控制终端 3 周期性执行某些任务 4 不受用户登录和注销的影响 5 一般以d结尾  进程组和会话:进程组: 一个进程包含多个进程 会话: 多个组组成一个会话.  创建会话的进程不能是组长进程; 一般创建会话是父进程先fork子进程, 然后父进程退出, 让子进程调用setsid函数 创建一个会话, 这个子进程既是会长也是组长; 只要是创建了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="守护进程和线程">
+<meta property="og:url" content="http://example.com/2022/05/03/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/index.html">
+<meta property="og:site_name" content="一懒众衫小">
+<meta property="og:description" content="守护进程的特点:1 一个linux后台服务进程 2 不依赖于控制终端 3 周期性执行某些任务 4 不受用户登录和注销的影响 5 一般以d结尾  进程组和会话:进程组: 一个进程包含多个进程 会话: 多个组组成一个会话.  创建会话的进程不能是组长进程; 一般创建会话是父进程先fork子进程, 然后父进程退出, 让子进程调用setsid函数 创建一个会话, 这个子进程既是会长也是组长; 只要是创建了">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/thread.png">
+<meta property="og:image" content="http://example.com/images/multithread.png">
+<meta property="og:image" content="http://example.com/images/compare.png">
+<meta property="og:image" content="http://example.com/images/num.png">
+<meta property="article:published_time" content="2022-05-03T13:04:58.574Z">
+<meta property="article:modified_time" content="2022-05-09T13:49:04.604Z">
+<meta property="article:author" content="qcc">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/thread.png">
+
+<link rel="canonical" href="http://example.com/2022/05/03/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>守护进程和线程 | 一懒众衫小</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+     <a target="_blank" rel="noopener" href="https://iwsuccess.github.io" class="github-corner" aria-label="View source on GitHub">
+	<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+		<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+		<path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+		<path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+	</svg>
+     </a>
+	<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+	</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一懒众衫小</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Freedom On High</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/03/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          守护进程和线程
+        </h1>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-03 21:04:58" itemprop="dateCreated datePublished" datetime="2022-05-03T21:04:58+08:00">2022-05-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-09 21:49:04" itemprop="dateModified" datetime="2022-05-09T21:49:04+08:00">2022-05-09</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="守护进程的特点"><a href="#守护进程的特点" class="headerlink" title="守护进程的特点:"></a>守护进程的特点:</h2><pre><code>1 一个linux后台服务进程
+2 不依赖于控制终端
+3 周期性执行某些任务
+4 不受用户登录和注销的影响
+5 一般以d结尾
+</code></pre>
+<h2 id="进程组和会话"><a href="#进程组和会话" class="headerlink" title="进程组和会话:"></a>进程组和会话:</h2><pre><code>进程组: 一个进程包含多个进程
+会话: 多个组组成一个会话.
+
+创建会话的进程不能是组长进程;
+一般创建会话是父进程先fork子进程, 然后父进程退出, 让子进程调用setsid函数
+创建一个会话, 这个子进程既是会长也是组长;
+只要是创建了会话, 这个进程就脱离了控制终端的影响.
+</code></pre>
+<h2 id="创建守护进程模型"><a href="#创建守护进程模型" class="headerlink" title="创建守护进程模型:"></a>创建守护进程模型:</h2><pre><code>1 父进程fork子进程, 然后父进程退出.
+   目的是: 子进程肯定不是组长进程, 为后续调用setsid函数提供了条件.
+2 子进程调用setsid函数创建一个新的会话.
+    1 该子进程成了该会话的会长
+    2 该子进程成了该组的组长进程.
+    3 不再受控制终端的影响了
+3 改变当前的工作目录, chdir  -----不是必须的
+4 重设文件掩码, umask(0000)  -----不是必须的
+5 关闭STDIN_FILENO  STDOUT_FILENO STDERR_FILENO   ---不是必须的
+6 核心操作
+</code></pre>
+<h2 id="编写一个守护进程，每隔2S钟获取一次系统时间，并将这个时间写入磁盘文件。"><a href="#编写一个守护进程，每隔2S钟获取一次系统时间，并将这个时间写入磁盘文件。" class="headerlink" title="编写一个守护进程，每隔2S钟获取一次系统时间，并将这个时间写入磁盘文件。"></a>编写一个守护进程，每隔2S钟获取一次系统时间，并将这个时间写入磁盘文件。</h2><p>分析：首先要按照1.3介绍的守护进行的步骤创建一个守护进程.<br>    每隔2S钟: 使用setitimer函数设置时钟, 该时钟发送的是SIGALRM信号,<br>    信号操作: 注册信号处理函数,signal或者sigaction, 还有一个信号处理函数<br>    获取一次系统时间: time函数的使用, ctime函数的使用<br>    写入磁盘文件: 文件操作函数: open write close </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">//创建守护进程</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;signal.h&gt;</span><br><span class="line">#include&lt;time.h&gt;</span><br><span class="line">#include&lt;sys/time.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;sys/stat.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">void clock_process(int signo)&#123;</span><br><span class="line">	</span><br><span class="line">	//0755文件权限指定，是配合O_CREAT使用的，如果没有该文件，则以0755权限创建文件</span><br><span class="line">	int fd=open(&quot;mydemo.log&quot;, O_RDWR|O_CREAT|O_APPEND,0755);</span><br><span class="line">	if(fd&lt;0)&#123;</span><br><span class="line">		//此时perror不能打印出错误，因为该进程已经摆脱了控制终端，无法输出到标准输出</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//获取当前的系统时间</span><br><span class="line">	time_t cur_time;</span><br><span class="line">	time(&amp;cur_time);</span><br><span class="line">	//转化为字符串</span><br><span class="line">	char *cur_time_s=ctime(&amp;cur_time);</span><br><span class="line">	//将时间写入文件</span><br><span class="line">	write(fd,cur_time_s,strlen(cur_time_s));</span><br><span class="line">	close(fd);</span><br><span class="line">	return;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	pid_t pid=fork();</span><br><span class="line">	//父进程退出</span><br><span class="line">	if(pid&lt;0||pid&gt;0)&#123;</span><br><span class="line">		exit(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//子进程创建会话</span><br><span class="line">	setsid();</span><br><span class="line">	</span><br><span class="line">	//改变当前的工作目录</span><br><span class="line">	chdir(&quot;/home/qcc/log&quot;);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//改变文件掩码</span><br><span class="line">	umask(0000);</span><br><span class="line">	</span><br><span class="line">	//关闭标准输入，标准输出，标准错误的文件描述符</span><br><span class="line">	close(STDOUT_FILENO);</span><br><span class="line">	close(STDIN_FILENO);</span><br><span class="line">	close(STDERR_FILENO);</span><br><span class="line">	</span><br><span class="line">	//核心操作</span><br><span class="line">	//注册信号处理函数</span><br><span class="line">	struct sigaction act;</span><br><span class="line">	act.sa_handler=clock_process;</span><br><span class="line">	sigemptyset(&amp;act.sa_mask);</span><br><span class="line">	act.sa_flags=0;</span><br><span class="line">	sigaction(SIGALRM,&amp;act,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//设置时钟</span><br><span class="line">	struct itimerval tm;</span><br><span class="line">	//设置周期时间</span><br><span class="line">	tm.it_interval.tv_sec=2;</span><br><span class="line">	tm.it_interval.tv_usec=0;</span><br><span class="line">	//设置开始时间，3秒后</span><br><span class="line">	tm.it_value.tv_sec=3;</span><br><span class="line">	tm.it_value.tv_usec=0;</span><br><span class="line">	setitimer(ITIMER_REAL, &amp;tm, NULL);</span><br><span class="line">	</span><br><span class="line">	//该语句不会打印出来，因为子进程已经脱离了终端的控制</span><br><span class="line">	printf(&quot;hello world\n&quot;);</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		sleep(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>优化:<br>    1 不再频繁的打开和关闭文件<br>    2 如何控制log文件大小  test.log</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">//创建守护进程</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;signal.h&gt;</span><br><span class="line">#include&lt;time.h&gt;</span><br><span class="line">#include&lt;sys/time.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;fcntl.h&gt;</span><br><span class="line">#include&lt;sys/stat.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int flag=0;//控制文件只打开一次</span><br><span class="line">int fd;</span><br><span class="line"></span><br><span class="line">void clock_process(int signo)&#123;</span><br><span class="line">	</span><br><span class="line">	//0755文件权限指定，是配合O_CREAT使用的，如果没有该文件，则以0755权限创建文件</span><br><span class="line">	</span><br><span class="line">	if(flag==0)&#123;</span><br><span class="line">		fd=open(&quot;mydemo.log&quot;, O_RDWR|O_CREAT|O_APPEND,0755);</span><br><span class="line">		if(fd&lt;0)&#123;</span><br><span class="line">			//此时perror不能打印出错误，因为该进程已经摆脱了控制终端，无法输出到标准输出</span><br><span class="line">			return;</span><br><span class="line">		&#125;</span><br><span class="line">		flag=1;</span><br><span class="line">	&#125;</span><br><span class="line">	//获取当前的系统时间</span><br><span class="line">	time_t cur_time;</span><br><span class="line">	time(&amp;cur_time);</span><br><span class="line">	//转化为字符串</span><br><span class="line">	char *cur_time_s=ctime(&amp;cur_time);</span><br><span class="line">	//将时间写入文件</span><br><span class="line">	write(fd,cur_time_s,strlen(cur_time_s));</span><br><span class="line">	</span><br><span class="line">	return;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	pid_t pid=fork();</span><br><span class="line">	//父进程退出</span><br><span class="line">	if(pid&lt;0||pid&gt;0)&#123;</span><br><span class="line">		exit(1);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//子进程创建会话</span><br><span class="line">	setsid();</span><br><span class="line">	</span><br><span class="line">	//改变当前的工作目录</span><br><span class="line">	chdir(&quot;/home/qcc/log&quot;);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//改变文件掩码</span><br><span class="line">	umask(0000);</span><br><span class="line">	</span><br><span class="line">	//关闭标准输入，标准输出，标准错误的文件描述符</span><br><span class="line">	close(STDOUT_FILENO);</span><br><span class="line">	close(STDIN_FILENO);</span><br><span class="line">	close(STDERR_FILENO);</span><br><span class="line">	</span><br><span class="line">	//核心操作</span><br><span class="line">	//注册信号处理函数</span><br><span class="line">	struct sigaction act;</span><br><span class="line">	act.sa_handler=clock_process;</span><br><span class="line">	sigemptyset(&amp;act.sa_mask);</span><br><span class="line">	act.sa_flags=0;</span><br><span class="line">	sigaction(SIGALRM,&amp;act,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	//设置时钟</span><br><span class="line">	struct itimerval tm;</span><br><span class="line">	//设置周期时间</span><br><span class="line">	tm.it_interval.tv_sec=2;</span><br><span class="line">	tm.it_interval.tv_usec=0;</span><br><span class="line">	//设置开始时间，3秒后</span><br><span class="line">	tm.it_value.tv_sec=3;</span><br><span class="line">	tm.it_value.tv_usec=0;</span><br><span class="line">	setitimer(ITIMER_REAL, &amp;tm, NULL);</span><br><span class="line">	</span><br><span class="line">	//该语句不会打印出来，因为子进程已经脱离了终端的控制</span><br><span class="line">	printf(&quot;hello world\n&quot;);</span><br><span class="line">	</span><br><span class="line">	int j=0;</span><br><span class="line">	char des[64];</span><br><span class="line">	char temp[10];</span><br><span class="line">	char *copy_file=&quot;./mydemo.log.bak&quot;;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		//获取文件大小</span><br><span class="line">		int size=lseek(fd,0,SEEK_END);</span><br><span class="line">		if(size&gt;100)&#123;//文件如果大于100，就保存一个副本！</span><br><span class="line">			close(fd);</span><br><span class="line">			j++;</span><br><span class="line">			memset(temp,0x00,sizeof(temp));</span><br><span class="line">			sprintf(temp,&quot;%d&quot;,j);//整数转为字符串</span><br><span class="line">			memset(des,0x00,sizeof(des));</span><br><span class="line">			sprintf(des,&quot;%s.%s&quot;,copy_file,temp);</span><br><span class="line">			rename(&quot;./mydemo.log&quot;,des);</span><br><span class="line">			flag=0;//保存副本了，下次需要重新打开文件</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	close(fd);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h1><ul>
+<li><p>线程的基本概念<br><img src="/images/thread.png"></p>
+</li>
+<li><p>循环创建子线程<br><img src="/images/multithread.png"></p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">//循环创建子线程，并且打印是第几个子线程</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;pthread.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void *mythread(void *arg)&#123;</span><br><span class="line">	int *ret=(int *)arg;</span><br><span class="line">	printf(&quot;child thread num=[%d]\n&quot;,*ret);</span><br><span class="line">	printf(&quot;child thread,process_id=[%d],thread_id=[%ld]\n&quot;,getpid(),pthread_self());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	pthread_t pid[5];</span><br><span class="line">	int n=5;</span><br><span class="line">	int i;</span><br><span class="line">	for(i=0;i&lt;n;i++)</span><br><span class="line">	&#123;	</span><br><span class="line">		int *temp=(int *)malloc(sizeof(int));</span><br><span class="line">		*temp=i;</span><br><span class="line">		int ret=pthread_create(&amp;pid[i],NULL,mythread,temp);</span><br><span class="line">		if(ret!=0)&#123;</span><br><span class="line">			printf(&quot;pthread_create failed. reason:[%s]\n&quot;,strerror(ret));</span><br><span class="line">			return -1;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	&#125;</span><br><span class="line">	printf(&quot;main thread,process_id=[%d],thread_id=[%ld]\n&quot;,getpid(),pthread_self());</span><br><span class="line">	</span><br><span class="line">	//目的是为了让子线程能执行起来，防止主线程结束后，子线程还未执行结束</span><br><span class="line">	sleep(1);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="ps-Lf-进程id"><a href="#ps-Lf-进程id" class="headerlink" title="ps -Lf 进程id"></a>ps -Lf 进程id</h3><p>查看进程中的所有线程</p>
+<h2 id="线程相关函数"><a href="#线程相关函数" class="headerlink" title="线程相关函数:"></a>线程相关函数:</h2><pre><code>1 创建子线程: pthread_create
+2 线程退出: pthread_exit
+3 回收子线程: pthread_join
+4 设置子线程为分离属性，设置后子线程会自己回收自己: pthread_detach
+</code></pre>
+<h2 id="进程和线程的函数比较"><a href="#进程和线程的函数比较" class="headerlink" title="进程和线程的函数比较"></a>进程和线程的函数比较</h2><p><img src="/images/compare.png"></p>
+<h2 id="在创建线程的时候设置线程属性为分离属性-默认为非分离属性，传NULL即可"><a href="#在创建线程的时候设置线程属性为分离属性-默认为非分离属性，传NULL即可" class="headerlink" title="在创建线程的时候设置线程属性为分离属性(默认为非分离属性，传NULL即可):"></a>在创建线程的时候设置线程属性为分离属性(默认为非分离属性，传NULL即可):</h2><pre><code>1 pthread_attr_t attr;
+2 pthread_attr_init(&amp;attr);
+3 pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_DETACHED);
+4 pthread_create(&amp;thread, &amp;attr, mythread, NULL);
+5 pthread_attr_destroy(&amp;attr);//最后记得释放属性内存
+</code></pre>
+<h2 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h2><ul>
+<li><p>线程同步，指一个线程发出某一功能调用时，在没有得到结果之前，该调用不返回。同时其它线程为保证数据一致性，不能调用该功能。</p>
+</li>
+<li><p>两个线程数数分析：<br><img src="/images/num.png"></p>
+</li>
+<li><p>加锁解决</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;pthread.h&gt;</span><br><span class="line"></span><br><span class="line">pthread_mutex_t mutex;</span><br><span class="line">int num=0;</span><br><span class="line">void *mythread(void *arg)&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	int i;</span><br><span class="line">	for(i=0;i&lt;10000;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		pthread_mutex_lock(&amp;mutex);</span><br><span class="line">		num++;</span><br><span class="line">		printf(&quot;pthread=[%ld]:num=[%d]\n&quot;,pthread_self(),num);</span><br><span class="line">		pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	pthread_t pid1;</span><br><span class="line">	pthread_t pid2;</span><br><span class="line">	</span><br><span class="line">	//初始化锁</span><br><span class="line">	pthread_mutex_init(&amp;mutex,NULL);</span><br><span class="line">	</span><br><span class="line">	int ret=pthread_create(&amp;pid1,NULL,mythread,NULL);</span><br><span class="line">	if(ret!=0)&#123;</span><br><span class="line">		printf(&quot;pthread_create failed. reason:[%s]\n&quot;,strerror(ret));</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	ret=pthread_create(&amp;pid2,NULL,mythread,NULL);</span><br><span class="line">	if(ret!=0)&#123;</span><br><span class="line">		printf(&quot;pthread_create failed. reason:[%s]\n&quot;,strerror(ret));</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">	</span><br><span class="line">	pthread_join(pid1,NULL);</span><br><span class="line">	pthread_join(pid2,NULL);</span><br><span class="line">	</span><br><span class="line">	//释放锁</span><br><span class="line">	pthread_mutex_destroy(&amp;mutex);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="在访问共享资源前加锁，访问结束后立即解锁。锁的“粒度”应越小越好"><a href="#在访问共享资源前加锁，访问结束后立即解锁。锁的“粒度”应越小越好" class="headerlink" title="在访问共享资源前加锁，访问结束后立即解锁。锁的“粒度”应越小越好."></a>在访问共享资源前加锁，访问结束后立即解锁。锁的“粒度”应越小越好.</h2><h2 id="互斥量-也叫互斥锁"><a href="#互斥量-也叫互斥锁" class="headerlink" title="互斥量(也叫互斥锁)"></a>互斥量(也叫互斥锁)</h2><pre><code>第1步：创建一把互斥锁
+pthread_mutex_t mutex;
+初始化互斥锁
+pthread_mutex_init(&amp;mutex);---相当于mutex=1
+在代码中寻找共享资源（也称为临界区）
+pthread_mutex_lock(&amp;mutex);  -- mutex = 0
+[临界区代码]
+pthread_mutex_unlock(&amp;mutex); -- mutex = 1
+释放互斥锁资源
+pthread_mutex_destroy(&amp;mutex);
+注意：必须在所有操作共享资源的线程上都加上锁否则不能起到同步的效果。
+</code></pre>
+<h2 id="死锁-死锁不是linux提供给开发者的一种机制-而是由于开发者操作不当引起的"><a href="#死锁-死锁不是linux提供给开发者的一种机制-而是由于开发者操作不当引起的" class="headerlink" title="死锁: 死锁不是linux提供给开发者的一种机制, 而是由于开发者操作不当引起的."></a>死锁: 死锁不是linux提供给开发者的一种机制, 而是由于开发者操作不当引起的.</h2><pre><code>1 自己锁自己.
+    注意点: 线程在异常退出的时候也需要解锁.
+2 A线程占用着A锁, 又想去获得B锁; B线程占用着B锁, 又想去获得A锁, 
+  两个线程都不释放自己的锁, 又想去获得对方的锁, 从而造成了死锁.
+  解决方法:
+      1 需要先释放自己的锁再去获得其他锁
+      2 避免使用嵌套的锁, 让线程按照一定的顺序加锁
+      3 可以调用pthread_mutex_trylock函数加锁, 该函数不阻塞, 所以不会产生死锁.
+</code></pre>
+<h2 id="读写锁-读写锁是一把锁"><a href="#读写锁-读写锁是一把锁" class="headerlink" title="读写锁:读写锁是一把锁"></a>读写锁:读写锁是一把锁</h2><pre><code>读写锁场景练习:
+线程A加写锁成功, 线程B请求读锁
+    线程B阻塞, 
+    当线程A解锁之后, 线程B加锁成功
+
+线程A持有读锁, 线程B请求写锁
+    线程B会阻塞;
+    当线程A解锁之后, 线程B加锁成功
+
+线程A拥有读锁, 线程B请求读锁
+    线程B请求锁成功
+
+线程A持有读锁, 然后线程B请求写锁, 然后线程C请求读锁
+    线程B和C都阻塞;
+    当A释放锁之后, B先获得锁, C阻塞
+    当B释放锁之后, C获得锁    
+
+线程A持有写锁, 然后线程B请求读锁, 然后线程C请求写锁
+    线程B和C都阻塞;
+    当线程A解锁之后, C先获得锁, B阻塞;
+    当C解锁之后, B获得锁
+</code></pre>
+<h2 id="读写锁总结"><a href="#读写锁总结" class="headerlink" title="读写锁总结"></a>读写锁总结</h2><pre><code>写独占, 读共享, 当读和写一起等待锁的时候, 写的优先级高
+</code></pre>
+<h2 id="读写锁使用步骤"><a href="#读写锁使用步骤" class="headerlink" title="读写锁使用步骤:"></a>读写锁使用步骤:</h2><pre><code>1 先定义一把读写锁:
+    pthread_rwlock_t rwlock;
+2 初始化读写锁
+    pthread_rwlock_init(&amp;rwlock, NULL);
+3 加锁
+    pthread_rwlock_rdlock(&amp;rwlock);----&gt;加读锁
+    pthread_rwlock_wrlock(&amp;rwlock);----&gt;加写锁
+    ////////////////////////
+    共享资源出现的位置
+    /////////////////////////
+4 解锁
+    pthread_rwlock_unlock(&amp;rwlock);
+5 释放锁
+    pthread_rwlock_destroy(&amp;rwlock);
+</code></pre>
+<h2 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h2><ul>
+<li>生产者消费者模型</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;pthread.h&gt;</span><br><span class="line"></span><br><span class="line">typedef struct node&#123;</span><br><span class="line">	int data;</span><br><span class="line">	struct node *next;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line">//创建虚拟头结点</span><br><span class="line">Node *dummy_head;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pthread_cond_t cond;</span><br><span class="line">pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">//生产者线程</span><br><span class="line">void *producer(void *arg)&#123;</span><br><span class="line">	</span><br><span class="line">	int no=*(int *)arg;</span><br><span class="line">	Node *p=NULL;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">	</span><br><span class="line">		//尾插法</span><br><span class="line">		pthread_mutex_lock(&amp;mutex);</span><br><span class="line">		Node *pnode=(Node *)malloc(sizeof(Node));</span><br><span class="line">		p=dummy_head;</span><br><span class="line">		pnode-&gt;data=rand()%1000;</span><br><span class="line">		</span><br><span class="line">		while(p-&gt;next!=NULL)&#123;</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">		p-&gt;next=pnode;</span><br><span class="line">		pnode-&gt;next=NULL;</span><br><span class="line">		printf(&quot;producer=[%d],data=[%d]\n&quot;,no,pnode-&gt;data);</span><br><span class="line">		pthread_mutex_unlock(&amp;mutex);	//注意先解锁，再通知消费者解除阻塞！！！</span><br><span class="line">		pthread_cond_signal(&amp;cond);//唤醒消费者</span><br><span class="line">		sleep(rand()%2);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//消费者线程</span><br><span class="line">void *consumer(void *arg)&#123;</span><br><span class="line">	int no=*(int *)arg;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		//消费头结点的下一个节点</span><br><span class="line">		pthread_mutex_lock(&amp;mutex);</span><br><span class="line">		</span><br><span class="line">		//注意需要循环判断（如果是if，后面会空指针错误），因为可能多个消费者阻塞再cond上！！！</span><br><span class="line">		while(dummy_head-&gt;next==NULL)&#123;//链表为空，生产者阻塞</span><br><span class="line">			pthread_cond_wait(&amp;cond,&amp;mutex);//若条件不满足，则阻塞等待并释放锁；若条件满足，则解除阻塞并加锁！！！</span><br><span class="line">		&#125;</span><br><span class="line">		Node *pnode=dummy_head-&gt;next;</span><br><span class="line">		dummy_head-&gt;next=pnode-&gt;next;</span><br><span class="line">		printf(&quot;consumer=[%d],data=[%d]\n&quot;,no,pnode-&gt;data);</span><br><span class="line">		free(pnode);</span><br><span class="line">		pnode=NULL;</span><br><span class="line">		pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">		sleep(rand()%2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	dummy_head=(Node *)malloc(sizeof(Node));</span><br><span class="line">	dummy_head-&gt;data=0;</span><br><span class="line">	dummy_head-&gt;next=NULL;</span><br><span class="line">	pthread_t pthread[4];</span><br><span class="line">	</span><br><span class="line">	pthread_mutex_init(&amp;mutex,NULL);</span><br><span class="line">	pthread_cond_init(&amp;cond,NULL);</span><br><span class="line">	int i,j;</span><br><span class="line">	for(i=0;i&lt;2;i++)</span><br><span class="line">	&#123;</span><br><span class="line">		int *t=(int *)malloc(sizeof(int));</span><br><span class="line">		*t=i;</span><br><span class="line">		pthread_create(&amp;pthread[i],NULL,producer,t);</span><br><span class="line">	&#125;	</span><br><span class="line">	</span><br><span class="line">	for(j=2;j&lt;4;j++)</span><br><span class="line">	&#123;</span><br><span class="line">		int *tt=(int *)malloc(sizeof(int));</span><br><span class="line">		*tt=j;</span><br><span class="line">		pthread_create(&amp;pthread[j],NULL,consumer,tt);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	int k;</span><br><span class="line">	</span><br><span class="line">	for(k=0;k&lt;4;k++)</span><br><span class="line">		pthread_join(pthread[k],NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	pthread_mutex_destroy(&amp;mutex);</span><br><span class="line">	pthread_cond_destroy(&amp;cond);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="信号量"><a href="#信号量" class="headerlink" title="信号量"></a>信号量</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">//信号量，只适用于单生产者，单消费者模型。</span><br><span class="line">//出现多消费者多生产者，会出错！</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line">#include&lt;string.h&gt;</span><br><span class="line">#include&lt;sys/types.h&gt;</span><br><span class="line">#include&lt;unistd.h&gt;</span><br><span class="line">#include&lt;pthread.h&gt;</span><br><span class="line">#include&lt;semaphore.h&gt;</span><br><span class="line">typedef struct node&#123;</span><br><span class="line">	int data;</span><br><span class="line">	struct node *next;</span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line">//创建虚拟头结点</span><br><span class="line">Node *dummy_head;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sem_t sem_produce;</span><br><span class="line">sem_t sem_consumer;</span><br><span class="line"></span><br><span class="line">//生产者线程</span><br><span class="line">void *producer(void *arg)&#123;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	Node *p=NULL;</span><br><span class="line">	while(1)&#123;</span><br><span class="line">	</span><br><span class="line">		//尾插法</span><br><span class="line">		sem_wait(&amp;sem_consumer);</span><br><span class="line">		Node *pnode=(Node *)malloc(sizeof(Node));</span><br><span class="line">		p=dummy_head;</span><br><span class="line">		pnode-&gt;data=rand()%1000;</span><br><span class="line">		</span><br><span class="line">		while(p-&gt;next!=NULL)&#123;</span><br><span class="line">			p=p-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">		p-&gt;next=pnode;</span><br><span class="line">		pnode-&gt;next=NULL;</span><br><span class="line">		printf(&quot;producer,data=[%d]\n&quot;,pnode-&gt;data);</span><br><span class="line">		sem_post(&amp;sem_produce);</span><br><span class="line">		sleep(rand()%2);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//消费者线程</span><br><span class="line">void *consumer(void *arg)&#123;</span><br><span class="line">	</span><br><span class="line">	while(1)&#123;</span><br><span class="line">		//消费头结点的下一个节点</span><br><span class="line">		sem_wait(&amp;sem_produce);</span><br><span class="line">		</span><br><span class="line">		Node *pnode=dummy_head-&gt;next;</span><br><span class="line">		dummy_head-&gt;next=pnode-&gt;next;</span><br><span class="line">		printf(&quot;consumer,data=[%d]\n&quot;,pnode-&gt;data);</span><br><span class="line">		free(pnode);</span><br><span class="line">		pnode=NULL;</span><br><span class="line">		sem_post(&amp;sem_consumer);</span><br><span class="line">		sleep(rand()%2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	dummy_head=(Node *)malloc(sizeof(Node));</span><br><span class="line">	dummy_head-&gt;data=0;</span><br><span class="line">	dummy_head-&gt;next=NULL;</span><br><span class="line">	pthread_t pthread1,pthread2;</span><br><span class="line">	</span><br><span class="line">	sem_init(&amp;sem_consumer,0,5);//控制最多可以连续生产的数量</span><br><span class="line">	sem_init(&amp;sem_produce,0,0);</span><br><span class="line">	</span><br><span class="line">	pthread_create(&amp;pthread1,NULL,producer,NULL);</span><br><span class="line">	pthread_create(&amp;pthread2,NULL,consumer,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	pthread_join(pthread1,NULL);</span><br><span class="line">	pthread_join(pthread2,NULL);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	sem_destroy(&amp;sem_consumer);</span><br><span class="line">	sem_destroy(&amp;sem_produce);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+    
+   <div>
+     <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+   </div>
+   
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>qcc
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/05/03/%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B/" title="守护进程和线程">http://example.com/2022/05/03/守护进程和线程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/01/%E8%BF%9B%E7%A8%8B%E9%80%9A%E4%BF%A1/" rel="prev" title="进程通信">
+      <i class="fa fa-chevron-left"></i> 进程通信
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/08/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" rel="next" title="go语言基础（class 2）">
+      go语言基础（class 2） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81NTg1MC8zMjMxNA=="></div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">1.</span> <span class="nav-text">守护进程的特点:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BB%84%E5%92%8C%E4%BC%9A%E8%AF%9D"><span class="nav-number">2.</span> <span class="nav-text">进程组和会话:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">创建守护进程模型:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E4%B8%80%E4%B8%AA%E5%AE%88%E6%8A%A4%E8%BF%9B%E7%A8%8B%EF%BC%8C%E6%AF%8F%E9%9A%942S%E9%92%9F%E8%8E%B7%E5%8F%96%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E6%97%B6%E9%97%B4%EF%BC%8C%E5%B9%B6%E5%B0%86%E8%BF%99%E4%B8%AA%E6%97%B6%E9%97%B4%E5%86%99%E5%85%A5%E7%A3%81%E7%9B%98%E6%96%87%E4%BB%B6%E3%80%82"><span class="nav-number">4.</span> <span class="nav-text">编写一个守护进程，每隔2S钟获取一次系统时间，并将这个时间写入磁盘文件。</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B"><span class="nav-number"></span> <span class="nav-text">线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ps-Lf-%E8%BF%9B%E7%A8%8Bid"><span class="nav-number">0.1.</span> <span class="nav-text">ps -Lf 进程id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">线程相关函数:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%87%BD%E6%95%B0%E6%AF%94%E8%BE%83"><span class="nav-number">2.</span> <span class="nav-text">进程和线程的函数比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%88%9B%E5%BB%BA%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%97%B6%E5%80%99%E8%AE%BE%E7%BD%AE%E7%BA%BF%E7%A8%8B%E5%B1%9E%E6%80%A7%E4%B8%BA%E5%88%86%E7%A6%BB%E5%B1%9E%E6%80%A7-%E9%BB%98%E8%AE%A4%E4%B8%BA%E9%9D%9E%E5%88%86%E7%A6%BB%E5%B1%9E%E6%80%A7%EF%BC%8C%E4%BC%A0NULL%E5%8D%B3%E5%8F%AF"><span class="nav-number">3.</span> <span class="nav-text">在创建线程的时候设置线程属性为分离属性(默认为非分离属性，传NULL即可):</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="nav-number">4.</span> <span class="nav-text">线程同步</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%AE%BF%E9%97%AE%E5%85%B1%E4%BA%AB%E8%B5%84%E6%BA%90%E5%89%8D%E5%8A%A0%E9%94%81%EF%BC%8C%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9D%9F%E5%90%8E%E7%AB%8B%E5%8D%B3%E8%A7%A3%E9%94%81%E3%80%82%E9%94%81%E7%9A%84%E2%80%9C%E7%B2%92%E5%BA%A6%E2%80%9D%E5%BA%94%E8%B6%8A%E5%B0%8F%E8%B6%8A%E5%A5%BD"><span class="nav-number">5.</span> <span class="nav-text">在访问共享资源前加锁，访问结束后立即解锁。锁的“粒度”应越小越好.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%92%E6%96%A5%E9%87%8F-%E4%B9%9F%E5%8F%AB%E4%BA%92%E6%96%A5%E9%94%81"><span class="nav-number">6.</span> <span class="nav-text">互斥量(也叫互斥锁)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E9%94%81-%E6%AD%BB%E9%94%81%E4%B8%8D%E6%98%AFlinux%E6%8F%90%E4%BE%9B%E7%BB%99%E5%BC%80%E5%8F%91%E8%80%85%E7%9A%84%E4%B8%80%E7%A7%8D%E6%9C%BA%E5%88%B6-%E8%80%8C%E6%98%AF%E7%94%B1%E4%BA%8E%E5%BC%80%E5%8F%91%E8%80%85%E6%93%8D%E4%BD%9C%E4%B8%8D%E5%BD%93%E5%BC%95%E8%B5%B7%E7%9A%84"><span class="nav-number">7.</span> <span class="nav-text">死锁: 死锁不是linux提供给开发者的一种机制, 而是由于开发者操作不当引起的.</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81-%E8%AF%BB%E5%86%99%E9%94%81%E6%98%AF%E4%B8%80%E6%8A%8A%E9%94%81"><span class="nav-number">8.</span> <span class="nav-text">读写锁:读写锁是一把锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text">读写锁总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%86%99%E9%94%81%E4%BD%BF%E7%94%A8%E6%AD%A5%E9%AA%A4"><span class="nav-number">10.</span> <span class="nav-text">读写锁使用步骤:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F"><span class="nav-number">11.</span> <span class="nav-text">条件变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E5%8F%B7%E9%87%8F"><span class="nav-number">12.</span> <span class="nav-text">信号量</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="qcc"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">qcc</p>
+  <div class="site-description" itemprop="description">努力变强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iwsuccess" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iwsuccess" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2274259107@qq.com" title="E-Mail → mailto:2274259107@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      链接网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/u/mou-gai/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;u&#x2F;mou-gai&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2022-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qcc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共39.7k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.1.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="努力变强">
+<meta property="og:type" content="website">
+<meta property="og:title" content="一懒众衫小">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="一懒众衫小">
+<meta property="og:description" content="努力变强">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="qcc">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>一懒众衫小</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+     <a target="_blank" rel="noopener" href="https://iwsuccess.github.io" class="github-corner" aria-label="View source on GitHub">
+	<svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true">
+		<path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+		<path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+		<path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path>
+	</svg>
+     </a>
+	<style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}
+	</style>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">一懒众衫小</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Freedom On High</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/vim_gcc%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8C%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/20/vim_gcc%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8C%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">vim gcc库制作和使用</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-20 17:05:29" itemprop="dateCreated datePublished" datetime="2022-04-20T17:05:29+08:00">2022-04-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-29 21:35:08" itemprop="dateModified" datetime="2022-04-29T21:35:08+08:00">2022-04-29</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>#gcc的工作流程<br><img src="/images/gcc.png"><br><img src="/images/gcc2.png"><br>1.预处理：cpp预处理器，去掉注释，展开头文件，宏替换<br>gcc -E test.c -o test.i<br>2.编译：gcc,将源代码文件编译成汇编代码<br>gcc -S test.i -o test.s<br>3.汇编：as，将汇编语言代码编译成二进制文件（目标代码）<br>gcc -c test.s -o test.o<br>4.链接：ld，链接test.c代码中调用的库函数<br>gcc test.o -o test.exe<br>#gcc的常用参数<br>-c  只编译, 生成.o文件, 通常称为目标文件<br>-I   指定头文件所在的路径<br>-L   指定库文件所在的路径<br>-l    指定库的名字<br>-o   指定生成的目标文件的名字<br>-g   包含调试信息, 使用gdb调试需要添加-g参数<br>#库</p>
+<ul>
+<li>库是二进制文件, 是源代码文件的另一种表现形式, 是加了密的源代码;<br>是一些功能相近或者是相似的函数的集合体</li>
+</ul>
+<h2 id="库可分静态库-static-library-和共享库-shared-library"><a href="#库可分静态库-static-library-和共享库-shared-library" class="headerlink" title="库可分静态库(static library)和共享库(shared library)"></a>库可分静态库(static library)和共享库(shared library)</h2><h2 id="静态库"><a href="#静态库" class="headerlink" title="静态库"></a>静态库</h2><ul>
+<li>静态库的制作：</li>
+</ul>
+<p>1.将.c文件编译成.o文件<br>gcc -c func1.c func2.c<br>2.使用ar命令将.o文件打包成.a文件<br>ar rcs libtest1.a func1.o func2.o</p>
+<ul>
+<li>静态库的使用（注意库名字是test1,去掉lib和.a）<br>gcc mian.c -I .&#x2F; -L .&#x2F; -l test1 -o main1<br>运行：.&#x2F;main1</li>
+</ul>
+<h2 id="静态库的优缺点"><a href="#静态库的优缺点" class="headerlink" title="静态库的优缺点"></a>静态库的优缺点</h2><ul>
+<li>优点：</li>
+</ul>
+<p>函数库最终被打包到应用程序中，实现是函数本地化，寻址方便、速度快。<br>（库函数调用效率&#x3D;&#x3D;自定义函数使用效率）<br>程序在运行时与函数库再无瓜葛，移植方便。</p>
+<ul>
+<li>缺点：</li>
+</ul>
+<p>消耗系统资源较大, 每个进程使用静态库都要复制一份, 无端浪费内存。</p>
+<p>静态库会给程序的更新、部署和发布带来麻烦。如果静态库libxxx.a更新了，所有使用它的应用程序都需要重新编译、发布给用户（对于玩家来说，可能是一个很小的改动，却导致整个程序重新下载）。</p>
+<h2 id="动态库"><a href="#动态库" class="headerlink" title="动态库"></a>动态库</h2><ul>
+<li>动态库的制作</li>
+</ul>
+<p>1.生成目标文件.o, 此时要加编译选项：-fPIC（fpic）<br>gcc -fpic -c fun1.c fun2.c<br>参数：-fpic创建与地址无关的编译程序(pic, position independent code), 目的就是为了能够在多个应用程序间共享.<br>2.生成共享库, 此时要加链接器选项: -shared（指定生成动态链接库）<br>gcc -shared fun1.o fun2.o -o libtest2.so</p>
+<ul>
+<li>动态库的使用</li>
+</ul>
+<p>gcc main.c -I.&#x2F; -L.&#x2F; -ltest2 -o main2<br>运行：.&#x2F;main2报错了！<br>动态库文件在编译的时候, 连接器需要使用参数-L找到库文件所在的路径;<br>在执行的时候, 是加载器ldd根据动态库的路径进行加载的, 与编译的时候用的-L<br>指定的路径无关.<br>最常用的解决办法:将LD_LIBRARY_PATH环境变量加到用户级别的配置文件<del>&#x2F;.bashrc中,<br>然后生效(. ~&#x2F;.bashrc    source ~&#x2F;.bashrc   退出终端然后再登录)<br>（1）dll放在用户家目录的新建的lib文件夹中，&#x2F;home&#x2F;qcc&#x2F;lib&#x2F;,配置如下<br>export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:</del>&#x2F;lib<br>（2）dll放在当前目录下或者当前目录的lib子目录下均可以的配置如下：<br>export LD_LIBRARY_PATH&#x3D;$LD_LIBRARY_PATH:.&#x2F;lib</p>
+<ul>
+<li><p>共享库的特点<br>动态库把对一些库函数的链接载入推迟到程序运行的时期。<br>可以实现进程之间的资源共享。（因此动态库也称为共享库）<br>将一些程序升级变得简单。<br>甚至可以真正做到链接载入完全由程序员在程序代码中控制（显示调用）</p>
+</li>
+<li><p>比较静态库和动态库的优缺点<br> 静态库的优点:<br>   1 执行速度快, 是因为静态库已经编译到可执行文件内部了<br>   2 移植方便, 不依赖域其他的库文件<br> 缺点:<br>   1 耗费内存, 是由于每一个静态库的可执行程序都会加载一次<br>   2 部署更新麻烦, 因为静态库修改以后所有的调用到这个静态库的可执行文<br>件都需要重新编译</p>
+</li>
+</ul>
+<p> 动态库的优点:<br>     1 节省内存<br>     2 部署升级更新方便, 只需替换动态库即可, 然后再重启服务.<br> 缺点:<br>     1 加载速度比静态库慢<br>     2 移植性差, 需要把所有用到的动态库都移植.</p>
+<p>由于由静态库生成的可执行文件是把静态库加载到了其内部, 所以静态库生成的可执行文件一般会比动态库大.</p>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/%E9%BB%91%E9%A9%AC_linux%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/19/%E9%BB%91%E9%A9%AC_linux%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Linux基础</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-19 15:53:32" itemprop="dateCreated datePublished" datetime="2022-04-19T15:53:32+08:00">2022-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-20 16:38:54" itemprop="dateModified" datetime="2022-04-20T16:38:54+08:00">2022-04-20</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>#linux基础–基础命令</p>
+<ol>
+<li><p>shell相关：shell就是命令解释器，shell将用户输入的命令解释成内核能够识别的指令。<br> 查看当前系统使用的shell：echo $SHELL<br> 当前系统支持的shell:cat &#x2F;etc&#x2F;shells</p>
+</li>
+<li><p>history会显示历史输入的所有命令。</p>
+</li>
+<li><p>linux下一切皆文件，有：字符设备文件（键盘&#x2F;鼠标）、块设备文件（硬盘）。</p>
+</li>
+<li><p>linux的目录结构：是一个倒立的树状结构<br>  &#x2F;bin: ls cp mv<br>  &#x2F;sbin: ifconfig halt shutdown<br>  &#x2F;lib: 库目录<br>  &#x2F;root: root用户的家目录<br>  &#x2F;dev: 字符设备和块设备.  在linux下, 一切皆是文件.<br>  &#x2F;home: 用户的家目录<br>  &#x2F;usr: 相当于windows的program files<br>  &#x2F;etc: 系统级别的配置文件<br>  &#x2F;mnt:<br>  &#x2F;media<br>  &#x2F;tmp<br>  &#x2F;opt</p>
+</li>
+<li><p>相对路径和绝对路径<br> 相对路径: 从当前目录开始表示的目录.<br> 绝对路径: 从根（&#x2F;）目录开始表示的目录.</p>
+</li>
+<li><p>tree命令，以树状形式查看指定目录内容，使用该命令需要安装软件tree。sudo apt-get install tree。<br> 用法： tree 目录</p>
+</li>
+<li><p>ls命令<br> ls -la  列出当前目录下所有文件的相信信息, 包括隐藏文件.<br> ls -ltr 列出当前目录下的文件, 按照时间逆向排序.(t:time,r:reverse)</p>
+</li>
+</ol>
+<p>ls -l命令输出详解如下：</p>
+<p><img src="/images/linux_ls.png"><br>说明：（1）计数参数：对于目录来说, 链接计数等于该目录下所有的目录总数(含. 和 ..), 但是不包含该目录的子目录下的目录文件数量, 执行ls -la命令可以进行查看。对于文件来说, 指的是该文件所有的硬链接文件数量。<br>（2）大小参数（单位：字节）：如果是目录: 只表示目录大小, 不包含目录中的内容, 目录大小为4k。如果是文件：表示文件大小.</p>
+<p>8.cd命令：临近两个目录直接切换：cd -<br>如：开始在: &#x2F;home&#x2F;itcast&#x2F;test&#x2F;course&#x2F;day1&#x2F;test目录下, 执行了cd命令切换到家目录下, 然后在执行cd -又回到了&#x2F;home&#x2F;itcast&#x2F;test&#x2F;course&#x2F;day1&#x2F;test下.<br>~代表用户的家目录，如：cd等价于cd ~等价于cd &#x2F;home&#x2F;qcc</p>
+<p>9.which命令：查看命令所在的目录。 如which ls   which cp。</p>
+<p>10.pwd：显示当前目录。</p>
+<p>11.touch命令<br>如果文件不存在, 创建新文件, 如果文件存在, 更新文件的最后修改时间（内容不变）。<br>命令使用方式：touch 文件名</p>
+<p>12.mkdir命令<br>创建新目录, make directory<br>创建方式：mkdir目录名<br>如果创建多级目录需要添加参数 -p （parent）<br>例 ：在当前目录下创建目录:  mkdir mydir<br>在宿主目录下创建多级目录:  mkdir -p ~&#x2F;test&#x2F;hello&#x2F;world&#x2F;aa</p>
+<p>13.rm命令<br>删除文件： rm 文件名<br>删除目录： rm  -r 目录名<br>参数：<br>-r：递归删除目录，删除目录必须添加此参数<br>-i：提示用户是否删除文件或目录<br>-f：强制删除<br>注意事项：<br>使用rm命令删除的文件或目录不会放入回收站中，数据不易恢复。</p>
+<p>14.cp命令<br>cp命令: cp 源文件  目标文件<br>cp file1 file2 (不存在)<br>cp file1 file2 (存在)<br>cp file dir(必须存在)<br>cp -r dir1 dir2(不存在)<br>cp -r dir1 dir2(存在)<br>cp -a file1 file2（将属性也复制，创建时间也会被复制）</p>
+<p>15.mv命令<br>mv命令: mv 源文件  目标文件<br>改名:<br>mv file1 file2(不存在)<br>mv file1 file2(存在)<br>mv dir1 dir2(不存在)</p>
+<p>移动:<br>mv file dir (必须存在)<br>mv dir1 dir2(存在) </p>
+<p>16.查看文件内容<br>cat more less head tail<br>tail -f test.log: 实时显示文件内容</p>
+<h2 id="一个比较重要的应用：实时的显示日志-tail-f-test-log"><a href="#一个比较重要的应用：实时的显示日志-tail-f-test-log" class="headerlink" title="一个比较重要的应用：实时的显示日志 : tail -f test.log"></a>一个比较重要的应用：实时的显示日志 : tail -f test.log</h2><h2 id="例子：一个终端tail-f-test-log-另一个终端-echo-“hello-world”-gt-gt-test-log（-gt-是覆盖，-gt-gt-是追加）"><a href="#例子：一个终端tail-f-test-log-另一个终端-echo-“hello-world”-gt-gt-test-log（-gt-是覆盖，-gt-gt-是追加）" class="headerlink" title="例子：一个终端tail -f test.log , 另一个终端: echo “hello world” &gt;&gt;test.log（&gt;是覆盖，&gt;&gt;是追加）"></a>例子：一个终端tail -f test.log , 另一个终端: echo “hello world” &gt;&gt;test.log（&gt;是覆盖，&gt;&gt;是追加）</h2><p>17.软链接（文件和目录都可以创建软链接）</p>
+<ul>
+<li><p>相当于windows下的快捷方式。</p>
+</li>
+<li><p>ln -s 源文件 链接文件</p>
+</li>
+<li><p>注意点: 创建软连接，源文件一定要使用绝对路径！ 否则, 当软连接文件<br> 移动位置之后, 就会找不到指向的文件了.</p>
+</li>
+<li><p>软连接文件的大小是: 路径+文件名的总字节数，软链接存放的实际上存放的是源文件的路径。</p>
+</li>
+<li><p>删除源文件后，软链接就无法访问数据了。</p>
+</li>
+</ul>
+<p>18.硬链接<br><img src="/images/hard_link.png"></p>
+<ul>
+<li><p>ln soucefile  desfile</p>
+</li>
+<li><p>硬链接不能建立在目录上</p>
+</li>
+<li><p>硬连接不能跨文件系统<br>硬链接文件和源文件的inode是相同的，文件系统的inode要求唯一，跨文件系统可能会使inode不同, 所以硬链接不能跨文件系统</p>
+</li>
+<li><p>创建一个硬链接文件, 硬链接计数+1, 删除一个则-1;    </p>
+</li>
+<li><p>ls -li: 可以查看文件的inode</p>
+</li>
+<li><p>作用:<br>1 可以起到同步文件的作用<br>2 可以起到保护文件的作用（当计数器变为0，才会删除）</p>
+</li>
+</ul>
+<p>19.chmod修改文件权限</p>
+<ul>
+<li><p>文字设定法: chmod ug+wx file.log  (u&#x2F;g&#x2F;o&#x2F;a  r&#x2F;w&#x2F;x)  (+&#x2F;-&#x2F;&#x3D;)</p>
+</li>
+<li><p>数字设定法: chmod 777  file.log</p>
+</li>
+</ul>
+<p>20.chown修改文件所有者和所属组（：&#x2F;.都可以）<br>sudo chown qcc:qcc aa.log<br>sudo chown mytest.mytest aa.log<br>sudo chown :mytest aa.log<br>sudo chown .mytest aa.log</p>
+<p>21.chgrp修改文件所属组<br>sudo chgrp mytest aa.log<br>22.find命令<br>-name:<br>-type:<br>-size<br>-maxdepth&#x2F;mindepth<br>-ctime&#x2F;atime&#x2F;mtime<br>find path -name “<em>.c” -exec shell命令 {} ;<br>find path -name “</em>.c” | xargs shell命令<br>23.grep<br>-n:显示行<br>-i:忽略大小写<br>-v:不显示包含搜素字符串的行，显示其他行<br>-r:    若是目录，可以递归搜索<br>find和grep结合使用:<br>find .&#x2F; -name “*.sh” | xargs grep -n “while”<br>24.软件安装和卸载<br>在线安装<br>软件安装：sudo apt-get install 软件名<br>软件卸载：sudo apt-get remove 软件名<br>更新软件列表：sudo apt-get update<br>清理安装包：sudo apt-get clean<br>清理的是缓存路径：&#x2F;var&#x2F;cache&#x2F;apt&#x2F;archives<br>软件包安装<br>在Ubuntu系统下必须有deb格式的安装包<br>软件安装<br>sudo dpkg -i xxx.deb<br>软件卸载<br>sudo dpkg -r 软件名<br>25.压缩和解压缩</p>
+<ul>
+<li><p>gzip和bzip2（不常用）<br>不能压缩目录，只能一个一个文件进行压缩，压缩之后会使原文件消失<br>gzip *    压缩当前目录下所有的文件, 但是目录不能压缩<br>gunzip *  解压当前目录下所有的.gz文件<br>bzip2 *   压缩当前目录下所有的文件, 但是目录不能压缩<br>bunzip2 * 解压当前目录下所有的. bz2文件</p>
+</li>
+<li><p>tar(常用)<br>tar -cvf my.tar file dir(打包成tar包，并未压缩！！！)<br>tar -xvf my.tar -C mydir（解开tar包）(-C指定解压后的目录)(c&#x2F;x互斥出现)</p>
+</li>
+</ul>
+<p>(gzip形式压缩与解压)<br>tar -zcvf my.tar.gz file dir<br>tar -zxvf my.tar.gz -C mydir<br>(bzip2形式压缩和解压)<br>tar -jcvf my.tar.bz2 file dir<br>tar -jxvf my.tar.bz2 -C mydir</p>
+<p>（zip形式压缩与解压）<br>zip:<br>      zip -r xxx file dir （-r是有目录的情况）<br>unzip:<br>      unzip xxx.zip -d &#x2F;home&#x2F;itcast&#x2F;test&#x2F;day1</p>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/16/http%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/16/http%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%A1%B9%E7%9B%AE%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">http服务器项目开发</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-16 20:01:32" itemprop="dateCreated datePublished" datetime="2022-04-16T20:01:32+08:00">2022-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-17 18:28:26" itemprop="dateModified" datetime="2022-04-17T18:28:26+08:00">2022-04-17</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="post-title-link" itemprop="url">samba服务器</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-13 16:12:24 / 修改时间：16:29:05" itemprop="dateCreated datePublished" datetime="2022-04-13T16:12:24+08:00">2022-04-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="samba服务器简介"><a href="#samba服务器简介" class="headerlink" title="samba服务器简介"></a>samba服务器简介</h2><ul>
+<li><p>实现windows和unix系列系统之间能够相互沟通，就产生了samba服务。</p>
+</li>
+<li><p>samba是架构在NetBIOS（Network Basic Input&#x2F;Output System,网上基本输入输出系统）这个通信协议上面所开发出来的。NetBIOS是由IBM发展出来，目的是要让局域网络内少数计算机进行网络连接的一个通信协议，因此NetBIOS是无法跨越路由的，而现在Samba不仅能与局域网主机分享资源，还能与全世界的电脑分享资源，就是由NetBIOS over TCP&#x2F;IP技术解决。由于NetBIOS在局域网内实在是很好用，所以微软的网络架构就使用了这个协议。而samba最早发展的时候，其实是想要让linux系统可以加入windows的系统当中来共享使用彼此的文件数据，所以samba就架构在NetBIOS发展出来了</p>
+</li>
+</ul>
+<h2 id="Ubuntu安装Samba服务器"><a href="#Ubuntu安装Samba服务器" class="headerlink" title="Ubuntu安装Samba服务器"></a>Ubuntu安装Samba服务器</h2><ol>
+<li>确认安装：dpkg l | grep samba</li>
+<li>安装：sudo apt-get install samba samba-common</li>
+<li>卸载：sudo apt-get autoremove samba<h2 id="Samba服务器配置"><a href="#Samba服务器配置" class="headerlink" title="Samba服务器配置"></a>Samba服务器配置</h2></li>
+</ol>
+<ul>
+<li>sudo vim &#x2F;etc&#x2F;samba&#x2F;smb.conf</li>
+<li>在文件的最后添加</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[share]</span><br><span class="line">comment=This is samba dir</span><br><span class="line">path=/home/qcc/</span><br><span class="line">writable=yes</span><br><span class="line">browseable=yes</span><br></pre></td></tr></table></figure>
+<ul>
+<li>增加samba用户</li>
+<li>sudo smbpasswd -a qcc (密码设置需要与linux的密码一致)<h2 id="启动和关闭"><a href="#启动和关闭" class="headerlink" title="启动和关闭"></a>启动和关闭</h2></li>
+<li>注意添加新用户后，需要重启samba服务器</li>
+<li>启动：sudo service smbd start</li>
+<li>关闭 ：sudo service smbd stop<br>##直接在windows在编码</li>
+<li>在windows色目录上方，写入：\局域网（linux的）ip地址,然后就能在windows下编辑linux下的文件了！</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/13/linux%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/13/linux%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">linux命令</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-13 10:18:20 / 修改时间：11:40:54" itemprop="dateCreated datePublished" datetime="2022-04-13T10:18:20+08:00">2022-04-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="硬链接与软链接"><a href="#硬链接与软链接" class="headerlink" title="硬链接与软链接"></a>硬链接与软链接</h2><ul>
+<li>硬链接：ln 源文件 目标文件</li>
+<li>软链接：ln -s 源文件 目标文件  </li>
+<li>区别：创建硬链接后，所有硬链接文件（包括源文件）都指向内存中的存放（源文件）数据的一块区域，此时会维护一个计数器，每创建一个硬链接，计数器++，删除源文件不会影响其他硬链接文件访问数据，只不过是计数器–，当计数器为0时，系统才会回收内存。而软链接则是相当于创建了一个文件别名，当删除源文件后，该软链接则会失效，访问不到数据。</li>
+</ul>
+<h2 id="改变文件所有权chown和chgrp"><a href="#改变文件所有权chown和chgrp" class="headerlink" title="改变文件所有权chown和chgrp"></a>改变文件所有权chown和chgrp</h2><ul>
+<li><p>用法：chown [option] [用户]：[属组] 目标文件</p>
+</li>
+<li><p>-r表示递归的改变（一个目录以及其子目录的所有权设置）</p>
+</li>
+<li><p>例子:chown qcc:qcc test.c &#x2F;&#x2F;将test.c的用户和属组都该变为qcc</p>
+</li>
+<li><p>用法：chgrp 属组 目标文件</p>
+</li>
+<li><p>作用：改变目标文件的数组（change group）</p>
+</li>
+</ul>
+<h2 id="chmod改变文件权限"><a href="#chmod改变文件权限" class="headerlink" title="chmod改变文件权限"></a>chmod改变文件权限</h2><ul>
+<li><p>第一种方式：通过用户组+&#x2F;-权限完成，具体来说，用户组包括了文件属主(u),文件属组(g)，其他人(o)和所有人(a)，而权限包括(r,w,x)。</p>
+</li>
+<li><p>用法：chmod u+r,g+w,o+r 目标文件</p>
+</li>
+<li><p>第二种方式：分别利用三位的二进制完成，（—（用户）—（组）—（其他人））</p>
+</li>
+<li><p>用法：例如：101(r,w,x)–&gt;5代表赋予读和执行权限。chmod 555 目标文件,第一个5是改变用户的权限，第二个是组，第三个是其他人！</p>
+</li>
+<li><p>增加用户操作</p>
+</li>
+<li><p>useradd -g 属组 用户</p>
+</li>
+<li><p>注意：添加后的用户是不能切换到root权限下的，如果想切换，需要改变&#x2F;etc&#x2F;sudoers文件，将其进行提权。<br><img src="/images/linux.png"></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/11/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8Esocket%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E7%BD%91%E7%BB%9C%E9%80%9A%E4%BF%A1%E4%B8%8Esocket%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">网络通信与socket编程</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-11 20:01:12" itemprop="dateCreated datePublished" datetime="2022-04-11T20:01:12+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-16 19:47:48" itemprop="dateModified" datetime="2022-05-16T19:47:48+08:00">2022-05-16</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="1-socket通信的3要素"><a href="#1-socket通信的3要素" class="headerlink" title="1.socket通信的3要素"></a>1.socket通信的3要素</h1><ol>
+<li>通信的目的地址</li>
+<li>使用的端口号（例如：http默认的是80端口，smtp(邮件传输端口):25）</li>
+<li>使用的传输层协议（如：TCP&#x2F;UDP）</li>
+</ol>
+<h1 id="2-socket概念"><a href="#2-socket概念" class="headerlink" title="2.socket概念"></a>2.socket概念</h1><ul>
+<li><p>（int类型） 在Linux环境下，用于表示进程间网络通信的特殊文件类型，本质为内核借助缓冲区形成的伪文件。</p>
+</li>
+<li><p>套接字的读写和文件操作一致，区别是文件主要应用于本地持久化数据的读写（磁盘），而套接字应用于网络进程间数据的传递。</p>
+</li>
+<li><p>在TCP&#x2F;IP协议中，IP地址+TCP或UDP端口号来唯一标识网络通信中的一个进程。IP地址+端口号就对应一个socket，欲建立连接的两个进程各有一个socket，那么这两个socket组成的socket pair就唯一的标识一个连接，因此，可以用socket来描述网络连接中的一对一关系。<br><img src="/images/c_s.png"></p>
+</li>
+<li><p>在网络通信中，套接字一定是成对出现的，一端的发送缓冲区对应另一端的接收缓冲区，使用同一个文件描述符发送缓冲区和接收缓冲区。</p>
+</li>
+</ul>
+<h1 id="3-socket通信创建流程"><a href="#3-socket通信创建流程" class="headerlink" title="3.socket通信创建流程"></a>3.socket通信创建流程</h1><p><img src="/images/socket.png"></p>
+<h1 id="4-socket编程基础"><a href="#4-socket编程基础" class="headerlink" title="4.socket编程基础"></a>4.socket编程基础</h1><ul>
+<li>大端字节序：低地址存放高字节！</li>
+<li>小端字节序：低地址存放低字节！</li>
+<li>网络数据流发出的顺序是，先发送的数据是低地址存放的数据，后发送的数据是高地址存放的数据。</li>
+<li>TCP&#x2F;IP协议规定：网络数据流应采用大端字节序。</li>
+<li>由于网络数据流采取的是大端字节序，所以，如果主机是小端字节序，那么需要转化为大端字节序，再进行传输；如果主机是大端字节序，则不做转化。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//本机字节序测试</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include&lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">//借助共用体，公用同一块内存空间</span><br><span class="line">union&#123;</span><br><span class="line">	short s;</span><br><span class="line">	char c[sizeof(short)];</span><br><span class="line">&#125; un2;</span><br><span class="line"></span><br><span class="line">union&#123;</span><br><span class="line">	int s;</span><br><span class="line">	char c[sizeof(int)];</span><br><span class="line">&#125; un4;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	printf(&quot;sizeof(short)=[%d],sizeof(int)=[%d]\n&quot;,sizeof(short),sizeof(int));</span><br><span class="line">	</span><br><span class="line">	//测试short类型，运行结果可以看出，低地址存放了低字节，所以是小端字节序！！！</span><br><span class="line">	un2.s=0x0102;</span><br><span class="line">	printf(&quot;%d,%d,%d\n&quot;,un2.c[0],un2.c[1],un2.s);</span><br><span class="line">	</span><br><span class="line">	//测试int类型</span><br><span class="line">	un4.s=0x01020304;</span><br><span class="line">	printf(&quot;%d,%d,%d,%d,%d\n&quot;,un4.c[0],un4.c[1],un4.c[2],un4.c[3],un4.s);</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>运行结果（低地址存放了低字节，所以是小端字节序）：</li>
+</ul>
+<p><img src="/images/socket.png"></p>
+<ul>
+<li>对应的API函数</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">uint32_t htonl(uint32_t hostlong);</span><br><span class="line">uint16_t htons(uint16_t hostshort);</span><br><span class="line">uint32_t ntohl(uint32_t netlong);</span><br><span class="line">uint16_t ntohs(uint16_t netshort);</span><br><span class="line">h表示host，n表示network，l表示32位长整数，s表示16位短整数。</span><br><span class="line">32位的是IP地址，16位的是端口号</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="4-1-sockaddr数据结构-存在历史遗留问题"><a href="#4-1-sockaddr数据结构-存在历史遗留问题" class="headerlink" title="4.1 sockaddr数据结构(存在历史遗留问题)"></a>4.1 sockaddr数据结构(存在历史遗留问题)</h2><ul>
+<li>很多网络编程函数诞生早于IPv4协议，那时候都使用的是sockaddr结构体,为了向前兼容，现在sockaddr退化成了（void *）的作用，传递一个地址给函数，至于这个函数是sockaddr_in还是其他的，由地址族确定，然后函数内部再强制类型转化为所需的地址类型。</li>
+</ul>
+<p><img src="/images/sockaddr.png"></p>
+<ul>
+<li>如上图，sockaddr_in实际上是将sockaddr进行了细化，16位的地址类型没变，将剩下的14个字节的数据分为2个字节的端口号，4个字节的IP地址（IPV4），8个字节的填充位。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr &#123;</span><br><span class="line">	sa_family_t sa_family; 		/* address family, AF_xxx */ 协议家族，AF_INET代表IPV4</span><br><span class="line">	char sa_data[14];			/* 14 bytes of protocol address */</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"> struct sockaddr_in &#123;</span><br><span class="line">     sa_family_t    sin_family; /* address family: AF_INET */</span><br><span class="line">     in_port_t      sin_port;   /* port in network byte order */ 端口号</span><br><span class="line">     struct in_addr sin_addr;   /* internet address */  IP地址</span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line"> /* Internet address. */</span><br><span class="line">struct in_addr &#123;</span><br><span class="line">    uint32_t       s_addr;     /* address in network byte order */注意IP地址是32位无符号整型</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>IPv4的地址格式定义在netinet&#x2F;in.h中，IPv4地址用sockaddr_in结构体表示，包括16位端口号和32位IP地址，但是sock API的实现早于ANSI C标准化，那时还没有void *类型，因此这些像bind 、accept函数的参数都用struct sockaddr *类型表示，在传递参数之前要强制类型转换一下，例如：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bind(listen_fd, (struct sockaddr *)&amp;servaddr, sizeof(servaddr));		/* initialize servaddr */</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-2-IP地址转化函数"><a href="#4-2-IP地址转化函数" class="headerlink" title="4.2 IP地址转化函数"></a>4.2 IP地址转化函数</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">int inet_pton(int af, const char *src, void *dst);</span><br><span class="line">const char *inet_ntop(int af, const void *src, char *dst, socklen_t size);</span><br><span class="line">af 取值可选为 AF_INET 和 AF_INET6 ，即和 ipv4 和ipv6对应</span><br><span class="line">支持IPv4和IPv6</span><br></pre></td></tr></table></figure>
+<p>其中inet_pton和inet_ntop不仅可以转换IPv4的in_addr，还可以转换IPv6的in6_addr。<br>因此函数接口是void *addrptr</p>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main(void)&#123;</span><br><span class="line"></span><br><span class="line">    char ip[]=&quot;2.3.4.5&quot;;</span><br><span class="line">    char server_ip[64];</span><br><span class="line"></span><br><span class="line">    struct sockaddr_in server_addr;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    inet_pton(AF_INET, ip, &amp;server_addr.sin_addr.s_addr);</span><br><span class="line"></span><br><span class="line">    printf(&quot;s_addr : %x\n&quot;, server_addr.sin_addr.s_addr);</span><br><span class="line"></span><br><span class="line">    printf(&quot;s_addr from net to host: %x\n&quot;, ntohl(server_addr.sin_addr.s_addr));</span><br><span class="line"></span><br><span class="line">    inet_ntop(AF_INET, &amp;server_addr.sin_addr.s_addr, server_ip, 64);</span><br><span class="line"></span><br><span class="line">    printf(&quot;server ip : %s\n&quot;, server_ip);</span><br><span class="line"></span><br><span class="line">    printf(&quot;INADDR_ANY: %d\n&quot;, INADDR_ANY);</span><br><span class="line">    server_addr.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">    inet_ntop(AF_INET, &amp;server_addr.sin_addr.s_addr, server_ip, 64);</span><br><span class="line">    printf(&quot;INADDR_ANY ip : %s\n&quot;, server_ip);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>#5.socket编程函数</p>
+<p>-** 5.1 socket函数**</p>
+<ul>
+<li>socket()打开一个网络通讯端口，如果成功的话，就像open()一样返回一个文件描述符，应用程序可以像读写文件一样用read&#x2F;write在网络上收发数据，如果socket()调用出错则返回-1。对于IPv4，domain参数指定为AF_INET。对于TCP协议，type参数指定为SOCK_STREAM，表示面向流的传输协议。如果是UDP协议，则type参数指定为SOCK_DGRAM，表示面向数据报的传输协议。protocol参数的介绍从略，指定为0即可.</li>
+<li>函数：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
+
+<p>-** 5.2 bind函数**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br><span class="line">sockfd：</span><br><span class="line">	socket文件描述符</span><br><span class="line">addr:</span><br><span class="line">	构造出IP地址加端口号</span><br><span class="line">addrlen:</span><br><span class="line">	sizeof(addr)长度</span><br><span class="line">返回值：</span><br><span class="line">	成功返回0，失败返回-1, 设置errno</span><br></pre></td></tr></table></figure>
+<ul>
+<li>服务器程序所监听的网络地址和端口号通常是固定不变的，客户端程序得知服务器程序的地址和端口号后就可以向服务器发起连接，因此服务器需要调用bind绑定一个固定的网络地址和端口号。</li>
+<li>bind()的作用是将参数sockfd和addr绑定在一起，使sockfd这个用于网络通讯的文件描述符监听addr所描述的地址和端口号。前面讲过，struct sockaddr *是一个通用指针类型，addr参数实际上可以接受多种协议的sockaddr结构体，而它们的长度各不相同，所以需要第三个参数addrlen指定结构体的长度。如：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in servaddr;</span><br><span class="line">bzero(&amp;servaddr, sizeof(servaddr));</span><br><span class="line">servaddr.sin_family = AF_INET;</span><br><span class="line">servaddr.sin_addr.s_addr = htonl(INADDR_ANY);</span><br><span class="line">servaddr.sin_port = htons(6666);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>首先将整个结构体清零，然后设置地址类型为AF_INET，网络地址为INADDR_ANY，这个宏表示本地的任意IP地址，因为服务器可能有多个网卡，每个网卡也可能绑定多个IP地址，这样设置可以在所有的IP地址上监听，直到与某个客户端建立了连接时才确定下来到底用哪个IP地址，端口号为6666</li>
+</ul>
+<p>-** 5.3 listen函数**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; /* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int listen(int sockfd, int backlog);</span><br><span class="line">sockfd:</span><br><span class="line">	socket文件描述符</span><br><span class="line">backlog:</span><br><span class="line">	在Linux 系统中，它是指排队等待建立3次握手队列长度</span><br></pre></td></tr></table></figure>
+
+
+<ul>
+<li><p>查看系统默认backlog<br>cat &#x2F;proc&#x2F;sys&#x2F;net&#x2F;ipv4&#x2F;tcp_max_syn_backlog</p>
+</li>
+<li><p>改变 系统限制的backlog 大小<br>vim &#x2F;etc&#x2F;sysctl.conf</p>
+</li>
+<li><p>最后添加<br>net.core.somaxconn &#x3D; 1024<br>net.ipv4.tcp_max_syn_backlog &#x3D; 1024</p>
+</li>
+<li><p>保存，然后执行<br>sysctl -p</p>
+</li>
+<li><p>注意：backlog需要手动去修改系统的内核参数，不然只调用listen是无法修改的！！！</p>
+</li>
+<li><p>典型的服务器程序可以同时服务于多个客户端，当有客户端发起连接时，服务器调用的accept()返回并接受这个连接，如果有大量的客户端发起连接而服务器来不及处理，尚未accept的客户端就处于连接等待状态，listen()声明sockfd处于监听状态，并且最多允许有backlog个客户端处于连接等待状态，如果接收到更多的连接请求就忽略。listen()成功返回0，失败返回-1。</p>
+</li>
+</ul>
+<p>-** 5.4 accept函数**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; 		/* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</span><br><span class="line">sockdf:</span><br><span class="line">	socket文件描述符</span><br><span class="line">addr:</span><br><span class="line">	传出参数，返回链接客户端地址信息，含IP地址和端口号</span><br><span class="line">addrlen:</span><br><span class="line">	传入传出参数（值-结果）,传入sizeof(addr)大小，函数返回时返回真正接收到地址结构体的大小</span><br><span class="line">返回值：</span><br><span class="line">	成功返回一个新的socket文件描述符，用于和客户端通信，失败返回-1，设置errno</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>三次握手完成后，服务器调用accept()接受连接，如果服务器调用accept()时还没有客户端的连接请求，就阻塞等待直到有客户端连接上来。addr是一个传出参数，accept()返回时传出客户端的地址和端口号。addrlen参数是一个传入传出参数（value-result argument），传入的是调用者提供的缓冲区addr的长度以避免缓冲区溢出问题，传出的是客户端地址结构体的实际长度（有可能没有占满调用者提供的缓冲区）。如果给addr参数传NULL，表示不关心客户端的地址。</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">while (1) &#123;</span><br><span class="line">	cliaddr_len = sizeof(cliaddr);</span><br><span class="line">	connfd = accept(listenfd, (struct sockaddr *)&amp;cliaddr, &amp;cliaddr_len);</span><br><span class="line">	n = read(connfd, buf, MAXLINE);</span><br><span class="line">	......</span><br><span class="line">	close(connfd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>整个是一个while死循环，每次循环处理一个客户端连接。由于cliaddr_len是传入传出参数，每次调用accept()之前应该重新赋初值。accept()的参数listenfd是先前的监听文件描述符，而accept()的返回值是另外一个文件描述符connfd，之后与客户端之间就通过这个connfd通讯，最后关闭connfd断开连接，而不关闭listenfd，再次回到循环开头listenfd仍然用作accept的参数。accept()成功返回一个文件描述符，出错返回-1。</li>
+</ul>
+<p>-** 5.5 connect函数**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt; 					/* See NOTES */</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen);</span><br><span class="line">sockdf:</span><br><span class="line">	socket文件描述符</span><br><span class="line">addr:</span><br><span class="line">	传入参数，指定服务器端地址信息，含IP地址和端口号</span><br><span class="line">addrlen:</span><br><span class="line">	传入参数,传入sizeof(addr)大小</span><br><span class="line">返回值：</span><br><span class="line">	成功返回0，失败返回-1，设置errno</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>客户端需要调用connect()连接服务器，connect和bind的参数形式一致，区别在于bind的参数是自己的地址，而connect的参数是对方的地址。connect()成功返回0，出错返回-1。</li>
+</ul>
+<p>-** 5.6 出错函数处理**</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">char *strerror(int errnum);     /* See NOTES */</span><br><span class="line">errnum:</span><br><span class="line">	传入参数,错误编号的值，一般取 errno 的值   该方法可以配合日志打印函数，输出错误在日志中</span><br><span class="line">返回值：</span><br><span class="line">	错误原因</span><br><span class="line"></span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">void perror(const char *s);    /* See NOTES */</span><br><span class="line">s:</span><br><span class="line">	传入参数,自定义的描述</span><br><span class="line">返回值：</span><br><span class="line">	无</span><br><span class="line">向标准出错stderr 输出出错原因,不能打印在日志中</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/10/%E9%9D%A2%E8%AF%95%E9%A2%98/" class="post-title-link" itemprop="url">面试题</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-10 11:10:17 / 修改时间：11:12:52" itemprop="dateCreated datePublished" datetime="2022-04-10T11:10:17+08:00">2022-04-10</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="字节跳动"><a href="#字节跳动" class="headerlink" title="字节跳动"></a>字节跳动</h2><p><img src="/images/zijie1.jpg"><br><img src="/images/zijie2.jpg"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"> int main() &#123;</span><br><span class="line">	 int dx[4] = &#123; 0,0,1,-1 &#125;;</span><br><span class="line">	 int dy[4] = &#123; 1,-1,0,0 &#125;;</span><br><span class="line">	 int num;</span><br><span class="line">	 cin &gt;&gt; num;</span><br><span class="line">	 int w, h;</span><br><span class="line">	 vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt;res;</span><br><span class="line">	 while (num&gt;0) &#123;</span><br><span class="line">		</span><br><span class="line">		cin&gt;&gt;w;</span><br><span class="line">		cin&gt;&gt; h;</span><br><span class="line">		vector&lt;vector&lt;int&gt;&gt;matrix(w,vector&lt;int&gt;(h));</span><br><span class="line">		for (int i = 0; i &lt; w; i++)</span><br><span class="line">			for (int j = 0; j &lt; h; j++)</span><br><span class="line">				cin &gt;&gt; matrix[i][j];</span><br><span class="line"></span><br><span class="line">		for (int i = 0; i &lt; w; i++) &#123;</span><br><span class="line">			for (int j = 0; j &lt; h; j++) &#123;</span><br><span class="line">				if (matrix[i][j] == 1) &#123;</span><br><span class="line">					int water = 0;</span><br><span class="line">					int new_x;</span><br><span class="line">					int new_y;</span><br><span class="line">					for (int k = 0; k &lt; 4; k++) &#123;</span><br><span class="line">						new_x = i + dx[k];</span><br><span class="line">						new_y = j + dy[k];</span><br><span class="line">						if (new_x &gt;= 0 &amp;&amp; new_x &lt; w &amp;&amp; new_y &gt;= 0 &amp;&amp; new_y &lt; h) &#123;</span><br><span class="line">							if (matrix[new_x][new_y] == 0)</span><br><span class="line">								water++;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					if (water &gt;= 2)</span><br><span class="line">						matrix[i][j] = -1;</span><br><span class="line">						</span><br><span class="line"></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		for (int i = 0; i &lt; w; i++)</span><br><span class="line">			for (int j = 0; j &lt; h; j++)</span><br><span class="line">				if (matrix[i][j] == -1)</span><br><span class="line">					matrix[i][j] = 0;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		res.push_back(matrix);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		num--;</span><br><span class="line">			</span><br><span class="line">	 &#125;</span><br><span class="line"></span><br><span class="line">	 //这样输出会越界，因为3维数组中的每一个二维数组可能不相同！！！  （2，3，4）</span><br><span class="line">	/* for (int i = 0; i &lt; res.size(); i++) &#123;</span><br><span class="line">		 for (int j = 0; j &lt; res[0].size(); j++) &#123;</span><br><span class="line">			 for (int k = 0; k &lt; res[0][0].size(); k++) &#123;</span><br><span class="line">				 cout &lt;&lt; res[i][j][k] &lt;&lt; &quot; &quot;;</span><br><span class="line">			 &#125;</span><br><span class="line">			 cout &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		 &#125;*/</span><br><span class="line">	 //二维数组作为缓冲，进行输出！</span><br><span class="line">		  for (int i = 0; i &lt; res.size(); i++) &#123;</span><br><span class="line">			  vector&lt;vector&lt;int&gt;&gt;temp=res[i];</span><br><span class="line">			 for (int j = 0; j &lt; temp.size(); j++) &#123;</span><br><span class="line">				 for (int k = 0; k &lt; temp[0].size(); k++) &#123;</span><br><span class="line">					 cout &lt;&lt; temp[j][k] &lt;&lt; &quot; &quot;;</span><br><span class="line">				 &#125;</span><br><span class="line">				 cout &lt;&lt; endl;</span><br><span class="line">			&#125;</span><br><span class="line">			 &#125;</span><br><span class="line">	</span><br><span class="line">	 return 0;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/06/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/06/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">动态规划</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 15:56:05 / 修改时间：17:04:38" itemprop="dateCreated datePublished" datetime="2022-04-06T15:56:05+08:00">2022-04-06</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="动态规划的常见问题"><a href="#动态规划的常见问题" class="headerlink" title="动态规划的常见问题"></a>动态规划的常见问题</h2><ul>
+<li>动规基础（爬楼梯，斐波那契数）</li>
+<li>背包问题</li>
+<li>打家劫舍</li>
+<li>股票问题</li>
+<li>子序列问题</li>
+</ul>
+<h2 id="动态规划五部曲"><a href="#动态规划五部曲" class="headerlink" title="动态规划五部曲"></a>动态规划五部曲</h2><ul>
+<li>dp数组以及下标的含义（例如dp[i],dp[i][j]等等）</li>
+<li>递推公式</li>
+<li>dp数组如何初始化</li>
+<li>遍历顺序</li>
+<li>打印dp数组</li>
+</ul>
+<h3 id="动态规划基础题目一：斐波那契数列"><a href="#动态规划基础题目一：斐波那契数列" class="headerlink" title="动态规划基础题目一：斐波那契数列"></a>动态规划基础题目一：斐波那契数列</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">1. dp[i]：第i个斐波那契数的值是dp[i].</span><br><span class="line">2. 递推公式：dp[i]=dp[i-1]+dp[i-2];</span><br><span class="line">3. 初始化：dp[0]=1,dp[1]=1.</span><br><span class="line">4. 遍历顺序：从小到大遍历.</span><br><span class="line">5. 打印dp数组，主要用来debug.</span><br><span class="line"></span><br><span class="line">解法一：</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int fib(int n) &#123;</span><br><span class="line">        vector&lt;int&gt;dp(n+1,0);</span><br><span class="line">        if(n==0||n==1)</span><br><span class="line">            return n;</span><br><span class="line">        dp[0]=0;</span><br><span class="line">        dp[1]=1;</span><br><span class="line">            dp[i]=dp[i-1]+dp[i-2];</span><br><span class="line">        return dp[n];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">解法二（优化内存后，状态压缩后的解法）：</span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int fib(int n) &#123;</span><br><span class="line">        if(n==0||n==1)</span><br><span class="line">            return n;</span><br><span class="line">    vector&lt;int&gt;dp(2,0);</span><br><span class="line">    dp[0]=0;</span><br><span class="line">    dp[1]=1;</span><br><span class="line">    int sum=0;</span><br><span class="line">        for(int i=2;i&lt;=n;i++)</span><br><span class="line">            &#123;</span><br><span class="line">                sum=dp[0]+dp[1];</span><br><span class="line">                dp[0]=dp[1];</span><br><span class="line">                dp[1]=sum;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        return sum;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="动态规划基础题目二：使用最小的花费爬楼梯"><a href="#动态规划基础题目二：使用最小的花费爬楼梯" class="headerlink" title="动态规划基础题目二：使用最小的花费爬楼梯"></a>动态规划基础题目二：使用最小的花费爬楼梯</h3><p><img src="/images/leetcode746.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">五部曲</span><br><span class="line">1. dp[i]：代表爬到第i阶台阶所花费的最小代价cost。</span><br><span class="line">2. 递推公式：dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2])</span><br><span class="line">3. 初始化:dp[0]=0,dp[1]=0,因为可以直接从第0或者第1个台阶开始爬</span><br><span class="line">4. 遍历顺序：从小到大遍历</span><br><span class="line">5. 打印dp数组，debug手段。</span><br><span class="line"></span><br><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    int minCostClimbingStairs(vector&lt;int&gt;&amp; cost) &#123;</span><br><span class="line">        if(cost.size()==1)</span><br><span class="line">            return 0;</span><br><span class="line">        if(cost.size()==2)</span><br><span class="line">            return min(cost[0],cost[1]);</span><br><span class="line">    </span><br><span class="line">        vector&lt;int&gt;dp(cost.size()+1,0);</span><br><span class="line">        dp[0]=0;</span><br><span class="line">        dp[1]=0;</span><br><span class="line"></span><br><span class="line">        for(int i=2;i&lt;=cost.size();i++) </span><br><span class="line">            dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2]);</span><br><span class="line">        return dp[cost.size()];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">多线程和线程同步</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-04 19:42:44" itemprop="dateCreated datePublished" datetime="2022-04-04T19:42:44+08:00">2022-04-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-05 13:10:19" itemprop="dateModified" datetime="2022-04-05T13:10:19+08:00">2022-04-05</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="线程加锁与解锁"><a href="#线程加锁与解锁" class="headerlink" title="线程加锁与解锁"></a>线程加锁与解锁</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 尝试加锁,与Lock的区别是，trylock当拿不到锁时，不会死等（不会阻塞），转而去干其他的事；而lock会一直阻塞，直至拿到锁。</span><br><span class="line">int pthread_mutex_trylock(pthread_mutex_t *mutex);</span><br><span class="line">// 修改互斥锁的状态, 将其设定为锁定状态, 这个状态被写入到参数 mutex 中</span><br><span class="line">int pthread_mutex_lock(pthread_mutex_t *mutex);</span><br><span class="line">// 对互斥锁解锁</span><br><span class="line">int pthread_mutex_unlock(pthread_mutex_t *mutex);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><ol>
+<li>加锁之后忘记解锁<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 场景1</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功, 当前循环完毕没有解锁, 在下一轮循环的时候自己被阻塞了</span><br><span class="line">        // 其余的线程也被阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        // 忘记解锁</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 场景2</span><br><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程被阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        if(xxx)</span><br><span class="line">        &#123;</span><br><span class="line">            // 函数退出, 没有解锁（解锁函数无法被执行了）</span><br><span class="line">            return ;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>2.重复加锁，造成死锁</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">void func()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">        // 锁被锁住了, A线程阻塞</span><br><span class="line">        pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 隐藏的比较深的情况</span><br><span class="line">void funcA()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void funcB()</span><br><span class="line">&#123;</span><br><span class="line">    for(int i=0; i&lt;6; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        // 当前线程A加锁成功</span><br><span class="line">        // 其余的线程阻塞</span><br><span class="line">    	pthread_mutex_lock(&amp;mutex);</span><br><span class="line">        funcA();		// 重复加锁</span><br><span class="line">    	....</span><br><span class="line">    	.....</span><br><span class="line">        pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3.当含有多个共享资源时，随意加锁，导致相互被阻塞</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">thread A&#123;</span><br><span class="line">	lock(x);</span><br><span class="line">	lock(y);</span><br><span class="line">	unlock(y);</span><br><span class="line">	unlock(x);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">thread B&#123;</span><br><span class="line">	lock(y);</span><br><span class="line">	lock(x);</span><br><span class="line">	unlock(x);</span><br><span class="line">	unlock(y);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">A拿到x锁，B拿到y锁就会导致死锁。一般可以加锁顺序相同，避免死锁，但是有的特定场景不适用（对共享资源的访问顺序有要求的情况）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="如何避免死锁"><a href="#如何避免死锁" class="headerlink" title="如何避免死锁"></a>如何避免死锁</h2><ul>
+<li><p>避免多次锁定，多检查</p>
+</li>
+<li><p>对共享资源访问完毕之后，一定要解锁，或者在加锁的使用 trylock</p>
+</li>
+<li><p>如果程序中有多把锁，可以控制对锁的访问顺序 (顺序访问共享资源，但在有些情况下是做不到的)，另外也可以在对其他互斥锁做加锁操作之前，先释放当前线程拥有的互斥锁。</p>
+</li>
+<li><p>项目程序中可以引入一些专门用于死锁检测的模块</p>
+</li>
+</ul>
+<h2 id="读写锁"><a href="#读写锁" class="headerlink" title="读写锁"></a>读写锁</h2><ol>
+<li>是一个锁；</li>
+<li>读锁是共享的，写锁是互斥的；</li>
+<li>写锁的优先级大于读的优先级。</li>
+<li>如果说程序中所有的线程都对共享资源做写操作，使用读写锁没有优势，和互斥锁是一样的，如果说程序中所有的线程都对共享资源有写也有读操作，并且对共享资源读的操作越多，读写锁更有优势。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
+<li>组合问题（无序的）</li>
+<li>切割问题（字符串的切割方式）</li>
+<li>子集问题</li>
+<li>排列问题（有序的）</li>
+<li>棋盘问题（N皇后，解数独）</li>
+</ul>
+<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
+<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
+</ul>
+<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="qcc"
+      src="/images/cat.png">
+  <p class="site-author-name" itemprop="name">qcc</p>
+  <div class="site-description" itemprop="description">努力变强</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/iwsuccess" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;iwsuccess" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:2274259107@qq.com" title="E-Mail → mailto:2274259107@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      链接网站
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://leetcode-cn.com/u/mou-gai/" title="https:&#x2F;&#x2F;leetcode-cn.com&#x2F;u&#x2F;mou-gai&#x2F;" rel="noopener" target="_blank">leetcode</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2022-03 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">qcc</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共39.7k字</span>
+</div>
+
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+    <span id="busuanzi_container_site_pv">总访问量<span id="busuanzi_value_site_pv"></span>次</span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_uv">总访客数<span id="busuanzi_value_site_uv"></span>人</span>
+    <span class="post-meta-divider">|</span>
+<!-- 不蒜子计数初始值纠正 -->
+<script>
+$(document).ready(function() {
+
+    var int = setInterval(fixCount, 50);  // 50ms周期检测函数
+    var countOffset = 20000;  // 初始化首次数据
+
+    function fixCount() {            
+       if (document.getElementById("busuanzi_container_site_pv").style.display != "none")
+        {
+            $("#busuanzi_value_site_pv").html(parseInt($("#busuanzi_value_site_pv").html()) + countOffset); 
+            clearInterval(int);
+        }                  
+        if ($("#busuanzi_container_site_pv").css("display") != "none")
+        {
+            $("#busuanzi_value_site_uv").html(parseInt($("#busuanzi_value_site_uv").html()) + countOffset); // 加上初始数据 
+            clearInterval(int); // 停止检测
+        }  
+    }
+       	
+});
+</script> 
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+</body>
+</html>
