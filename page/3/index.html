@@ -174,6 +174,127 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/23/makefill-gdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/23/makefill-gdb/" class="post-title-link" itemprop="url">makefill gdb</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-23 18:09:16" itemprop="dateCreated datePublished" datetime="2022-04-23T18:09:16+08:00">2022-04-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-31 18:54:08" itemprop="dateModified" datetime="2022-07-31T18:54:08+08:00">2022-07-31</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>makefile:<br>makefile文件是用来管理项目工程文件, 通过执行make命令, make就会解析并执行makefile文件.<br>makefile命名: makefile或者Makefile</p>
+</li>
+<li><p>makefile的编写:<br>规则如下:<br>目标: 依赖<br>(tab)命令</p>
+</li>
+<li><p>第一个版本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">main: main.c fun1.c fun2.c sum.c</span><br><span class="line">	gcc -o main main.c fun1.c fun2.c sum.c</span><br></pre></td></tr></table></figure>
+<p>缺点: 效率低, 修改一个文件, 所有的文件会全部重新编译.</p>
+</li>
+<li><p>第二个版本：</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1 main:main.o fun1.o fun2.o</span><br><span class="line">2     gcc -o main main.o fun1.o fun2.o</span><br><span class="line">3 main.o:main.c</span><br><span class="line">4     gcc -c main.c -I ./</span><br><span class="line">5 fun1.o:fun1.c</span><br><span class="line">6     gcc -c fun1.c</span><br><span class="line">7 fun2.o:fun2.c</span><br><span class="line">8     gcc -c fun2.c</span><br></pre></td></tr></table></figure>
+
+<p>检查规则:<br>要想生成目标文件, 先要检查依赖条件是否都存在.<br>若都存在, 则比较目标时间和依赖的时间, 如果依赖的时候比目标的时间新,则重新生成目标; 否则不重新生成.<br>若不存在, 则往下找有没有生成依赖的规则, 有则生成, 如果没有则报错.<br>第二版本的缺点: 冗余, 若.c文件数量很多, 编写起来比较麻烦.</p>
+<ul>
+<li>第三个版本：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 objects=main.o fun1.o fun2.o</span><br><span class="line"> 3 CC=gcc</span><br><span class="line"> 4 CPPFLAGS=-I./</span><br><span class="line"> 5</span><br><span class="line"> 6 $(target):$(objects)</span><br><span class="line"> 7     $(CC) -o $@ $^</span><br><span class="line"> 8 %.o:%.c</span><br><span class="line"> 9     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line">10</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>变量:<br>自定义变量: var &#x3D; hello, $(var)<br>自带变量: CC CPPFLAGS CFLAGS LDFLAGS<br>自动变量: $@ $&lt; $^<br>模式规则: %.o:%.c——&gt; 前后的%必须是相同 </p>
+<ul>
+<li>第四个版本：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 src=$(wildcard *.c)</span><br><span class="line"> 3 objects=$(patsubst %.c,%.o,$(src))</span><br><span class="line"> 4 CC=gcc</span><br><span class="line"> 5 CPPFLAGS=-I./</span><br><span class="line"> 6</span><br><span class="line"> 7 $(target):$(objects)</span><br><span class="line"> 8     $(CC) -o $@ $^</span><br><span class="line"> 9 %.o:%.c</span><br><span class="line">10     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>makefile函数：<br>1.wildcard – 查找指定目录下的指定类型的文件<br>src&#x3D;$(wildcard *.c)  &#x2F;&#x2F;找到当前目录下所有后缀为.c的文件,赋值给src<br>2.patsubst – 匹配替换<br>obj&#x3D;$(patsubst %.c,%.o, $(src)) &#x2F;&#x2F;把src变量里所有后缀为.c的文件替换成.o<br>如: 当前目录下有a.c b.c c.c<br>src&#x3D;$(wildcard *.c) —–&gt; src&#x3D;a.c b.c c.c<br>obj&#x3D;$(patsubst %.c,%.o, $(src)) —–&gt; obj&#x3D;a.o b.o c.o</p>
+<ul>
+<li>第五个版本</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> 1 target=main</span><br><span class="line"> 2 src=$(wildcard *.c)</span><br><span class="line"> 3 objects=$(patsubst %.c,%.o,$(src))</span><br><span class="line"> 4 CC=gcc</span><br><span class="line"> 5 CPPFLAGS=-I./</span><br><span class="line"> 6</span><br><span class="line"> 7 $(target):$(objects)  #第一个目标即为终极目标，直接make就会运行！！！</span><br><span class="line"> 8     $(CC) -o $@ $^</span><br><span class="line"> 9 %.o:%.c</span><br><span class="line">10     $(CC) -c $&lt; $(CPPFLAGS)</span><br><span class="line">11</span><br><span class="line">12 .PHONY:clean  #声明为伪目标。   非第一个目标，make clean才会运行嗷</span><br><span class="line">13 clean:</span><br><span class="line">14     -rm -f $(objects) $(target)   #rm前加-,可以保证clean下的前一个命令如果无法执行，不会影响在其后面加-的命令的执行！   rm -f: 强制执行, 比如若要删除的文件不存在使用-f不会报错。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>增加清理功能.<br>终极目标: makefile文件中第一次出现的目标叫做终极目标。<br>伪目标：声明目标为伪目标之后, makefile将不会检查该目标是否存在或者该目标是否需要更新。<br>.PHONY:clean<br>clean:<br>rm -f ….        </p>
+<ul>
+<li><p>使用-f可以指定makefile文件（因为执行make默认找的是makefile文件，通过-f参数可以指定其他名称的makefile文件）, 如: make -f new_makefile</p>
+</li>
+<li><p>gdb调试 :</p>
+</li>
+</ul>
+<p>gdb是在程序运行的结果与预期不符合的时候, 可以使用gdb进行调试,<br>特别注意的是: 使用gdb调试需要在编译的时候加-g参数!!!!!!!</p>
+<p>启动gdb:<br>gdb program<br>set args hello world<br>show args<br>执行程序:<br>run  #执行到断点位置，无断点，则执行完<br>start #第一条语句停下来</p>
+<p>list操作:<br>list<br>list -<br>list func<br>list linenum<br>list file:func<br>list file:linenum<br>set listsize n<br>show listsize</p>
+<p>断点操作:<br>b linenum<br>b func<br>b file:linenum<br>b file:func</p>
+<p>info break</p>
+<p>disable m n | m-n<br>enable  m n | m-n<br>delete m n | m-n </p>
+<p>条件断点<br>一般来说, 为断点设置一个条件, 我们使用if关键词, 后面跟其断点条件。设置一个条件断点：<br>b test.c:8 if intValue &#x3D;&#x3D; 5</p>
+<p>调试命令:<br>run （全部执行，直至第一个断点处）<br>start （执行至第一条语句）<br>next  （单步执行，不进入函数体）<br>step  （单步执行，进入函数体）<br>finish  （跳出函数体）<br>until  （执行完循环体）<br>continue  （执行至下一个断点处）</p>
+<p>print var  （打印变量值）</p>
+<p>自动显示:<br>display var  （显示变量）</p>
+<p>info display  （列出所有需要显示的变量信息）</p>
+<p>disable display m n | m-n   （使变量显示失效）<br>enable display m n | m-n     （使变量显示生效）</p>
+<p>delete display m n | m-n   （删除需要显示的变量）<br>undisplay m n | m-n    （删除需要显示的变量）</p>
+<p>多进程调试？？？？</p>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/20/vim_gcc%E5%BA%93%E7%9A%84%E5%88%B6%E4%BD%9C%E5%92%8C%E4%BD%BF%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1086,82 +1207,6 @@
 <li>如果说程序中所有的线程都对共享资源做写操作，使用读写锁没有优势，和互斥锁是一样的，如果说程序中所有的线程都对共享资源有写也有读操作，并且对共享资源读的操作越多，读写锁更有优势。</li>
 </ol>
 
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
-<li>组合问题（无序的）</li>
-<li>切割问题（字符串的切割方式）</li>
-<li>子集问题</li>
-<li>排列问题（有序的）</li>
-<li>棋盘问题（N皇后，解数独）</li>
-</ul>
-<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
-<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
-</ul>
-<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
 

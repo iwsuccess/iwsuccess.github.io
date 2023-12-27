@@ -174,6 +174,82 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
+<li>组合问题（无序的）</li>
+<li>切割问题（字符串的切割方式）</li>
+<li>子集问题</li>
+<li>排列问题（有序的）</li>
+<li>棋盘问题（N皇后，解数独）</li>
+</ul>
+<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
+<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
+</ul>
+<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E9%9D%A2%E7%BB%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -336,70 +412,6 @@
           <h2 id="轮转数组"><a href="#轮转数组" class="headerlink" title="轮转数组"></a>轮转数组</h2><p><img src="/images/leetcode189.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void rotate(vector&lt;int&gt;&amp; nums, int k) &#123;</span><br><span class="line">       k=k%nums.size();     </span><br><span class="line">       vector&lt;int&gt;temp;</span><br><span class="line">       for(int i=0;i&lt;nums.size();i++)  //创建一个临时数组，保存对应保存nums的所有元素</span><br><span class="line">            temp.push_back(nums[i]);   </span><br><span class="line">      int i=0;//记录当前需要移动的元素下标</span><br><span class="line">      while(i&lt;nums.size())&#123;  </span><br><span class="line">          int new_index=(i+k)%nums.size(); //当前元素移动后的最终位置！</span><br><span class="line">          nums[new_index]=temp[i];//将当前元素（待移动元素）放在轮转后的最终位置上。</span><br><span class="line">          i++;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
-
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2023/12/27/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0%E6%AD%A5%E9%AA%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/12/27/%E5%8D%9A%E5%AE%A2%E4%B8%8A%E4%BC%A0%E6%AD%A5%E9%AA%A4/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
-
-        <div class="post-meta">
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-12-27 17:03:36 / 修改时间：17:12:07" itemprop="dateCreated datePublished" datetime="2023-12-27T17:03:36+08:00">2023-12-27</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="博客上传步骤"><a href="#博客上传步骤" class="headerlink" title="博客上传步骤"></a>博客上传步骤</h3><p>（1）hexo clean  清空缓存</p>
-<p>（2）hexo g 生成静态页面至public目录下</p>
-<p>（3）hexo d 部署到github上</p>
-<p>（4）hexo s 开启预览访问端口（默认4000，cltr+c关闭本地预览）</p>
 
       
     </div>
