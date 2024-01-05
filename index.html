@@ -202,19 +202,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-12-27 17:03:36 / 修改时间：17:48:53" itemprop="dateCreated datePublished" datetime="2023-12-27T17:03:36+08:00">2023-12-27</time>
+              <time title="创建时间：2023-12-27 17:03:36" itemprop="dateCreated datePublished" datetime="2023-12-27T17:03:36+08:00">2023-12-27</time>
             </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB1/" itemprop="url" rel="index"><span itemprop="name">测试分类1</span></a>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
                 </span>
-            </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-05 11:18:11" itemprop="dateModified" datetime="2024-01-05T11:18:11+08:00">2024-01-05</time>
+              </span>
 
           
 
@@ -231,88 +228,6 @@
 <p>（2）hexo g 生成静态页面至public目录下</p>
 <p>（3）hexo d 部署到github上</p>
 <p>（4）hexo s 开启预览访问端口（默认4000，cltr+c关闭本地预览）</p>
-
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/31/%E7%89%9B%E5%AE%A2webserver/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/31/%E7%89%9B%E5%AE%A2webserver/" class="post-title-link" itemprop="url">牛客webserver</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-31 18:06:30" itemprop="dateCreated datePublished" datetime="2022-07-31T18:06:30+08:00">2022-07-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-12-27 17:48:49" itemprop="dateModified" datetime="2023-12-27T17:48:49+08:00">2023-12-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB2/" itemprop="url" rel="index"><span itemprop="name">测试分类2</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="两种高效的事件处理模式"><a href="#两种高效的事件处理模式" class="headerlink" title="两种高效的事件处理模式"></a>两种高效的事件处理模式</h1><h2 id="reactor模式"><a href="#reactor模式" class="headerlink" title="reactor模式"></a>reactor模式</h2><p>主线程负责接受客户端连接，工作线程处理数据读写，逻辑业务。<br>一般配合同步io实现</p>
-<h2 id="proactor模式"><a href="#proactor模式" class="headerlink" title="proactor模式"></a>proactor模式</h2><p>主线程执行数据读写操作，工作线程只负责处理逻辑业务。<br>一般配合异步io实现（异步io实现复杂）</p>
-<h2 id="模拟proactor模式实现事件处理"><a href="#模拟proactor模式实现事件处理" class="headerlink" title="模拟proactor模式实现事件处理"></a>模拟proactor模式实现事件处理</h2><p>主线程执行数据读写操作，工作线程只负责处理逻辑业务，io操作依然使用同步io实现。</p>
 
       
     </div>
@@ -416,6 +331,576 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/13/samba%E6%9C%8D%E5%8A%A1%E5%99%A8/" class="post-title-link" itemprop="url">samba服务器</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-13 16:12:24 / 修改时间：16:29:05" itemprop="dateCreated datePublished" datetime="2022-04-13T16:12:24+08:00">2022-04-13</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="samba服务器简介"><a href="#samba服务器简介" class="headerlink" title="samba服务器简介"></a>samba服务器简介</h2><ul>
+<li><p>实现windows和unix系列系统之间能够相互沟通，就产生了samba服务。</p>
+</li>
+<li><p>samba是架构在NetBIOS（Network Basic Input&#x2F;Output System,网上基本输入输出系统）这个通信协议上面所开发出来的。NetBIOS是由IBM发展出来，目的是要让局域网络内少数计算机进行网络连接的一个通信协议，因此NetBIOS是无法跨越路由的，而现在Samba不仅能与局域网主机分享资源，还能与全世界的电脑分享资源，就是由NetBIOS over TCP&#x2F;IP技术解决。由于NetBIOS在局域网内实在是很好用，所以微软的网络架构就使用了这个协议。而samba最早发展的时候，其实是想要让linux系统可以加入windows的系统当中来共享使用彼此的文件数据，所以samba就架构在NetBIOS发展出来了</p>
+</li>
+</ul>
+<h2 id="Ubuntu安装Samba服务器"><a href="#Ubuntu安装Samba服务器" class="headerlink" title="Ubuntu安装Samba服务器"></a>Ubuntu安装Samba服务器</h2><ol>
+<li>确认安装：dpkg l | grep samba</li>
+<li>安装：sudo apt-get install samba samba-common</li>
+<li>卸载：sudo apt-get autoremove samba<h2 id="Samba服务器配置"><a href="#Samba服务器配置" class="headerlink" title="Samba服务器配置"></a>Samba服务器配置</h2></li>
+</ol>
+<ul>
+<li>sudo vim &#x2F;etc&#x2F;samba&#x2F;smb.conf</li>
+<li>在文件的最后添加</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[share]</span><br><span class="line">comment=This is samba dir</span><br><span class="line">path=/home/qcc/</span><br><span class="line">writable=yes</span><br><span class="line">browseable=yes</span><br></pre></td></tr></table></figure>
+<ul>
+<li>增加samba用户</li>
+<li>sudo smbpasswd -a qcc (密码设置需要与linux的密码一致)<h2 id="启动和关闭"><a href="#启动和关闭" class="headerlink" title="启动和关闭"></a>启动和关闭</h2></li>
+<li>注意添加新用户后，需要重启samba服务器</li>
+<li>启动：sudo service smbd start</li>
+<li>关闭 ：sudo service smbd stop<br>##直接在windows在编码</li>
+<li>在windows色目录上方，写入：\局域网（linux的）ip地址,然后就能在windows下编辑linux下的文件了！</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/04/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">回溯算法</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 11:05:11 / 修改时间：12:50:45" itemprop="dateCreated datePublished" datetime="2022-04-04T11:05:11+08:00">2022-04-04</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="回溯算法可以解决的问题"><a href="#回溯算法可以解决的问题" class="headerlink" title="回溯算法可以解决的问题"></a>回溯算法可以解决的问题</h2><ul>
+<li>组合问题（无序的）</li>
+<li>切割问题（字符串的切割方式）</li>
+<li>子集问题</li>
+<li>排列问题（有序的）</li>
+<li>棋盘问题（N皇后，解数独）</li>
+</ul>
+<h2 id="回溯法的理解"><a href="#回溯法的理解" class="headerlink" title="回溯法的理解"></a>回溯法的理解</h2><ul>
+<li>回溯法都可抽象为一个n叉树，横向是通过for循环来处理，纵向是通过递归来处理。</li>
+</ul>
+<h2 id="回溯法的模板"><a href="#回溯法的模板" class="headerlink" title="回溯法的模板"></a>回溯法的模板</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">void backtracing(参数)&#123;</span><br><span class="line">	if(终止条件)&#123;</span><br><span class="line">		收集结果！</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	for(集合的元素集)&#123;</span><br><span class="line">		处理节点；</span><br><span class="line">		递归函数；</span><br><span class="line">		回溯操作；</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">class Solution &#123;</span><br><span class="line">public:</span><br><span class="line">    void backtracing(int n,int k,vector&lt;vector&lt;int&gt;&gt;&amp;res,vector&lt;int&gt;&amp;temp,int start)&#123;</span><br><span class="line">        if(temp.size()==k)//纵向递归到叶子节点，收集结果，返回上一层递归</span><br><span class="line">        &#123;</span><br><span class="line">            res.push_back(temp);</span><br><span class="line">             return;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">           </span><br><span class="line">        for(int i=start;i&lt;=n;i++)&#123;//横向for循环遍历</span><br><span class="line">            if(start&gt;n-(k-temp.size())+1)//剪枝操作！！！（限制i的范围！！！）</span><br><span class="line">                return;</span><br><span class="line">            temp.push_back(i);</span><br><span class="line">            backtracing(n, k, res, temp, i+1);</span><br><span class="line">            temp.pop_back();//删除temp最后一个元素，回溯到上一层！</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    vector&lt;vector&lt;int&gt;&gt; combine(int n, int k) &#123;</span><br><span class="line">        vector&lt;vector&lt;int&gt;&gt;res;</span><br><span class="line">        vector&lt;int&gt;temp;</span><br><span class="line">        backtracing(n, k,res,temp,1);</span><br><span class="line">        return res;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/03/27/%E9%9D%A2%E7%BB%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/27/%E9%9D%A2%E7%BB%8F/" class="post-title-link" itemprop="url">C++面试准备</a>
+        </h2>
+
+        <div class="post-meta">
+          
+          <i class="fa fa-thumb-tack"></i>
+          <font color=7D26CD>置顶</font>
+          <span class="post-meta-divider">|</span>
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-27 11:28:07" itemprop="dateCreated datePublished" datetime="2022-03-27T11:28:07+08:00">2022-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-28 17:01:35" itemprop="dateModified" datetime="2022-03-28T17:01:35+08:00">2022-03-28</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="编译内存相关知识"><a href="#编译内存相关知识" class="headerlink" title="编译内存相关知识"></a>编译内存相关知识</h1><h2 id="C-的编译过程"><a href="#C-的编译过程" class="headerlink" title="C++的编译过程"></a>C++的编译过程</h2><h3 id="共分为四个步骤：编译预处理，编译，汇编，链接。"><a href="#共分为四个步骤：编译预处理，编译，汇编，链接。" class="headerlink" title="共分为四个步骤：编译预处理，编译，汇编，链接。"></a>共分为四个步骤：编译预处理，编译，汇编，链接。</h3><ul>
+<li>编译预处理：处理#字符开头的指令。</li>
+<li>编译：将源码.cpp文件编译成.s文件。</li>
+<li>汇编：将.s文件汇编成.o文件。</li>
+<li>链接：将一个或者多个.o文件链接形成.exe的可执行文件。<h3 id="静态链接和动态链接的区别"><a href="#静态链接和动态链接的区别" class="headerlink" title="静态链接和动态链接的区别"></a>静态链接和动态链接的区别</h3></li>
+<li>静态链接：代码从其所在的静态链接库中的拷贝到可执行程序中，优点是执行速度快；缺点是浪费空间，因为可能会拷贝多份重复的代码，并且在目标文件更新后，需要重新编译链接生成新的exe文件。</li>
+<li>动态链接：动态链接时并没有将真正的代码链接进去，而是保存了一个映射，在执行过程中，通过该映射再去寻找真正的代码。优点是节省内存，更新方便。缺点是相比静态链接速度较慢，性能有一定的损失。</li>
+</ul>
+<h2 id="C-的内存管理"><a href="#C-的内存管理" class="headerlink" title="C++的内存管理"></a>C++的内存管理</h2><h3 id="C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。"><a href="#C-的内存分为栈，堆，全局区-x2F-静态区，代码区，常量区。" class="headerlink" title="C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。"></a>C++的内存分为栈，堆，全局区&#x2F;静态区，代码区，常量区。</h3><ul>
+<li>栈：通常是局部变量，函数参数，返回值存放的地方，由编译器自动回收。</li>
+<li>堆：程序员自己malloc申请的内存块，需要程序员自己申请和释放。</li>
+<li>全局区&#x2F;静态区：静态变量和全局变量存储的地方，程序结束会自动释放。</li>
+<li>常量区：存放常量，不允许修改，程序结束后会自动释放。</li>
+<li>代码区：存放代码，不允许修改，可以执行。编译后的二进制文件存放的地方。</li>
+<li>示例代码如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int a = 0; // </span><br><span class="line">char *b;  // a,b均在全局区</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">   int v;//v在栈区</span><br><span class="line">   int *p=(int*)malloc(sizeof(int)*4)//申请16个字节内存在堆区</span><br><span class="line">   static int e;//e在静态区</span><br><span class="line">   string s=&quot;abvdefr&quot;;//s在栈区，&quot;abvdefr&quot;在常量区 </span><br><span class="line">   int d[]=&quot;qwe&quot;;//d在栈区，&quot;qwe&quot;在常量区</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="栈和堆的区别"><a href="#栈和堆的区别" class="headerlink" title="栈和堆的区别"></a>栈和堆的区别</h3><ol>
+<li>申请和回收方式不同：栈由系统分配和回收，堆由程序员申请和回收。</li>
+<li>存储方式不同：栈是一块连续的内存空间（向低地址扩展），堆的内存空间是不连续的（链表结构），(向高地址扩展)。</li>
+<li>存放的内容不同：栈存放局部变量，函数参数，返回值等，堆存放的内容由程序员控制。</li>
+<li>效率：栈的申请由系统自动分配，效率高。堆效率低，也容易产生内存碎片。</li>
+<li>申请后的系统响应方式不同：栈空间申请后，如果当前剩余空间&gt;申请空间，则分配，否则，提示栈溢出；堆空间申请后，需要在链表上的寻找第一块大于等于申请空间的内存块，找到后将该块（首地址存放了本次分配的空间大小）从内存链表上删除，分配给堆空间，将剩余的空间链接在空闲链表上，用完回收后，再将其链接在空闲链表上。</li>
+</ol>
+<h2 id="全局变量，静态全局变量，局部变量，静态局部变量的区别"><a href="#全局变量，静态全局变量，局部变量，静态局部变量的区别" class="headerlink" title="全局变量，静态全局变量，局部变量，静态局部变量的区别"></a>全局变量，静态全局变量，局部变量，静态局部变量的区别</h2><ul>
+<li>全局变量：具有全局作用域，全局变量只要在一个源文件中定义，就可以在同一工程中的其他源文件中使用，只不过需要利用关键字extern声明这个全局变量。</li>
+<li>静态全局变量（static修饰的）：具有文件作用域，其他文件不能使用该全局变量，即使另一个文件中定义了与之同名的静态全局变量，也是不同的变量。</li>
+<li>局部变量：具有局部作用域，并不是一直存在，只是在其作用域内存在，出了其作用域就会被回收。</li>
+<li>局部静态变量：具有局部作用域，只初始化一次，到程序运行结束前一直存在，只对定义自己的函数体可见（自己作用域内），出了作用域就不可见。</li>
+</ul>
+<h2 id="pragma-once和-ifndef-define-endif解读"><a href="#pragma-once和-ifndef-define-endif解读" class="headerlink" title="#pragma once和#ifndef #define #endif解读"></a>#pragma once和#ifndef #define #endif解读</h2><h3 id="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。"><a href="#作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如-a-h中包含了b-h-但是在c-cpp中包含了a-h和b-h，即：b-h就被重复包含了）。" class="headerlink" title="作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。"></a>作用：都是为了防止同一个头文件被重复编译。即：在同一个cpp文件中重复包含了某一个头文件（嵌套头文件时容易出现，例如:a.h中包含了b.h,但是在c.cpp中包含了a.h和b.h，即：b.h就被重复包含了）。</h3><h3 id="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"><a href="#头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个-cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。" class="headerlink" title="头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。"></a>头文件中不能声明全局变量，因为当头文件中声明了全局变量后，如果多个.cpp文件中包含了这个头文件，这个全局变量就会被定义多次，出现重复定义错误。</h3><h2 id="三种继承方式"><a href="#三种继承方式" class="headerlink" title="三种继承方式"></a>三种继承方式</h2><p>1.public 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：public, protected, private</p>
+<p>2.protected 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：protected, protected, private</p>
+<p>3.private 继承：基类 public 成员，protected 成员，private 成员的访问属性在派生类中分别变成：private, private, private</p>
+<h2 id="public-protected-private访问权限"><a href="#public-protected-private访问权限" class="headerlink" title="public,protected,private访问权限"></a>public,protected,private访问权限</h2><p><img src="/images/lei.png"></p>
+<h2 id="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"><a href="#如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建" class="headerlink" title="如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建"></a>如何限制类的对象只能在堆上创建，如何限制对象只能在栈创建</h2><h3 id="创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。"><a href="#创建对象的方式有两种，即：堆创建（new出来的）和栈创建-一般创建，例如：A-a-。" class="headerlink" title="创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。"></a>创建对象的方式有两种，即：堆创建（new出来的）和栈创建(一般创建，例如：A a)。</h3><ol>
+<li>限制对象只能创建在栈上：通过重载new和detele函数为类的私有函数，因为默认的new创建会将对象创建在堆上。</li>
+<li>限制对象只能创建在堆上：将构造和析构置为保护，在类外调用create构造对象（堆上创建），析构置为保护是为了在其派生类中也能访问析构函数。</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">protected:</span><br><span class="line">    A() &#123;&#125;</span><br><span class="line">    ~A() &#123;&#125;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">    static A *create()</span><br><span class="line">    &#123;</span><br><span class="line">        return new A();</span><br><span class="line">    &#125;</span><br><span class="line">    void destory()</span><br><span class="line">    &#123;</span><br><span class="line">        delete this;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/15/OceanBase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/15/OceanBase/" class="post-title-link" itemprop="url">数据库入门</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-15 10:49:40" itemprop="dateCreated datePublished" datetime="2022-10-15T10:49:40+08:00">2022-10-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-27 17:48:42" itemprop="dateModified" datetime="2023-12-27T17:48:42+08:00">2023-12-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB3/" itemprop="url" rel="index"><span itemprop="name">测试分类3</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ul>
+<li><p>源码：<br>MiniOB—2万行源码<br>Sqlite—22万行源码</p>
+</li>
+<li><p>书本：<br>数据库系统实现<br>数据库系统概念</p>
+</li>
+</ul>
+<h1 id="MiniOB开发日志part-1："><a href="#MiniOB开发日志part-1：" class="headerlink" title="MiniOB开发日志part_1："></a>MiniOB开发日志part_1：</h1><ul>
+<li>启动docker:systemctl start docker</li>
+<li>运行存在的容器：docker exec -it miniob bash</li>
+</ul>
+<p>cd &#x2F;root&#x2F;source&#x2F;miniob&#x2F;build</p>
+<ul>
+<li><p>运行服务器：.&#x2F;bin&#x2F;observer -f ..&#x2F;etc&#x2F;observer.ini</p>
+</li>
+<li><p>运行客户端：.&#x2F;bin&#x2F;obclient</p>
+</li>
+</ul>
+<h2 id="Miniob结构"><a href="#Miniob结构" class="headerlink" title="Miniob结构"></a>Miniob结构</h2><p>miniob作为一个具有“基本”功能的数据库，包含了需要的基本功能模块。包括</p>
+<ul>
+<li><p>网络模块：负责与客户端交互，收发客户端请求与应答；</p>
+</li>
+<li><p>SQL解析：将用户输入的SQL语句解析成语法树；</p>
+</li>
+<li><p>执行计划缓存：执行计划缓存模块会将该 SQL第一次生成的执行计划缓存在内存中，后续的执行可以反复执行这个计划，避免了重复查询优化的过程（未实现）。</p>
+</li>
+<li><p>语义解析模块：将生成的语法树，转换成数据库内部数据结构（部分实现）；</p>
+</li>
+<li><p>查询缓存：将执行的查询结果缓存在内存中，下次查询时，可以直接返回（未实现）；</p>
+</li>
+<li><p>查询优化：根据一定规则和统计数据，调整&#x2F;重写语法树。当前实现为空，留作实验题目；</p>
+</li>
+<li><p>计划执行：根据语法树描述，执行并生成结果；</p>
+</li>
+<li><p>会话管理：管理用户连接、调整某个连接的参数；</p>
+</li>
+<li><p>元数据管理：记录当前的数据库、表、字段和索引元数据信息；</p>
+</li>
+<li><p>客户端：作为测试工具，接收用户请求，向服务端发起请求。</p>
+</li>
+</ul>
+<h2 id="seda异步事件框架"><a href="#seda异步事件框架" class="headerlink" title="seda异步事件框架"></a>seda异步事件框架</h2><p>seda:stage event driver architecture.结合了事件驱动和多线程模式的优点。从而做到易扩展，高并发，解耦合。各个stage之间通信都是通过event来传递，而event的处理由stage的线程池异步处理，线程池内部会维护一个事件队列。<br>在miniob中从请求开始，sql解析，查询优化，计划执行都是通过event来传递数据，可以通过seda配置线程池的个数。</p>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/24/DFS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/cat.png">
+      <meta itemprop="name" content="qcc">
+      <meta itemprop="description" content="努力变强">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="一懒众衫小">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/24/DFS/" class="post-title-link" itemprop="url">分布式文件系统</a>
+        </h2>
+
+        <div class="post-meta">
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-24 20:42:33" itemprop="dateCreated datePublished" datetime="2022-08-24T20:42:33+08:00">2022-08-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-12-27 17:25:13" itemprop="dateModified" datetime="2023-12-27T17:25:13+08:00">2023-12-27</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="正向代理和反向代理"><a href="#正向代理和反向代理" class="headerlink" title="正向代理和反向代理"></a>正向代理和反向代理</h1><ul>
+<li><p>正向代理流程：客户端发送对某一个目标服务器的请求，代理服务器将中间请求转发给目标服务器，目标服务器将响应返回给代理服务器，代理服务器将数据返回给客户端。</p>
+</li>
+<li><p>反向代理流程：客户端发起对代理服务器的请求，代理服务器将请求发送给某一个服务器，服务器返回结果给代理服务器，代理服务器将结果返回给客户端。</p>
+</li>
+<li><p>区别：正向代理是代理客户端，隐藏了客户端；反向代理是代理服务器，隐藏了服务端。</p>
+</li>
+</ul>
+<h1 id="分布式文件系统项目架构图"><a href="#分布式文件系统项目架构图" class="headerlink" title="分布式文件系统项目架构图"></a>分布式文件系统项目架构图</h1><p><img src="/images/dfs.png"></p>
+<h2 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h2><h3 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h3><ul>
+<li>能处理静态请求：html&#x2F;jpg…</li>
+<li>动态请求无法处理</li>
+<li>fastCGI:能够帮助服务器处理动态请求。</li>
+</ul>
+<h2 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h2><ul>
+<li>存储文件属性信息</li>
+<li>用户的属性信息</li>
+</ul>
+<h2 id="redis-非关系型数据库-内存数据库"><a href="#redis-非关系型数据库-内存数据库" class="headerlink" title="redis-非关系型数据库(内存数据库)"></a>redis-非关系型数据库(内存数据库)</h2><ul>
+<li>提高程序效率</li>
+<li>存储的是经常要从关系型数据库中读取的数据</li>
+</ul>
+<h2 id="FastDFS-分布式文件系统"><a href="#FastDFS-分布式文件系统" class="headerlink" title="FastDFS-分布式文件系统"></a>FastDFS-分布式文件系统</h2><ul>
+<li>存储文件内容</li>
+<li>供用户下载</li>
+</ul>
+<h2 id="FastDFS介绍"><a href="#FastDFS介绍" class="headerlink" title="FastDFS介绍"></a>FastDFS介绍</h2><ul>
+<li>使用c语言编写的一款开源的分布式文件系统</li>
+<li>为互联网量身定制，充分考虑了冗余备份，负载均衡，线性扩容等机制，注重高可用，高性能等指标。<br>冗余备份：纵向扩容<br>线性扩容：横向扩容    </li>
+<li>可以很容易搭建一套高性能的文件服务器集群提供文件的上传，下载等服务。</li>
+</ul>
+<h2 id="FastDFS框架中的三个角色"><a href="#FastDFS框架中的三个角色" class="headerlink" title="FastDFS框架中的三个角色"></a>FastDFS框架中的三个角色</h2><ul>
+<li>追踪器（Tracker）：管理者，管理存储节点。（守护进程）</li>
+<li>存储节点：存储数据，存储节点有多个。（守护进程）</li>
+<li>客户端：文件上传与下载。</li>
+</ul>
+<h2 id="FastDFS框架中的三个角色之间的配合方式"><a href="#FastDFS框架中的三个角色之间的配合方式" class="headerlink" title="FastDFS框架中的三个角色之间的配合方式"></a>FastDFS框架中的三个角色之间的配合方式</h2><ul>
+<li><p>追踪器：最先启动</p>
+</li>
+<li><p>存储节点<br>（1）第二个启动<br>（2）存储节点启动后，会单独开一个线程<br>  汇报当前存储节点的容量和剩余容量<br>  汇报数据同步情况<br>  汇报文件被下载的次数<br>  …</p>
+</li>
+<li><p>客户端：最后启动。</p>
+</li>
+</ul>
+<p>(1)上传</p>
+<p><img src="/images/upload.png"></p>
+<p>连接追踪器，询问存储节点的信息。<br>比如：<br>上传1G文件，询问哪个存储节点有足够的容量；<br>追踪器查询，得到结果；<br>追踪器将查询到的存储节点的IP:PORT发送给客户端；<br>通过IP:PORT连接存储节点；<br>将文件内容发送给存储节点。</p>
+<p>(2)下载</p>
+<p><img src="/images/download.png"></p>
+<p>连接追踪器，询问存储节点的信息。<br>比如：<br>问一下，要下载的文件在哪一个存储节点<br>追踪器查询，得到结果<br>追踪器将查到的存储节点的IP:POR发送给客户端<br>通过IP:PORT连接存储节点<br>下载文件</p>
+<h2 id="FastDFS集群"><a href="#FastDFS集群" class="headerlink" title="FastDFS集群"></a>FastDFS集群</h2><h3 id="追踪器集群"><a href="#追踪器集群" class="headerlink" title="追踪器集群"></a>追踪器集群</h3><ul>
+<li>为什么集群：避免单点故障</li>
+<li>多个Tracker如何工作：轮询工作</li>
+<li>如何实现集群：修改配置文件</li>
+</ul>
+<h3 id="存储节点集群"><a href="#存储节点集群" class="headerlink" title="存储节点集群"></a>存储节点集群</h3><ul>
+<li>FastDFS管理存储节点的方式：通过分组的方式</li>
+<li>集群方式：<br>（1） 横向扩容：增加容量，即：添加一台新的主机放入新的组中。不同组主机之间不需要通信。<br>（2） 纵向扩容：数据备份。即：添加一台新的主机放入到现有的组中。同一组中的主机关系是互相备份的，同一个组中的主机需要相互通信。每组的容量就是本组容量最小的主机。</li>
+<li>如何实现：修改配置文件</li>
+</ul>
+<h2 id="fastdfs多主机配置"><a href="#fastdfs多主机配置" class="headerlink" title="fastdfs多主机配置"></a>fastdfs多主机配置</h2><p><img src="/images/fastdfs_config.png"></p>
+<h2 id="redis安装配置"><a href="#redis安装配置" class="headerlink" title="redis安装配置"></a>redis安装配置</h2><h3 id="安装包下载：http-redis-cn"><a href="#安装包下载：http-redis-cn" class="headerlink" title="安装包下载：http://redis.cn/"></a>安装包下载：<a target="_blank" rel="noopener" href="http://redis.cn/">http://redis.cn/</a></h3><h3 id="安装："><a href="#安装：" class="headerlink" title="安装："></a>安装：</h3><p>make<br>sudo make install</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>服务器<br>redis-server<br>客户端<br>redis-cli</p>
+<h3 id="redis中的数据组织格式"><a href="#redis中的数据组织格式" class="headerlink" title="redis中的数据组织格式"></a>redis中的数据组织格式</h3><p>key:字符串<br>value:可选的</p>
+<ol>
+<li>string</li>
+<li>list:存储多个string的数组</li>
+<li>set：数据无序的</li>
+<li>sortedset：数据有序的，集合中的元素分为两部分</li>
+<li>hash：跟map数据组织方式一样，key:value</li>
+</ol>
+<h3 id="redis数据持久化"><a href="#redis数据持久化" class="headerlink" title="redis数据持久化"></a>redis数据持久化</h3><ul>
+<li>rdb方式<br>默认的持久化方式，将内存数据以二进制文件方式写入磁盘（xxx.rdb）<br>文件比较小，恢复时间短，效率高<br>用户设定频率进行同步数据，容易丢失数据，数据完整性较低</li>
+<li>aof方式<br>默认关闭，将生成数据的命令持久化到磁盘（xxx.aof）。<br>文件比较大，恢复时间长，效率较低<br>1s就同步一次，数据完整性较高。<br>两种模式同时开启, 如果要进行数据恢复, 如何选择?<br>考虑效率：rdb<br>考虑数据完整性：aof</li>
+</ul>
+<h3 id="Nginx初步认识"><a href="#Nginx初步认识" class="headerlink" title="Nginx初步认识"></a>Nginx初步认识</h3><ul>
+<li>是什么？<br>是一个开源框架。<br>库和框架的区别：库是一套API；框架有一套API，有一套自己的事件处理机制。</li>
+<li>能干什么？<br>（1）作为web服务器—基于http协议<br>（2）反向代理服务器—-使web服务器实现负载均衡<br>（3）邮件服务器—–基于pop3协议</li>
+<li>怎样做？<br>（1）web服务器</li>
+<li>处理静态网页：</li>
+</ul>
+<p>1.制作出html网页，并且部署到对应的资源目录中；<br>2.根据客户端的请求，在服务器端添加对应的location处理指令（nginx.conf）<br>3.重新加载nginx.conf配置文件<br>客户端请求的url：<a target="_blank" rel="noopener" href="http://xxx.com/hello/login.html">http://xxx.com/hello/login.html</a><br>去掉协议：http<br>去掉域名：xxx.com<br>去掉端口<br>去掉尾部的文件名<br>最终剩余：&#x2F;hello&#x2F;，这就是服务器端要处理的事件</p>
+<p>（2）反向代理服务器<br>1.找到反向代理服务器的nginx.conf<br>2.找到http{server{}}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">server&#123;</span><br><span class="line">	listen: 80;//客户端访问代理服务器的时候用到的端口</span><br><span class="line">	server_name: localhost;//域名，客户端访问代理服务器时，使用的地址</span><br><span class="line">	//配置如何转发，根据客户端的url找到对应的转发指令</span><br><span class="line">	location /</span><br><span class="line">	&#123;</span><br><span class="line">		//设置转发的地址</span><br><span class="line">		proxy_pass: http://test.com;</span><br><span class="line">	&#125;</span><br><span class="line">	location /hello/</span><br><span class="line">	&#123;</span><br><span class="line">		//设置转发的地址</span><br><span class="line">		proxy_pass: http://test.com;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//设置代理</span><br><span class="line">upstream test.com</span><br><span class="line">&#123;</span><br><span class="line">	server 192.168.198.148:80;</span><br><span class="line">	server 192.168.198.149:80;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//配置web服务器</span><br><span class="line">//192.168.198.148 web服务器</span><br><span class="line">server&#123;</span><br><span class="line">	location /</span><br><span class="line">	&#123;	</span><br><span class="line">		</span><br><span class="line">		root xxx;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	lcoation /hello/</span><br><span class="line">	&#123;</span><br><span class="line">		root xxx;</span><br><span class="line">		index index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//192.168.198.149 web服务器</span><br><span class="line">server&#123;</span><br><span class="line">	location /</span><br><span class="line">	&#123;	</span><br><span class="line">		</span><br><span class="line">		root xxx;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	lcoation /hello/</span><br><span class="line">	&#123;</span><br><span class="line">		root xxx;</span><br><span class="line">		index index.html index.htm;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="fastCGI"><a href="#fastCGI" class="headerlink" title="fastCGI"></a>fastCGI</h3><ul>
+<li><p>是什么？<br>运行在服务器端的代码，帮助服务器处理客户端提交的动态请求。</p>
+</li>
+<li><p>干什么？<br>帮助服务器处理客户端提交的动态请求</p>
+</li>
+<li><p>怎么用？</p>
+</li>
+</ul>
+<p>nginx如何转发数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//分析处客户端请求对应的指令---/test</span><br><span class="line">location /test</span><br><span class="line">&#123;</span><br><span class="line">	fastcgi_pass 地址：端口;</span><br><span class="line">	include fastcgi.conf;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>fastcgi如何接收数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//启动，通过spawn-fcgi启动</span><br><span class="line">spawn-fcgi -a IP -p port -f ./fcgi</span><br><span class="line">//编写fastcgi程序的时候</span><br><span class="line">接收数据：调用读终端得到函数就是接收数据。（重定向了输入）</span><br><span class="line">发送数据：调用写终端的函数就是发送数据。（重定向了输出）</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>fastcgi如何处理数据</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//编写登录的fastcgi程序</span><br><span class="line">int main()&#123;</span><br><span class="line"></span><br><span class="line">	while(FCGI_Accept()&gt;=0)&#123;</span><br><span class="line">		//1.接收登录信息--&gt;环境变量中</span><br><span class="line">		//post:读数据块长度CONTENT_LENGTH</span><br><span class="line">		//get：从请求行的第二部分读，QUEERY_STRING</span><br><span class="line">		//2.处理数据</span><br><span class="line">		//3.回发数据----&gt;假设格式是json</span><br><span class="line">		printf(&quot;content-type:application/json&quot;);	</span><br><span class="line">		printf(&quot;status:ok&quot;);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="文件上传下载流程"><a href="#文件上传下载流程" class="headerlink" title="文件上传下载流程"></a>文件上传下载流程</h3><ul>
+<li><p>文件上传流程<br><img src="/images/fast_upload.png" alt="fast_upload"></p>
+</li>
+<li><p>文件下载流程<br><img src="/images/download_1.png" alt="fast_upload"></p>
+</li>
+<li><p>文件下载优化<br>直接让客户端连接fastDFS的存储节点, 实现文件下载！<br>举例, 访问一个url直接下载:<a target="_blank" rel="noopener" href="http://192.168.247.147/group1/M00/00/00/wKj3k1tMBKuARhwBAAvea_OGt2M471.jpg">http://192.168.247.147/group1/M00/00/00/wKj3k1tMBKuARhwBAAvea_OGt2M471.jpg</a> </p>
+</li>
+<li><p>客户端发送请求使用的协议: http<br>fastDFS能不能解析http协议<br>nginx能解析http协议<br>在nginx中安装fastDFS的插件</p>
+</li>
+<li><p>客户端怎么知道文件就存储在对应的那个存储节点上?<br>上传的时候将fileID和存储节点IP地址都进行存储<br><img src="/images/download_2.png" alt="fast_upload"></p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/16/libevent/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -435,10 +920,6 @@
 
         <div class="post-meta">
           
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -452,8 +933,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-19 16:26:36" itemprop="dateModified" datetime="2022-06-19T16:26:36+08:00">2022-06-19</time>
+                <time title="修改时间：2024-01-05 11:21:51" itemprop="dateModified" datetime="2024-01-05T11:21:51+08:00">2024-01-05</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+                </span>
+            </span>
 
           
 
@@ -518,10 +1008,6 @@
 
         <div class="post-meta">
           
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
@@ -535,8 +1021,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-16 11:43:44" itemprop="dateModified" datetime="2022-06-16T11:43:44+08:00">2022-06-16</time>
+                <time title="修改时间：2024-01-05 11:21:20" itemprop="dateModified" datetime="2024-01-05T11:21:20+08:00">2024-01-05</time>
               </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">网络编程</span></a>
+                </span>
+            </span>
 
           
 
@@ -623,18 +1118,29 @@
 
         <div class="post-meta">
           
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-15 20:56:07 / 修改时间：20:56:23" itemprop="dateCreated datePublished" datetime="2022-06-15T20:56:07+08:00">2022-06-15</time>
+              <time title="创建时间：2022-06-15 20:56:07" itemprop="dateCreated datePublished" datetime="2022-06-15T20:56:07+08:00">2022-06-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-01-05 11:27:19" itemprop="dateModified" datetime="2024-01-05T11:27:19+08:00">2024-01-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">多线程</span></a>
+                </span>
             </span>
 
           
@@ -652,314 +1158,6 @@
 <li>线程池原理<br><img src="/images/thread_pool.png"></li>
 </ul>
 
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/11/tinywebserver/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/11/tinywebserver/" class="post-title-link" itemprop="url">tinywebserver学习收获</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-11 16:06:52 / 修改时间：18:21:39" itemprop="dateCreated datePublished" datetime="2022-06-11T16:06:52+08:00">2022-06-11</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="定时器模块"><a href="#定时器模块" class="headerlink" title="定时器模块"></a>定时器模块</h2><p>(1)为什么要设计该模块？<br>为了处理非活跃的客户端连接，因为客户端与服务器端建立连接后，如果长时间不交换数据，会一直占用服务器端的文件描述符，造成连接资源的浪费。<br>(2)定时模块的设计思路</p>
-<ul>
-<li><p>定时器设计：将连接资源，超时时间（还剩多长时间超时）和回调函数封装起来，回调函数指向定时事件。</p>
-</li>
-<li><p>定时器容器的设计：使用双向升序链表实现。<br>好处是：可以快速的定位到即将超时的客户端资源，删除操作时间复杂度为O(1)(注意如果使用单链表，该复杂度会变为O(n)),插入操作时间复杂读为O(n).</p>
-</li>
-<li><p>定时任务处理函数的设计:封装在容器类中，函数遍历升序链表容器，根据超时时间，处理对应的定时器。</p>
-</li>
-<li><p>整体总结：服务器主循环为每一个连接创建一个定时器，并对每一个连接进行定时，利用升序双向链表将所有定时器串联起来，通过SIGALAM信号周期性的触发时钟信号，信号处理函数只负责发送信号值（因为了防止信号竞态发生，信号处理期间系统不会再次触发该信号，所以现需要在执行期间屏蔽该信号，如果信号处理函数的执行时间过长，会导致信号屏蔽过久），因此，不处理信号对应的逻辑，交由主循环处理即可，这样就会缩短信号处理函数的异步执行时间，减少对主程序的影响。其中，信号处理函数是通过管道和主程序通信，可以通过EPOLL对管道的读事件进行监听，然后由服务器端，对非活跃的客户端从EPOLL树删除，关闭该连接，并且对于链表中对应的计时器进行删除。</p>
-</li>
-</ul>
-<h2 id="日志模块"><a href="#日志模块" class="headerlink" title="日志模块"></a>日志模块</h2><ul>
-<li>知识扩展：单例模式<br>单例模式的特点：单例模式只能有一个实例；单例类必须创建自己的唯一实例；单例类必须向其他对象提供这一实例。</li>
-</ul>
-<p>(1)单例模式之饿汉模式（效率低，不管用不用都会先创建实例）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//单例模式之俄汉模式,饿汉单例，即在最开始的时候，静态对象就已经创建完成.</span><br><span class="line">//单例的饿汉实现是线程安全的，因为对象在使用前就已经创建出来了。</span><br><span class="line">class single_hungry&#123;</span><br><span class="line">public:</span><br><span class="line">	static single_hungry *getinstance()&#123;</span><br><span class="line">		return p;</span><br><span class="line">	&#125;</span><br><span class="line">private:</span><br><span class="line">	single_hungry();</span><br><span class="line">	static single_hungry* p;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">single_hungry* single_hungry::p=new single_hungry();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>(2)单例模式之懒汉模式（效率高，用时才创建实例）</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">//单例模式之懒汉模式(调用时候才去初始化)，需要保证线程安全</span><br><span class="line">class single&#123;</span><br><span class="line"></span><br><span class="line">public:</span><br><span class="line">	//提供给外部调用的接口</span><br><span class="line">	static single* getinstance()&#123;</span><br><span class="line">		//双检测锁，p不为null就直接返回p，不用在加锁解锁中浪费时间</span><br><span class="line">		if(p==NULL)&#123;</span><br><span class="line">			pthread_mutex_lock(&amp;mutex);</span><br><span class="line">			if(p==NULL)&#123;</span><br><span class="line">				p=new single();</span><br><span class="line">			&#125;</span><br><span class="line">			pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">		return p;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">private:</span><br><span class="line">	single()&#123;//构造函数私有，保证外部不能实例化对象，一个类只有一个实例化对象（单例模式）</span><br><span class="line">		pthread_mutex_init(&amp;mutex);</span><br><span class="line">	&#125;</span><br><span class="line">	static single *p;//该指针指向single对象</span><br><span class="line">	static pthread_mutex_t mutex;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//静态成员变量在类中仅仅是声明，没有定义。所以要在类的外面定义，实际上是给静态成员变量分配内存。</span><br><span class="line">single * single::p=NULL;</span><br><span class="line">pthread_mutex_t single::mutex;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>c++11后单例模式之懒汉模式，更加简单的写法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> class single&#123;</span><br><span class="line"> private:</span><br><span class="line">     single()&#123;&#125;</span><br><span class="line">     ~single()&#123;&#125;</span><br><span class="line"> </span><br><span class="line"> public:</span><br><span class="line">    static single* getinstance();</span><br><span class="line"> </span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line">single* single::getinstance()&#123;</span><br><span class="line">    static single obj;//c++11后要求编译器保证内部静态变量的线程安全性。如果是c++11之前的版本，则需要加锁</span><br><span class="line">    return &amp;obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/18/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/%E5%8F%AF%E5%8F%98%E5%8F%82%E6%95%B0%E7%9A%84%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">C++11可变参数模板（函数模板、类模板）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 17:41:47 / 修改时间：17:57:35" itemprop="dateCreated datePublished" datetime="2022-05-18T17:41:47+08:00">2022-05-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="函数模板可变参数构造"><a href="#函数模板可变参数构造" class="headerlink" title="函数模板可变参数构造"></a>函数模板可变参数构造</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">//函数可变参数模板的构造，C++11新特性</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">//该空实现是递归构造的结束条件</span><br><span class="line">void myprint() &#123;&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">template&lt;typename T,typename ...Args&gt;</span><br><span class="line">void myprint(const T&amp; firstarg, const Args &amp; ...args) &#123;</span><br><span class="line">	cout &lt;&lt; &quot;fisrtarg:&quot; &lt;&lt; firstarg&lt;&lt;&quot; 参数类型：&quot; &lt;&lt; typeid(firstarg).name() &lt;&lt; &quot; 剩余的参数个数：&quot; &lt;&lt; sizeof...(args) &lt;&lt; endl;</span><br><span class="line">	myprint(args...);//递归的构造！！！</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">template&lt;typename ...Args&gt;</span><br><span class="line">void myprint(const Args &amp; ...args) &#123;</span><br><span class="line">	cout &lt;&lt; &quot;print(....)&quot; &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//当较泛化和较特化的模板函数同时存在的时候，最终程序会执行较特化的那一个</span><br><span class="line">//也就是说，myprint(1, &quot;w&quot;, 2.6);选择的是较特化的，即：一个参数加可变参数的函数模板。而不选择泛化的，可变参数函数模板。</span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">	myprint(1, &quot;w&quot;, 2.6);</span><br><span class="line">	cout &lt;&lt; &quot;*****************&quot; &lt;&lt; endl;</span><br><span class="line">	string t = &quot;abc&quot;;</span><br><span class="line">	myprint(0.5, 0.6, 1, 2, t, &#x27;f&#x27;);</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行结果</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">fisrtarg:1 参数类型：int 剩余的参数个数：2</span><br><span class="line">fisrtarg:w 参数类型：char const [2] 剩余的参数个数：1</span><br><span class="line">fisrtarg:2.6 参数类型：double 剩余的参数个数：0</span><br><span class="line">*****************</span><br><span class="line">fisrtarg:0.5 参数类型：double 剩余的参数个数：5</span><br><span class="line">fisrtarg:0.6 参数类型：double 剩余的参数个数：4</span><br><span class="line">fisrtarg:1 参数类型：int 剩余的参数个数：3</span><br><span class="line">fisrtarg:2 参数类型：int 剩余的参数个数：2</span><br><span class="line">fisrtarg:abc 参数类型：class std::basic_string&lt;char,struct std::char_traits&lt;char&gt;,class std::allocator&lt;char&gt; &gt; 剩余的参 数个数：1</span><br><span class="line">fisrtarg:f 参数类型：char 剩余的参数个数：0</span><br></pre></td></tr></table></figure>
-
-<h2 id="另一个例子"><a href="#另一个例子" class="headerlink" title="另一个例子"></a>另一个例子</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">//利用可变参数的函数模板，实现多个数取最大值的操作，其中数的个数不定.</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">//递归的结束条件</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">T Max(T a, T b) &#123;</span><br><span class="line">	return (a &gt; b) ? a : b;</span><br><span class="line">&#125;</span><br><span class="line">//只含有一个参数的特殊处理</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">T Max(T a) &#123;</span><br><span class="line">	return a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//递归的进行比较</span><br><span class="line">template&lt;typename T,typename ...Args&gt;</span><br><span class="line">T Max(const T&amp; a, const Args &amp; ...args) &#123;</span><br><span class="line">	return Max(a, Max(args...));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line">	int re = Max(1,5);</span><br><span class="line">	cout &lt;&lt; re &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	int res = Max(1, 2, 5, 78);</span><br><span class="line">	cout &lt;&lt; res &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	int ret = Max(4, 2, 14);</span><br><span class="line">	cout &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	int r = Max(5);</span><br><span class="line">	cout &lt;&lt; r &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>运行结果<br>5<br>78<br>14<br>5</li>
-</ul>
-<h2 id="类模板可变参数构造"><a href="#类模板可变参数构造" class="headerlink" title="类模板可变参数构造"></a>类模板可变参数构造</h2>
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/18/%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96%E4%B8%8E%E5%81%8F%E7%89%B9%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/%E6%A8%A1%E6%9D%BF%E7%89%B9%E5%8C%96%E4%B8%8E%E5%81%8F%E7%89%B9%E5%8C%96/" class="post-title-link" itemprop="url">模板特化与偏特化</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 15:44:02 / 修改时间：17:27:54" itemprop="dateCreated datePublished" datetime="2022-05-18T15:44:02+08:00">2022-05-18</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="模板特化（template-specialization）不同于模板的实例化，模板参数在某种特定类型下的具体实现称为模板特化。模板特化有时也称之为模板的具体化，分别有函数模板特化和类模板特化。"><a href="#模板特化（template-specialization）不同于模板的实例化，模板参数在某种特定类型下的具体实现称为模板特化。模板特化有时也称之为模板的具体化，分别有函数模板特化和类模板特化。" class="headerlink" title="模板特化（template specialization）不同于模板的实例化，模板参数在某种特定类型下的具体实现称为模板特化。模板特化有时也称之为模板的具体化，分别有函数模板特化和类模板特化。"></a>模板特化（template specialization）不同于模板的实例化，模板参数在某种特定类型下的具体实现称为模板特化。模板特化有时也称之为模板的具体化，分别有函数模板特化和类模板特化。</h2><h2 id="函数模板全特化"><a href="#函数模板全特化" class="headerlink" title="函数模板全特化"></a>函数模板全特化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">//函数模板特化</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">//函数模板</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">T Max(T a, T b) &#123;</span><br><span class="line">	return (a &gt; b) ? a : b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//进行特化,如果不对const char *类型进行特化，就会使用上面的模板函数，那时候，比较的是a,b的地址，而不是a,b。</span><br><span class="line">typedef const char* CH;</span><br><span class="line">template&lt;&gt; //在函数模板显示特化定义中，显示关键字template 和一对尖括号&lt;&gt;,然后是函数模板特化的定义。</span><br><span class="line">CH Max&lt;CH&gt;(CH a, CH b) &#123;</span><br><span class="line">	return (strcmp(a, b)) &gt; 0 ? a : b;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//另一种方法是对Max进行重载，程序运行结果和使用函数模板特化相同。</span><br><span class="line">//typedef const char* CCP;</span><br><span class="line">//CCP Max(CCP s1, CCP s2) &#123;</span><br><span class="line">//	return (strcmp(s1, s2) &gt; 0) ? s1 : s2;</span><br><span class="line">//&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int  main() &#123;</span><br><span class="line"></span><br><span class="line">	int res = Max(1, 90);</span><br><span class="line">	const char* ret = Max&lt;const char*&gt;(&quot;very&quot;, &quot;good&quot;);</span><br><span class="line">	cout &lt;&lt; &quot;res=&quot; &lt;&lt; res &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;ret=&quot; &lt;&lt; ret &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li>运行结果<br>res&#x3D;90<br>ret&#x3D;very</li>
-</ul>
-<p>（1）如果使用普通重载函数，那么不管是否发生实际的函数调用，都会在目标文件中生成该函数的二进制代码。而如果使用模板的特化版本，除非发生函数调用，否则不会在目标文件中包含特化模板函数的二进制代码。这符合函数模板的“惰性实例化”准则。</p>
-<p>（2）如果使用普通重载函数，那么在分离编译模式下，需要在各个源文件中包含重载函数的申明，否则在某些源文件中就会使用模板函数，而不是重载函数。</p>
-<ul>
-<li>所以使用特化版本的较好！！！</li>
-</ul>
-<h2 id="类模板全特化"><a href="#类模板全特化" class="headerlink" title="类模板全特化"></a>类模板全特化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">//类模板特化</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//类模板</span><br><span class="line">template&lt;typename T&gt;</span><br><span class="line">class A &#123;</span><br><span class="line"></span><br><span class="line">	T num;</span><br><span class="line">public:</span><br><span class="line">	A(T a):num(a) &#123;&#125;;</span><br><span class="line">	void print() &#123;</span><br><span class="line">		cout &lt;&lt; &quot;num=&quot; &lt;&lt; num &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//特化</span><br><span class="line">template&lt;&gt;</span><br><span class="line">class A&lt;const char *&gt; &#123;</span><br><span class="line">	const char* str;</span><br><span class="line">public:</span><br><span class="line">	A(const char *t):str(t) &#123;&#125;;</span><br><span class="line">	void print() &#123;</span><br><span class="line">		cout &lt;&lt; &quot;str=&quot; &lt;&lt; str &lt;&lt; endl;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">	A&lt;int&gt; a(1);</span><br><span class="line">	a.print();</span><br><span class="line">	const char* p = &quot;hello&quot;;</span><br><span class="line">	A&lt;const char*&gt;b(p);</span><br><span class="line">	b.print();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-<ul>
-<li>运行结果<br>num&#x3D;1<br>str&#x3D;hello</li>
-</ul>
-<h2 id="模板偏特化（Template-Partitial-Specialization）是模板特化的一种特殊情况，指显示指定部分模板参数而非全部模板参数，或者指定模板参数的部分特性分而非全部特性，也称为模板部分特化。与模板偏特化相对的是模板全特化，指对所有模板参数进行特化。模板全特化与模板偏特化共同组成模板特化"><a href="#模板偏特化（Template-Partitial-Specialization）是模板特化的一种特殊情况，指显示指定部分模板参数而非全部模板参数，或者指定模板参数的部分特性分而非全部特性，也称为模板部分特化。与模板偏特化相对的是模板全特化，指对所有模板参数进行特化。模板全特化与模板偏特化共同组成模板特化" class="headerlink" title="模板偏特化（Template Partitial Specialization）是模板特化的一种特殊情况，指显示指定部分模板参数而非全部模板参数，或者指定模板参数的部分特性分而非全部特性，也称为模板部分特化。与模板偏特化相对的是模板全特化，指对所有模板参数进行特化。模板全特化与模板偏特化共同组成模板特化."></a>模板偏特化（Template Partitial Specialization）是模板特化的一种特殊情况，指显示指定部分模板参数而非全部模板参数，或者指定模板参数的部分特性分而非全部特性，也称为模板部分特化。与模板偏特化相对的是模板全特化，指对所有模板参数进行特化。模板全特化与模板偏特化共同组成模板特化.</h2><h2 id="模板偏特化主要分为两种，一种是指对部分模板参数进行全特化，另一种是对模板参数特性进行特化，包括将模板参数特化为指针、引用或是另外一个模板类。"><a href="#模板偏特化主要分为两种，一种是指对部分模板参数进行全特化，另一种是对模板参数特性进行特化，包括将模板参数特化为指针、引用或是另外一个模板类。" class="headerlink" title="模板偏特化主要分为两种，一种是指对部分模板参数进行全特化，另一种是对模板参数特性进行特化，包括将模板参数特化为指针、引用或是另外一个模板类。"></a>模板偏特化主要分为两种，一种是指对部分模板参数进行全特化，另一种是对模板参数特性进行特化，包括将模板参数特化为指针、引用或是另外一个模板类。</h2><h2 id="函数模板不支持偏特化，利用函数重载即可。"><a href="#函数模板不支持偏特化，利用函数重载即可。" class="headerlink" title="函数模板不支持偏特化，利用函数重载即可。"></a>函数模板不支持偏特化，利用函数重载即可。</h2><h2 id="类模板偏特化"><a href="#类模板偏特化" class="headerlink" title="类模板偏特化"></a>类模板偏特化</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">//类模板的偏特化</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">#include&lt;vector&gt;</span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//类模板，未特化的标准模板类不需要在类名后指定类型</span><br><span class="line">template&lt;typename T,typename N&gt;</span><br><span class="line">class test &#123;</span><br><span class="line">public:</span><br><span class="line">	static void compare(T a, N b) &#123;</span><br><span class="line">		cout &lt;&lt; &quot;标准的类模板版本：&quot; &lt;&lt; endl;</span><br><span class="line">		if (a &gt; b) &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; &quot;&gt;&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; &quot;&lt;=&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//对部分模板参数进行特化,注意需要在类名后指定类型！！！</span><br><span class="line">template&lt;typename N&gt;</span><br><span class="line">class test&lt;int,N&gt; &#123;</span><br><span class="line">public:</span><br><span class="line">	static void compare(int a, N b) &#123;</span><br><span class="line">		cout &lt;&lt; &quot;部分模板参数的特化：&quot; &lt;&lt; endl;</span><br><span class="line">		if (a &gt; b) &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; &quot;&gt;&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; &quot;&lt;=&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line">//将模板参数特化为指针（对模板参数的特性进行特化）注意需要在类名后指定类型！！！</span><br><span class="line">template&lt;typename T,typename N&gt;</span><br><span class="line">class test&lt;T*,N*&gt; &#123;</span><br><span class="line">public:</span><br><span class="line">	static void compare(T* a, N* b) &#123;</span><br><span class="line">		cout &lt;&lt; &quot;对模板参数的特性进行特化：&quot; &lt;&lt; endl;</span><br><span class="line">		if (*a &gt; *b) &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; *a &lt;&lt; &quot;&gt;&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; *b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a:&quot; &lt;&lt; *a &lt;&lt; &quot;&lt;=&quot; &lt;&lt; &quot;b:&quot; &lt;&lt; *b &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//将模板参数特化为另一个模板类，注意需要在类名后指定类型！！！</span><br><span class="line">template&lt;typename T,typename N&gt;</span><br><span class="line">class test&lt;vector&lt;T&gt;,vector&lt;N&gt;&gt; &#123;</span><br><span class="line">public:</span><br><span class="line">	static void compare(vector&lt;T&gt;&amp; a, vector&lt;N&gt;&amp; b) &#123;</span><br><span class="line">		cout &lt;&lt; &quot;将模板参数特化为另一个模板类：&quot; &lt;&lt; endl;</span><br><span class="line">		if (a.size() &gt; b.size()) &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a.size():&quot; &lt;&lt; a.size() &lt;&lt; &quot;&gt;&quot; &lt;&lt; &quot;b.size():&quot; &lt;&lt; b.size() &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">		else &#123;</span><br><span class="line">			cout &lt;&lt; &quot;a.size():&quot; &lt;&lt; a.size() &lt;&lt; &quot;&lt;=&quot; &lt;&lt; &quot;b.size():&quot; &lt;&lt; b.size() &lt;&lt; endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main() &#123;</span><br><span class="line"></span><br><span class="line">	char a = &#x27;e&#x27;, b = &#x27;f&#x27;;</span><br><span class="line">	test&lt;char,char&gt;::compare(a, b);//因为compare方法是静态方法，所以，可以通过类名进行访问！</span><br><span class="line"></span><br><span class="line">	int c = 3;</span><br><span class="line">	char d = &#x27;a&#x27;;</span><br><span class="line">	test&lt;int,char&gt;::compare(c, d);</span><br><span class="line"></span><br><span class="line">	int e = 4, f = 7;</span><br><span class="line">	test&lt;int*,int*&gt;::compare(&amp;e, &amp;f);</span><br><span class="line"></span><br><span class="line">	vector&lt;int&gt;g&#123; 1,2,3 &#125;;</span><br><span class="line">	vector&lt;char&gt;h&#123; &#x27;a&#x27;,&#x27;b&#x27; &#125;;</span><br><span class="line"></span><br><span class="line">	test&lt;vector&lt;int&gt;,vector&lt;char&gt;&gt;::compare(g, h);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<ul>
-<li>运行结果<br>标准的类模板版本：<br>a:e&lt;&#x3D;b:f<br>部分模板参数的特化：<br>a:3&lt;&#x3D;b:a<br>对模板参数的特性进行特化：<br>a:4&lt;&#x3D;b:7<br>将模板参数特化为另一个模板类：<br>a.size():3&gt;b.size():2</li>
-</ul>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="全特化和偏特化组成了特化，注意函数没有偏特化！"><a href="#全特化和偏特化组成了特化，注意函数没有偏特化！" class="headerlink" title="全特化和偏特化组成了特化，注意函数没有偏特化！"></a>全特化和偏特化组成了特化，注意函数没有偏特化！</h2><h2 id="一个模板被称为全特化的条件：1-必须有一个主模板类-2-模板类型被全部明确化。"><a href="#一个模板被称为全特化的条件：1-必须有一个主模板类-2-模板类型被全部明确化。" class="headerlink" title="一个模板被称为全特化的条件：1.必须有一个主模板类  2.模板类型被全部明确化。"></a>一个模板被称为全特化的条件：1.必须有一个主模板类  2.模板类型被全部明确化。</h2><h2 id="偏特化的条件：1-必须有一个主模板-2-模板类型被部分明确化。"><a href="#偏特化的条件：1-必须有一个主模板-2-模板类型被部分明确化。" class="headerlink" title="偏特化的条件：1.必须有一个主模板   2.模板类型被部分明确化。"></a>偏特化的条件：1.必须有一个主模板   2.模板类型被部分明确化。</h2><h2 id="对主版本模板类、全特化类、偏特化类的调用优先级从高到低进行排序是：全特化类-gt-偏特化类-gt-主版本模板类。这样的优先级顺序对性能也是最好的。"><a href="#对主版本模板类、全特化类、偏特化类的调用优先级从高到低进行排序是：全特化类-gt-偏特化类-gt-主版本模板类。这样的优先级顺序对性能也是最好的。" class="headerlink" title="对主版本模板类、全特化类、偏特化类的调用优先级从高到低进行排序是：全特化类&gt;偏特化类&gt;主版本模板类。这样的优先级顺序对性能也是最好的。"></a>对主版本模板类、全特化类、偏特化类的调用优先级从高到低进行排序是：全特化类&gt;偏特化类&gt;主版本模板类。这样的优先级顺序对性能也是最好的。</h2>
-      
-    </div>
-
-    
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/08/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/cat.png">
-      <meta itemprop="name" content="qcc">
-      <meta itemprop="description" content="努力变强">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="一懒众衫小">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/go%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">go语言基础（class 2）</a>
-        </h2>
-
-        <div class="post-meta">
-          
-          <i class="fa fa-thumb-tack"></i>
-          <font color=7D26CD>置顶</font>
-          <span class="post-meta-divider">|</span>
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-08 20:38:20 / 修改时间：20:38:57" itemprop="dateCreated datePublished" datetime="2022-05-08T20:38:20+08:00">2022-05-08</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          
       
     </div>
 
@@ -1046,14 +1244,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
@@ -1109,7 +1307,7 @@
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <span class="post-count">博客全站共38.3k字</span>
+  <span class="post-count">博客全站共38.2k字</span>
 </div>
 
 
