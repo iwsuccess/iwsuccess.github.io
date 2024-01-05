@@ -24,12 +24,6 @@
         <content type="html"><![CDATA[<ul><li><p>源码：<br>MiniOB—2万行源码<br>Sqlite—22万行源码</p></li><li><p>书本：<br>数据库系统实现<br>数据库系统概念</p></li></ul><h1 id="MiniOB开发日志part-1："><a href="#MiniOB开发日志part-1：" class="headerlink" title="MiniOB开发日志part_1："></a>MiniOB开发日志part_1：</h1><ul><li>启动docker:systemctl start docker</li><li>运行存在的容器：docker exec -it miniob bash</li></ul><p>cd &#x2F;root&#x2F;source&#x2F;miniob&#x2F;build</p><ul><li><p>运行服务器：.&#x2F;bin&#x2F;observer -f ..&#x2F;etc&#x2F;observer.ini</p></li><li><p>运行客户端：.&#x2F;bin&#x2F;obclient</p></li></ul><h2 id="Miniob结构"><a href="#Miniob结构" class="headerlink" title="Miniob结构"></a>Miniob结构</h2><p>miniob作为一个具有“基本”功能的数据库，包含了需要的基本功能模块。包括</p><ul><li><p>网络模块：负责与客户端交互，收发客户端请求与应答；</p></li><li><p>SQL解析：将用户输入的SQL语句解析成语法树；</p></li><li><p>执行计划缓存：执行计划缓存模块会将该 SQL第一次生成的执行计划缓存在内存中，后续的执行可以反复执行这个计划，避免了重复查询优化的过程（未实现）。</p></li><li><p>语义解析模块：将生成的语法树，转换成数据库内部数据结构（部分实现）；</p></li><li><p>查询缓存：将执行的查询结果缓存在内存中，下次查询时，可以直接返回（未实现）；</p></li><li><p>查询优化：根据一定规则和统计数据，调整&#x2F;重写语法树。当前实现为空，留作实验题目；</p></li><li><p>计划执行：根据语法树描述，执行并生成结果；</p></li><li><p>会话管理：管理用户连接、调整某个连接的参数；</p></li><li><p>元数据管理：记录当前的数据库、表、字段和索引元数据信息；</p></li><li><p>客户端：作为测试工具，接收用户请求，向服务端发起请求。</p></li></ul><h2 id="seda异步事件框架"><a href="#seda异步事件框架" class="headerlink" title="seda异步事件框架"></a>seda异步事件框架</h2><p>seda:stage event driver architecture.结合了事件驱动和多线程模式的优点。从而做到易扩展，高并发，解耦合。各个stage之间通信都是通过event来传递，而event的处理由stage的线程池异步处理，线程池内部会维护一个事件队列。<br>在miniob中从请求开始，sql解析，查询优化，计划执行都是通过event来传递数据，可以通过seda配置线程池的个数。</p>]]></content>
       
       
-      <categories>
-          
-          <category> 测试分类3 </category>
-          
-      </categories>
-      
       
     </entry>
     
